@@ -48,7 +48,7 @@ npm test
 # Repository layout
 
 ```text
-sample-euc
+euclid-in-motion
 ├── src/
 │   ├── App.tsx
 │   ├── main.tsx
