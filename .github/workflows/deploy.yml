@@ -24,10 +24,8 @@ jobs:
       - name: Run checks & Build
         run: npm run check
         env:
-          # Base URL path for Vite build.
-          # Set 'VITE_BASE_PATH' in GitHub Repo Variables if deploying to a subpath (e.g., '/target-repo/').
-          # Defaults to '/' (ideal for <username>.github.io user pages or custom domains).
-          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/' }}
+          # Base URL path for Vite build
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/euclid-in-motion/' }}
 
       - name: Deploy to External Repository
         uses: peaceiris/actions-gh-pages@v4
@@ -36,4 +34,5 @@ jobs:
           external_repository: ${{ vars.TARGET_REPO || 'YOUR_USERNAME/YOUR_TARGET_REPO' }}
           publish_dir: ./dist
           publish_branch: master
-
+          destination_dir: ${{ vars.DESTINATION_DIR || 'euclid-in-motion' }}
+          keep_files: true
