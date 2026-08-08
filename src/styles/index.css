@@ -1,0 +1,9 @@
+@layer base, theorem, responsive;
+
+@import "./global.css" layer(base);
+@import "../features/guides/styles/guides.css" layer(base);
+@import "./content.css" layer(base);
+@import "../features/axioms/styles/illustrations.css" layer(base);
+@import "../features/theorems/styles/theorem-figure.css" layer(base);
+@import "../features/theorems/styles/discovery-navigation.css" layer(base);
+@import "./responsive.css" layer(responsive);

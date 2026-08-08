@@ -1,0 +1,211 @@
+@layer theorem {
+.angle-bisector {
+  gap: 10px;
+}
+
+.angle-bisector__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+}
+
+.angle-bisector__protractor,
+.angle-bisector__whole-arc,
+.angle-bisector__equal-arc,
+.angle-bisector__comparison-arc {
+  fill: none;
+}
+
+.angle-bisector__protractor {
+  stroke: #94a3b8;
+  stroke-dasharray: 4 4;
+  stroke-width: 1.5;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.angle-bisector__protractor--visible {
+  opacity: 1;
+}
+
+.angle-bisector__whole-arc {
+  stroke: #475569;
+  stroke-width: 2;
+}
+
+.angle-bisector__equal-arc {
+  stroke: #805ad5;
+  stroke-width: 3;
+}
+
+.angle-bisector__comparison-arc {
+  stroke: #c25b2a;
+  stroke-dasharray: 4 3;
+  stroke-width: 2;
+}
+
+.angle-bisector__ray {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 2.25;
+}
+
+.angle-bisector__ray--base,
+.angle-bisector__ray--boundary {
+  stroke: #222;
+}
+
+.angle-bisector__ray--bisector,
+.angle-bisector__ray--candidate {
+  stroke: #1f5fbf;
+  stroke-width: 3;
+}
+
+.angle-bisector__ray--comparison {
+  stroke: #c25b2a;
+  stroke-dasharray: 5 3;
+  stroke-width: 2.5;
+}
+
+.angle-bisector__vertex {
+  fill: #222;
+}
+
+.angle-bisector__halfway-point {
+  fill: #1f5fbf;
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.angle-bisector__coordinate-label,
+.angle-bisector__halfway-label,
+.angle-bisector__whole-label,
+.angle-bisector__measure-label,
+.angle-bisector__ray-label {
+  fill: #334155;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 4px;
+  text-anchor: middle;
+}
+
+.angle-bisector__halfway-label,
+.angle-bisector__ray-label--bisector {
+  fill: #174a96;
+}
+
+.angle-bisector__measure-label--equal {
+  fill: #6b46c1;
+}
+
+.angle-bisector__ray-label--comparison {
+  fill: #9a411c;
+}
+
+.angle-bisector__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.angle-bisector__handle-target:active {
+  cursor: grabbing;
+}
+
+.angle-bisector__handle {
+  pointer-events: none;
+  stroke: #fff;
+  stroke-width: 2;
+  transition: r 120ms ease;
+}
+
+.angle-bisector__handle--boundary {
+  fill: #222;
+}
+
+.angle-bisector__handle--candidate {
+  fill: #1f5fbf;
+}
+
+.angle-bisector__handle--comparison {
+  fill: #c25b2a;
+}
+
+.angle-bisector__handle--active {
+  r: 10;
+}
+
+.angle-bisector__summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.angle-bisector__measure--equal {
+  border-color: rgba(128, 90, 213, 0.48);
+  background: rgba(128, 90, 213, 0.05);
+}
+
+.angle-bisector__comparison-card,
+.angle-bisector__status {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.angle-bisector__comparison-card {
+  border-color: rgba(194, 91, 42, 0.36);
+  background: rgba(194, 91, 42, 0.05);
+}
+
+.angle-bisector__comparison-card span,
+.angle-bisector__status {
+  color: var(--muted);
+}
+
+.angle-bisector__status--equal {
+  border-color: rgba(128, 90, 213, 0.4);
+  color: #5b3aa5;
+}
+
+.angle-bisector__controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.angle-bisector__control {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.angle-bisector__control>span {
+  display: grid;
+  gap: 2px;
+}
+
+.angle-bisector__control>span>span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.angle-bisector__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+
+.angle-bisector__control input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.68);
+  outline-offset: 2px;
+}
+
+}

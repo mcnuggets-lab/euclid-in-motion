@@ -1,0 +1,77 @@
+{
+  "id": "exterior-angle-inequality",
+  "title": "Exterior-Angle Inequality Theorem",
+  "family": "Triangle Properties",
+  "statement": "In triangle \\(ABC\\), extend side \\(BC\\) through \\(C\\) to \\(D\\). The exterior angle \\(\\angle ACD\\) has a larger angle size than each remote interior angle, \\(\\angle BAC\\) and \\(\\angle ABC\\).",
+  "theoremLatex": "\\angle ACD > \\angle BAC \\qquad \\text{and} \\qquad \\angle ACD > \\angle ABC",
+  "summary": "An exterior angle of a triangle is larger than each of its two remote interior angles.",
+  "proofIdea": "Bisect a side and extend the median by an equal segment. SAS copies one remote interior angle, and Plane Separation verifies that its ray lies strictly inside the exterior angle. Angle Addition then gives a positive remainder. Repeat the construction for the other remote angle and use vertical angles to transfer that comparison to the original exterior angle.",
+  "dependsOn": [
+    "congruence",
+    "order",
+    "vertical-angles",
+    "angle-addition",
+    "segment-angle-comparison",
+    "midpoint-existence"
+  ],
+  "definitionIds": [
+    "adjacent-angles",
+    "angle",
+    "angle-comparison",
+    "angle-interior",
+    "angle-measure",
+    "betweenness",
+    "congruent",
+    "corresponding-parts",
+    "exterior-angle",
+    "midpoint",
+    "ray",
+    "remote-interior-angle",
+    "segment",
+    "triangle",
+    "vertical-angles"
+  ],
+  "explorationPrompt": "Move vertex A and compare the exterior angle at C with the two remote interior angles. The guided proof explains why both comparisons remain strict.",
+  "proofSteps": [
+    {
+      "title": "Name the exterior and remote angles",
+      "detail": "Extend BC through C to D. Then ∠ACD is an exterior angle of triangle ABC, and ∠BAC and ∠ABC are its two remote interior angles. The drawing suggests the comparisons but does not prove them."
+    },
+    {
+      "title": "Build the first midpoint-and-copy construction",
+      "detail": "Construct midpoint M of AC. Draw BM, extend it through M to E, and choose E so that BM ≅ ME. Join C to E."
+    },
+    {
+      "title": "Apply SAS to the first pair",
+      "detail": "In triangles AMB and CME, AM ≅ CM because M is the midpoint of AC, BM ≅ EM by construction, and ∠AMB ≅ ∠CME because they are vertical angles. Thus △AMB ≅ △CME by SAS."
+    },
+    {
+      "title": "Compare the first remote angle",
+      "detail": "Corresponding parts give ∠BAC ≅ ∠MCE. To place E, use Plane Separation twice. Since B–C–D and C lies on line AC, B and D are on opposite sides of line AC; since B–M–E with M on AC, B and E are also on opposite sides of line AC. Thus E and D are on the same side of AC. Also A and E are on the same side of line BC because M lies between A and C and B–M–E. These are exactly the two same-side conditions that put ray CE strictly inside ∠ACD. By Angle Addition, ∠ACD consists of ∠MCE plus the positive angle ∠ECD, so ∠ACD has a larger angle size than ∠BAC."
+    },
+    {
+      "title": "Mirror the construction",
+      "detail": "Extend AC through C to F, forming exterior angle ∠BCF. Construct midpoint N of BC, extend AN through N to H with AN ≅ NH, and join C to H."
+    },
+    {
+      "title": "Compare the second remote angle",
+      "detail": "Triangles BNA and CNH are congruent by SAS: BN ≅ CN, AN ≅ HN, and the included angles at N are vertical. Thus ∠ABC ≅ ∠NCH. For the placement, A–C–F and A–N–H show that H and F are on the same side of line BC, while N lies between B and C and A–N–H show that H and B are on the same side of line AC. These are exactly the two same-side conditions that put ray CH strictly inside ∠BCF. Angle Addition then shows that ∠BCF has a larger angle size than ∠ABC."
+    },
+    {
+      "title": "Transfer the comparison to the original exterior",
+      "detail": "Angles ∠BCF and ∠ACD are vertical angles, so they are congruent. A strict angle comparison is preserved when an angle is replaced by a congruent one. Therefore ∠ACD is larger than ∠ABC as well as ∠BAC."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.16—and the stronger result that waits",
+    "paragraphs": [
+      "Euclid proved the exterior-angle inequality in Book I, Proposition 16. Its midpoint-and-extension construction establishes the strict comparison without using parallel lines or the triangle angle-sum theorem, which makes it suitable at this early point in the course.",
+      "The interactive measurements may suggest the stronger formula ∠ACD = ∠BAC + ∠ABC. This is correct in Euclidean geometry, but the results needed to prove it are not available yet. It will follow later from the triangle angle-sum theorem."
+    ]
+  },
+  "relatedResults": [
+    "alternate interior angle converse",
+    "triangle side-angle order",
+    "triangle angle sum"
+  ]
+}

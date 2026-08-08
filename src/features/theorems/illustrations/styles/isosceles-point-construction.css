@@ -1,0 +1,175 @@
+@layer theorem {
+.isosceles-point-construction {
+  gap: 10px;
+}
+
+.isosceles-point-construction__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+}
+
+.isosceles-point-construction__circle {
+  fill: none;
+  stroke-width: 2.25;
+}
+
+.isosceles-point-construction__circle--a {
+  stroke: #1f5fbf;
+}
+
+.isosceles-point-construction__circle--b {
+  stroke: #c25b2a;
+}
+
+.isosceles-point-construction__line,
+.isosceles-point-construction__extension,
+.isosceles-point-construction__radius {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.isosceles-point-construction__line {
+  stroke: #222;
+  stroke-width: 2.25;
+}
+
+.isosceles-point-construction__extension {
+  stroke: #475569;
+  stroke-dasharray: 4 3;
+  stroke-width: 1.75;
+}
+
+.isosceles-point-construction__radius {
+  stroke: #475569;
+  stroke-width: 2;
+}
+
+.isosceles-point-construction__tick {
+  stroke: #805ad5;
+  stroke-width: 2.5;
+}
+
+.isosceles-point-construction__point {
+  fill: #222;
+}
+
+.isosceles-point-construction__witness--inside {
+  fill: #2f7d4a;
+}
+
+.isosceles-point-construction__witness--outside {
+  fill: #c25b2a;
+}
+
+.isosceles-point-construction__intersection {
+  fill: #64748b;
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.isosceles-point-construction__intersection--chosen {
+  fill: #2f7d4a;
+}
+
+.isosceles-point-construction__label,
+.isosceles-point-construction__witness-label {
+  fill: #334155;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 4px;
+  text-anchor: middle;
+}
+
+.isosceles-point-construction__label--chosen,
+.isosceles-point-construction__witness-label--inside {
+  fill: #23623a;
+}
+
+.isosceles-point-construction__witness-label--outside {
+  fill: #9a411c;
+  text-anchor: start;
+}
+
+.isosceles-point-construction__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.isosceles-point-construction__handle-target:active {
+  cursor: grabbing;
+}
+
+.isosceles-point-construction__handle {
+  fill: #c25b2a;
+  stroke: #fff;
+  stroke-width: 2;
+  pointer-events: none;
+  transition: r 120ms ease;
+}
+
+.isosceles-point-construction__handle--active {
+  r: 10;
+}
+
+.isosceles-point-construction__summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.isosceles-point-construction__measure--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  background: rgba(47, 125, 74, 0.05);
+}
+
+.isosceles-point-construction__control {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.isosceles-point-construction__control>span {
+  display: grid;
+  gap: 2px;
+}
+
+.isosceles-point-construction__control>span>span,
+.isosceles-point-construction__status {
+  color: var(--muted);
+}
+
+.isosceles-point-construction__control>span>span {
+  font-size: 0.9rem;
+}
+
+.isosceles-point-construction__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+
+.isosceles-point-construction__control input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.68);
+  outline-offset: 2px;
+}
+
+.isosceles-point-construction__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.isosceles-point-construction__status--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  color: #23623a;
+}
+
+
+}

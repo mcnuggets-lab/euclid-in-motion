@@ -1,0 +1,51 @@
+{
+  "id": "isosceles-base-angles",
+  "title": "Isosceles Base-Angles Theorem",
+  "family": "Triangle Properties",
+  "statement": "If triangle \\(ABC\\) is isosceles with \\(AB \\cong AC\\), then its base angles satisfy \\(\\angle ABC \\cong \\angle BCA\\).",
+  "theoremLatex": "\\text{If }AB \\cong AC,\\ \\text{ then }\\angle ABC \\cong \\angle BCA.",
+  "summary": "In an isosceles triangle, the base angles opposite the equal legs are congruent.",
+  "proofIdea": "View \\(BC\\) as the base and compare triangle \\(ABC\\) with triangle \\(ACB\\), which reverses the correspondence of the two equal legs while keeping the same apex angle at \\(A\\). Those three SAS inputs prove the triangles congruent, so the corresponding base angles are congruent.",
+  "dependsOn": ["congruence"],
+  "definitionIds": [
+    "triangle",
+    "isosceles-triangle",
+    "leg",
+    "isosceles-base",
+    "base-angles",
+    "congruent",
+    "triangle-correspondence",
+    "corresponding-parts"
+  ],
+  "explorationPrompt": "Compare triangle \\(ABC\\) with the same triangle named in reverse order, \\(ACB\\), and track which sides and angles correspond under that reversal.",
+  "proofSteps": [
+    {
+      "title": "Equal legs",
+      "detail": "Because triangle \\(ABC\\) is isosceles, its legs \\(AB\\) and \\(AC\\) are congruent. Side \\(BC\\) is the base opposite the vertex where the legs meet."
+    },
+    {
+      "title": "Reverse the correspondence",
+      "detail": "Now compare triangle \\(ABC\\) with triangle \\(ACB\\). This triangle correspondence keeps vertex \\(A\\) fixed and swaps \\(B\\) with \\(C\\), so side \\(AB\\) corresponds to \\(AC\\) and side \\(AC\\) corresponds to \\(AB\\)."
+    },
+    {
+      "title": "Establish the SAS inputs",
+      "detail": "For triangles \\(ABC\\) and \\(ACB\\), the SAS premises are exactly \\(AB \\cong AC\\), \\(AC \\cong AB\\), and \\(\\angle BAC \\cong \\angle CAB\\). The last congruence holds because both names describe the same apex angle at \\(A\\). No premise about \\(BC\\) is used, so SAS gives \\(\\triangle ABC \\cong \\triangle ACB\\)."
+    },
+    {
+      "title": "Read the corresponding base angles",
+      "detail": "Under that correspondence, \\(\\angle ABC\\) matches \\(\\angle ACB\\). Corresponding parts of congruent triangles are congruent, and \\(\\angle ACB\\) is the same angle as \\(\\angle BCA\\), so the two base angles are congruent."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid's “Bridge of Asses”",
+    "paragraphs": [
+      "Euclid proved the isosceles base-angles theorem in Book I, Proposition 5 of the Elements. For centuries the proposition has been nicknamed the pons asinorum, or “Bridge of Asses,” reflecting its traditional reputation as an early test of whether a learner could follow a substantial geometric proof.",
+      "Euclid's proof uses an extended construction. This lesson instead compares the same triangle under a reversed vertex correspondence and applies SAS, proving the same theorem through the congruence framework established in this course."
+    ]
+  },
+  "relatedResults": [
+    "triangle congruence proofs",
+    "angle bisector constructions",
+    "triangle side-angle order"
+  ]
+}

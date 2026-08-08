@@ -1,0 +1,368 @@
+[
+  {
+    "id": "adjacent-angles",
+    "term": "adjacent angles",
+    "aliases": ["adjacent angle"],
+    "definition": "Two nonstraight angles are adjacent when they share a vertex and one side, and their interiors do not overlap."
+  },
+  {
+    "id": "angle",
+    "term": "angle",
+    "aliases": ["angles"],
+    "definition": "An angle is formed by two distinct rays with a common endpoint, called its vertex. A nonstraight angle has a uniquely determined interior; an angle whose sides are opposite rays is treated separately as a straight angle."
+  },
+  {
+    "id": "angle-bisector",
+    "term": "angle bisector",
+    "aliases": ["angle bisectors", "bisects an angle", "bisect an angle"],
+    "definition": "An angle bisector is a ray from an angle's vertex that lies in its interior and forms two congruent angles."
+  },
+  {
+    "id": "angle-comparison",
+    "term": "angle comparison",
+    "aliases": ["angle comparisons", "smaller angle", "larger angle", "smaller angle size", "larger angle size"],
+    "definition": "A nonstraight angle has a smaller angle size than another when its Protractor degree value is smaller. Reversing the comparison gives a larger angle size."
+  },
+  {
+    "id": "angle-interior",
+    "term": "angle interior",
+    "aliases": ["angle interiors", "interior of an angle"],
+    "definition": "For a nonstraight angle ∠ABC, a point lies inside the angle when it is on the same side of line AB as C and on the same side of line BC as A."
+  },
+  {
+    "id": "angle-measure",
+    "term": "angle size",
+    "aliases": ["angle sizes", "angle size"],
+    "definition": "An angle size is the number of degrees assigned by the Protractor Axiom to the opening between two rays."
+  },
+  {
+    "id": "betweenness",
+    "term": "betweenness",
+    "aliases": ["lies between", "between"],
+    "definition": "Betweenness is a primitive relation governed by the Order Axioms. Writing that B is between A and C asserts, among other things, that A, B, and C are distinct and collinear."
+  },
+  {
+    "id": "base-angles",
+    "term": "base angles",
+    "aliases": ["base angle"],
+    "definition": "In an isosceles triangle, the base angles are the two angles adjacent to the base."
+  },
+  {
+    "id": "isosceles-base",
+    "term": "base of an isosceles triangle",
+    "aliases": ["base"],
+    "definition": "In an isosceles triangle, the base is the side opposite the vertex where the two congruent legs meet."
+  },
+  {
+    "id": "isosceles-point",
+    "term": "isosceles point",
+    "aliases": ["isosceles points", "equidistant point", "equidistant points"],
+    "definition": "An isosceles point for segment AB is a point P off line AB such that AP ≅ BP. It is the third vertex of an isosceles triangle APB."
+  },
+  {
+    "id": "circle",
+    "term": "circle",
+    "aliases": ["circles"],
+    "definition": "Given distinct points O and R, the circle with center O through R is the set of all points P such that OP ≅ OR. Segment OR is a radius."
+  },
+  {
+    "id": "collinear",
+    "term": "collinear",
+    "aliases": ["collinear points"],
+    "definition": "Points are collinear when they lie on the same line."
+  },
+  {
+    "id": "congruent",
+    "term": "congruent",
+    "aliases": ["congruence"],
+    "definition": "Congruence is the same-size relation governed by the Congruence Axioms. Congruent segments may replace one another in segment constructions, angles are congruent exactly when they have the same angle size, and congruent triangles have all corresponding sides and angles congruent."
+  },
+  {
+    "id": "corresponding-parts",
+    "term": "corresponding parts",
+    "aliases": ["corresponding side", "corresponding sides", "corresponding angle", "corresponding angles"],
+    "definition": "Corresponding parts are vertices, sides, or angles paired by the order in which two triangles are named."
+  },
+  {
+    "id": "consecutive-angles",
+    "term": "consecutive angles",
+    "aliases": ["consecutive angle"],
+    "definition": "Consecutive angles around a point occur one after another, share boundary rays, and have non-overlapping interiors."
+  },
+  {
+    "id": "convex-polygon",
+    "term": "convex polygon",
+    "aliases": ["convex polygons", "convex polygonal region"],
+    "definition": "A convex polygon is a simple polygon whose entire region contains the segment joining any two of its points. In this course, consecutive sides are not collinear, so each interior angle is less than 180°."
+  },
+  {
+    "id": "continuity",
+    "term": "continuity",
+    "aliases": ["continuity axioms"],
+    "definition": "Elementary continuity guarantees specified line-circle and circle-circle intersections when an object crosses from the inside of a circle to the outside."
+  },
+  {
+    "id": "distinct-points",
+    "term": "distinct points",
+    "aliases": ["distinct point"],
+    "definition": "Distinct points are points that are not the same point."
+  },
+  {
+    "id": "exterior-angle",
+    "term": "exterior angle of a triangle",
+    "aliases": ["exterior angle", "exterior angles"],
+    "definition": "An exterior angle of a triangle is formed by one side of the triangle and the ray obtained by extending an adjacent side through their common vertex."
+  },
+  {
+    "id": "full-turn",
+    "term": "full turn",
+    "aliases": ["complete turn"],
+    "definition": "A full turn is one complete rotation around a point."
+  },
+  {
+    "id": "half-plane",
+    "term": "half-plane",
+    "aliases": ["half-planes"],
+    "definition": "A half-plane is one of the two sides of a line in a plane, not including the line itself."
+  },
+  {
+    "id": "included-angle",
+    "term": "included angle",
+    "aliases": ["included angles"],
+    "definition": "The included angle between two sides of a triangle is the angle whose sides contain those two triangle sides."
+  },
+  {
+    "id": "hypotenuse",
+    "term": "hypotenuse",
+    "aliases": ["hypotenuses"],
+    "definition": "In a right triangle, the hypotenuse is the side opposite the right angle."
+  },
+  {
+    "id": "incidence",
+    "term": "incidence",
+    "aliases": ["incidence axioms"],
+    "definition": "Incidence is the relationship of a point lying on a line or another geometric object."
+  },
+  {
+    "id": "intersection",
+    "term": "intersection",
+    "aliases": ["intersections", "intersect"],
+    "definition": "An intersection is the point or set of points shared by two geometric figures."
+  },
+  {
+    "id": "inside-outside-circle",
+    "term": "inside or outside a circle",
+    "aliases": ["inside a circle", "outside a circle", "strictly inside", "strictly outside"],
+    "definition": "For a circle with center O and radius OR, a point P is strictly inside when P = O or when P ≠ O and segment OP is shorter than segment OR. It is strictly outside when P ≠ O and segment OR is shorter than segment OP."
+  },
+  {
+    "id": "isosceles-triangle",
+    "term": "isosceles triangle",
+    "aliases": ["isosceles triangles"],
+    "definition": "An isosceles triangle is a triangle with at least two congruent sides."
+  },
+  {
+    "id": "line",
+    "term": "line",
+    "aliases": ["lines"],
+    "definition": "A line is a basic object of Euclidean geometry containing points and extending indefinitely in both directions."
+  },
+  {
+    "id": "leg",
+    "term": "leg",
+    "aliases": ["legs"],
+    "definition": "A leg is either of the two congruent sides of an isosceles triangle, or either side that forms the right angle in a right triangle."
+  },
+  {
+    "id": "linear-pair",
+    "term": "linear pair",
+    "aliases": ["linear pairs"],
+    "definition": "A linear pair consists of two adjacent angles whose non-common sides are opposite rays."
+  },
+  {
+    "id": "midpoint",
+    "term": "midpoint",
+    "aliases": ["midpoints"],
+    "definition": "A midpoint of segment AB is a point M between A and B such that AM is congruent to MB."
+  },
+  {
+    "id": "triangle-median",
+    "term": "median of a triangle",
+    "aliases": ["median", "medians", "triangle median"],
+    "definition": "A median of a triangle is a segment joining one vertex to the midpoint of the opposite side."
+  },
+  {
+    "id": "opposite-rays",
+    "term": "opposite rays",
+    "aliases": ["opposite ray"],
+    "definition": "Rays OA and OB are opposite when A, O, and B are collinear and O lies between A and B."
+  },
+  {
+    "id": "parallel-lines",
+    "term": "parallel lines",
+    "aliases": ["parallel"],
+    "definition": "Parallel lines are distinct lines in the same plane that have no point in common."
+  },
+  {
+    "id": "polygon",
+    "term": "polygon",
+    "aliases": ["polygons", "n-gon", "n-gons"],
+    "definition": "A polygon is a closed chain of three or more segments joining distinct coplanar vertices in sequence, with the final vertex joined back to the first."
+  },
+  {
+    "id": "polygon-diagonal",
+    "term": "diagonal of a polygon",
+    "aliases": ["polygon diagonal", "polygon diagonals", "diagonals of a polygon"],
+    "definition": "A diagonal of a polygon is a segment joining two nonadjacent vertices."
+  },
+  {
+    "id": "polygon-exterior-angle",
+    "term": "exterior angle of a polygon",
+    "aliases": ["polygon exterior angle", "polygon exterior angles", "exterior angles of a polygon"],
+    "definition": "After choosing one direction around a convex polygon, extend the side arriving at a vertex beyond that vertex. The angle outside the polygon from this extension to the departing side is the exterior angle there. Using the same direction at every vertex chooses one consistent set of exterior angles."
+  },
+  {
+    "id": "polygon-interior-angle",
+    "term": "interior angle of a polygon",
+    "aliases": ["polygon interior angle", "polygon interior angles", "interior angles of a polygon"],
+    "definition": "An interior angle of a polygon is the angle inside its region at a vertex, formed by the two sides meeting there."
+  },
+  {
+    "id": "polygon-triangulation",
+    "term": "triangulation of a polygon",
+    "aliases": ["polygon triangulation", "fan triangulation", "fan decomposition"],
+    "definition": "A triangulation of a polygon is a collection of triangles whose union is the polygonal region and whose interiors do not overlap. A fan triangulation draws every available diagonal from one vertex."
+  },
+  {
+    "id": "perpendicular-lines",
+    "term": "perpendicular",
+    "aliases": ["perpendicular lines"],
+    "definition": "Two lines are perpendicular when they intersect to form a right angle."
+  },
+  {
+    "id": "plane",
+    "term": "plane",
+    "aliases": ["planes"],
+    "definition": "A plane is a basic flat surface of Euclidean geometry extending indefinitely in every direction within it."
+  },
+  {
+    "id": "point",
+    "term": "point",
+    "aliases": ["points"],
+    "definition": "A point is a basic object of Euclidean geometry representing a location without size."
+  },
+  {
+    "id": "ray",
+    "term": "ray",
+    "aliases": ["rays"],
+    "definition": "A ray is part of a line that begins at an endpoint and extends indefinitely in one direction."
+  },
+  {
+    "id": "remote-interior-angle",
+    "term": "remote interior angle",
+    "aliases": ["remote interior angles"],
+    "definition": "A remote interior angle is either interior angle of a triangle that is not adjacent to a specified exterior angle."
+  },
+  {
+    "id": "right-angle",
+    "term": "right angle",
+    "aliases": ["right angles"],
+    "definition": "A right angle is 90°."
+  },
+  {
+    "id": "right-triangle",
+    "term": "right triangle",
+    "aliases": ["right triangles"],
+    "definition": "A right triangle is a triangle with one right angle."
+  },
+  {
+    "id": "segment",
+    "term": "segment",
+    "aliases": ["segments"],
+    "definition": "A segment is the part of a line between two distinct endpoints, including the endpoints."
+  },
+  {
+    "id": "segment-comparison",
+    "term": "segment comparison",
+    "aliases": ["segment comparisons", "shorter segment", "longer segment", "shorter than", "longer than"],
+    "definition": "A segment is shorter than another segment when a congruent copy of it, laid off from one endpoint along the other segment's ray, ends strictly between that endpoint and the other endpoint. Reversing the comparison gives a longer segment."
+  },
+  {
+    "id": "simple-polygon",
+    "term": "simple polygon",
+    "aliases": ["simple polygons"],
+    "definition": "A simple polygon has no crossing sides: adjacent sides meet only at their shared vertex, and nonadjacent sides do not meet."
+  },
+  {
+    "id": "straight-angle",
+    "term": "straight angle",
+    "aliases": ["straight angles"],
+    "definition": "A straight angle is formed by opposite rays and is 180°."
+  },
+  {
+    "id": "triangle",
+    "term": "triangle",
+    "aliases": ["triangles"],
+    "definition": "A triangle consists of three noncollinear points together with the three segments joining them."
+  },
+  {
+    "id": "triangle-interior-angle",
+    "term": "interior angle of a triangle",
+    "aliases": ["triangle interior angle", "triangle interior angles", "interior angles of a triangle"],
+    "definition": "An interior angle of a triangle is the angle at one vertex formed by the two rays along the triangle's sides."
+  },
+  {
+    "id": "triangle-correspondence",
+    "term": "triangle correspondence",
+    "aliases": ["vertex correspondence", "ordered correspondence"],
+    "definition": "A triangle correspondence is an ordered pairing of the three vertices of one triangle with the three vertices of another; that pairing determines the corresponding sides and angles."
+  },
+  {
+    "id": "supplementary-angles",
+    "term": "supplementary angles",
+    "aliases": ["supplementary"],
+    "definition": "Two angles are supplementary when they add to 180°."
+  },
+  {
+    "id": "transversal",
+    "term": "transversal",
+    "aliases": ["transversals"],
+    "definition": "A transversal is a line that intersects two or more other lines at distinct points."
+  },
+  {
+    "id": "transversal-interior-angle",
+    "term": "interior angles",
+    "aliases": ["interior angle for a transversal", "transversal interior angle", "transversal interior angles"],
+    "definition": "In a transversal diagram, interior angles lie in the region between the two crossed lines."
+  },
+  {
+    "id": "transversal-exterior-angle",
+    "term": "exterior angles",
+    "aliases": ["exterior angle for a transversal", "transversal exterior angle", "transversal exterior angles"],
+    "definition": "In a transversal diagram, exterior angles lie outside the region between the two crossed lines."
+  },
+  {
+    "id": "corresponding-angles-transversal",
+    "term": "corresponding angles",
+    "aliases": ["corresponding angle pair", "corresponding angle pairs"],
+    "definition": "Corresponding angles lie at different intersections made by a transversal and occupy the same relative corner."
+  },
+  {
+    "id": "alternate-interior-angles",
+    "term": "alternate interior angles",
+    "aliases": ["alternate interior angle", "alternate interior pair"],
+    "definition": "Alternate interior angles lie between the two crossed lines, at different intersections, and on opposite sides of the transversal."
+  },
+  {
+    "id": "same-side-interior-angles",
+    "term": "same-side interior angles",
+    "aliases": ["same-side interior angle", "consecutive interior angles", "consecutive interior angle"],
+    "definition": "Same-side interior angles lie between the two crossed lines, at different intersections, and on the same side of the transversal."
+  },
+  {
+    "id": "vertical-angles",
+    "term": "vertical angles",
+    "aliases": ["vertical angle"],
+    "definition": "Vertical angles are the opposite, non-adjacent angles formed when two lines intersect."
+  }
+]

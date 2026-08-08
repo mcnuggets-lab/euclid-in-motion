@@ -1,0 +1,13 @@
+{
+  "category": "geometry",
+  "id": "incidence",
+  "title": "Incidence Axioms",
+  "definitionIds": ["incidence", "point", "line", "distinct-points", "collinear", "intersection"],
+  "summary": "Incidence axioms specify the basic relationships between points and lines in a plane.",
+  "statements": [
+    "For any two distinct points A and B, there is exactly one line containing both A and B.",
+    "Every line contains at least two distinct points.",
+    "There exist at least three noncollinear points."
+  ],
+  "whatItEnables": "You can refer unambiguously to the line through two distinct points and prove that two distinct lines have at most one common point."
+}

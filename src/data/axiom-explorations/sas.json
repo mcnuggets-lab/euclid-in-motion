@@ -1,0 +1,27 @@
+{
+  "id": "sas",
+  "parentAxiomId": "congruence",
+  "title": "SAS Congruence Postulate",
+  "readingGuideIds": ["triangle-correspondence"],
+  "summary": "If two sides and the included angle of one triangle are congruent to the corresponding two sides and included angle of another triangle, then the triangles are congruent.",
+  "statementLatex": "\\begin{gathered}\\text{If }AB \\cong A'B',\\ AC \\cong A'C',\\ \\angle BAC \\cong \\angle B'A'C', \\\\ \\text{then }\\triangle ABC \\cong \\triangle A'B'C'.\\end{gathered}",
+  "definitionIds": [
+    "congruent",
+    "segment",
+    "point",
+    "ray",
+    "angle",
+    "included-angle",
+    "triangle"
+  ],
+  "explorationPrompt": "Adjust the two side lengths, the included angle, and the orientation of the copied triangle. The figure keeps the corresponding data matched while the second triangle moves to a different position.",
+  "historicalContext": {
+    "title": "Why treat SAS as a postulate?",
+    "paragraphs": [
+      "Euclid presented SAS in Book I, Proposition 4, using superposition: one triangle is imagined as being placed upon another. Because motion had not been justified by his earlier postulates, later axiomatizations treated the argument as relying on an unstated principle.",
+      "Hilbert's 1899 system made the needed compatibility explicit among the congruence axioms, including an SAS axiom. This app follows that route: an interactive can illustrate triangle rigidity, but SAS itself is a stated assumption."
+    ]
+  },
+  "whatItShows": "The diagram keeps AB congruent to A'B', AC congruent to A'C', and the included angles at A and A' congruent while the copy rotates to a new location. The matching marks emphasize that the two triangles share the same two-side-and-included-angle data.",
+  "whatItEnables": "Once SAS is invoked, you may pass from those three matched pieces of data to full triangle congruence and then infer the remaining corresponding sides and angles for later proofs and constructions."
+}

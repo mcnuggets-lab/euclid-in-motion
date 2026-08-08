@@ -1,0 +1,82 @@
+{
+  "id": "transversal-angle-pairs",
+  "parentAxiomId": "parallels",
+  "title": "Reading Transversal Angle Pairs",
+  "guideType": "Notation",
+  "illustrationId": "transversal-angle-pairs",
+  "introductionLabel": "Read before parallel-line theorems",
+  "summary": "Learn how to locate interior and exterior angles and recognize corresponding, alternate interior, and same-side interior pairs when a transversal crosses two lines.",
+  "statusText": "These names describe where angles are located. Results connecting those positions to angle sizes come later.",
+  "statementLatex": "\\text{Two lines cut by a transversal form eight angles.}",
+  "wideActivity": true,
+  "definitionIds": [
+    "transversal",
+    "transversal-interior-angle",
+    "transversal-exterior-angle",
+    "corresponding-angles-transversal",
+    "alternate-interior-angles",
+    "same-side-interior-angles",
+    "line",
+    "intersection",
+    "angle",
+    "parallel-lines"
+  ],
+  "learningObjectives": [
+    "Identify a transversal and its two distinct intersection points with the crossed lines.",
+    "Separate the four interior angles from the four exterior angles.",
+    "Find the corresponding partner of any angle at either intersection.",
+    "Find the alternate interior and same-side interior partner of an interior angle.",
+    "Treat pair names as descriptions of position, not conclusions about angle sizes.",
+    "Preserve each classification when the diagram is tilted or reflected."
+  ],
+  "sections": [
+    {
+      "id": "find-the-transversal",
+      "title": "Find the transversal",
+      "paragraphs": [
+        "A transversal is a line that meets two or more other lines at distinct points. In the diagram, line t meets line ℓ at P and line m at Q, so t is the transversal.",
+        "The two crossed lines do not need to be parallel for these positional names to make sense. A later theorem may add parallel lines as a hypothesis."
+      ]
+    },
+    {
+      "id": "interior-exterior",
+      "title": "Locate interior and exterior angles",
+      "paragraphs": [
+        "The four angles that face the segment from P to Q lie between lines ℓ and m. They are the interior angles.",
+        "The other four angles face away from that segment. They are the exterior angles for this transversal diagram."
+      ]
+    },
+    {
+      "id": "corresponding",
+      "title": "Match corresponding positions",
+      "paragraphs": [
+        "Corresponding angles lie at different intersections and occupy matching corners. Imagine moving one intersection along the transversal to the other without turning the corner you selected.",
+        "Every one of the eight angles has exactly one corresponding partner at the other intersection."
+      ]
+    },
+    {
+      "id": "alternate-interior",
+      "title": "Cross for alternate interior angles",
+      "paragraphs": [
+        "Alternate interior angles are both interior, lie at different intersections, and sit on opposite sides of the transversal.",
+        "Start by checking that both angles face the segment from P to Q. Then check that the transversal runs between them."
+      ]
+    },
+    {
+      "id": "same-side-interior",
+      "title": "Stay on one side for same-side interior angles",
+      "paragraphs": [
+        "Same-side interior angles are both interior, lie at different intersections, and sit on the same side of the transversal. They are also called consecutive interior angles.",
+        "If the transversal runs between the two selected angles, the pair is not same-side interior."
+      ]
+    },
+    {
+      "id": "names-not-results",
+      "title": "Keep names separate from results",
+      "paragraphs": [
+        "These angle-pair names record position only. First ask whether the angles are interior or exterior, then compare their sides of the transversal and their corners.",
+        "The next lessons investigate what additional conclusions follow when the crossed lines satisfy further hypotheses."
+      ]
+    }
+  ]
+}

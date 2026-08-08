@@ -1,0 +1,321 @@
+@layer theorem {
+.alternate-interior-angles {
+  gap: 10px;
+}
+
+.alternate-interior-angles__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.94), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+  touch-action: none;
+}
+
+.alternate-interior-angles__line,
+.alternate-interior-angles__auxiliary-line,
+.alternate-interior-angles__angle,
+.alternate-interior-angles__parallel-mark path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.alternate-interior-angles__line {
+  stroke: #252525;
+  stroke-width: 1.9;
+}
+
+.alternate-interior-angles__line--transversal {
+  stroke: #475569;
+  stroke-dasharray: 5 4;
+}
+
+.alternate-interior-angles__auxiliary-line {
+  stroke: #8b5cf6;
+  stroke-dasharray: 7 4;
+  stroke-width: 2;
+  transition: opacity 140ms ease;
+}
+
+.alternate-interior-angles__auxiliary-line--faded {
+  opacity: 0.28;
+}
+
+.alternate-interior-angles__angle {
+  stroke-width: 3;
+  transition: opacity 140ms ease, stroke-width 140ms ease;
+}
+
+.alternate-interior-angles__angle--first {
+  stroke: #1f5fbf;
+}
+
+.alternate-interior-angles__angle--second {
+  stroke: #c25b2a;
+  stroke-dasharray: 6 4;
+}
+
+.alternate-interior-angles__angle--copied {
+  stroke: #8b5cf6;
+  stroke-dasharray: 2 4;
+}
+
+.alternate-interior-angles__angle--second-copy {
+  stroke-dasharray: 7 3 2 3;
+}
+
+.alternate-interior-angles__parallel-mark--given path {
+  stroke: #2f7d4a;
+  stroke-width: 2.6;
+}
+
+.alternate-interior-angles__parallel-mark--derived path {
+  stroke: #7c3aed;
+  stroke-dasharray: 4 2;
+  stroke-width: 2.4;
+}
+
+.alternate-interior-angles__point {
+  fill: #252525;
+  stroke: #fff;
+  stroke-width: 1.2;
+  transition: fill 140ms ease;
+}
+
+.alternate-interior-angles__point--named {
+  fill: #64748b;
+}
+
+.alternate-interior-angles__point--auxiliary,
+.alternate-interior-angles__point-label--auxiliary {
+  fill: #7c3aed;
+}
+
+.alternate-interior-angles__point--draggable {
+  fill: #c25b2a;
+}
+
+.alternate-interior-angles__point-focus {
+  fill: none;
+  stroke: rgba(124, 58, 237, 0.28);
+  stroke-width: 6;
+  transition: opacity 140ms ease;
+}
+
+.alternate-interior-angles__point-label,
+.alternate-interior-angles__line-label,
+.alternate-interior-angles__line-note,
+.alternate-interior-angles__angle-label,
+.alternate-interior-angles__chain {
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  text-anchor: middle;
+}
+
+.alternate-interior-angles__point-label,
+.alternate-interior-angles__line-label,
+.alternate-interior-angles__line-note,
+.alternate-interior-angles__chain {
+  fill: #252525;
+  font-size: 11px;
+}
+
+.alternate-interior-angles__line-label {
+  fill: #475569;
+  font-style: italic;
+}
+
+.alternate-interior-angles__line-label--auxiliary {
+  fill: #6d28d9;
+  font-style: normal;
+  transition: opacity 140ms ease;
+}
+
+.alternate-interior-angles__line-label--auxiliary-faded {
+  opacity: 0.3;
+}
+
+.alternate-interior-angles__line-note {
+  fill: #6d28d9;
+  font-size: 10px;
+}
+
+.alternate-interior-angles__angle-label {
+  dominant-baseline: middle;
+  font-size: 10.5px;
+}
+
+.alternate-interior-angles__angle-label--first {
+  fill: #174a96;
+}
+
+.alternate-interior-angles__angle-label--second {
+  fill: #9a411c;
+}
+
+.alternate-interior-angles__angle-label--copied {
+  fill: #6d28d9;
+}
+
+.alternate-interior-angles__chain {
+  fill: #4c1d95;
+  font-size: 9.2px;
+}
+
+.alternate-interior-angles__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.alternate-interior-angles__handle-target:active {
+  cursor: grabbing;
+}
+
+.alternate-interior-angles__handle {
+  fill: none;
+  stroke: #c25b2a;
+  stroke-width: 2.4;
+  pointer-events: none;
+  transition: r 140ms ease;
+}
+
+.alternate-interior-angles__handle--active {
+  r: 10;
+}
+
+.alternate-interior-angles__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.alternate-interior-angles__measure--first {
+  border-color: rgba(31, 95, 191, 0.42);
+}
+
+.alternate-interior-angles__measure--second {
+  border-color: rgba(194, 91, 42, 0.42);
+}
+
+.alternate-interior-angles__measure--explore-first strong,
+.alternate-interior-angles__measure--explore-first span {
+  color: #1f5fbf;
+}
+
+.alternate-interior-angles__measure--explore-second strong,
+.alternate-interior-angles__measure--explore-second span {
+  color: #9a411c;
+}
+
+.alternate-interior-angles__measure--given {
+  border-color: rgba(47, 125, 74, 0.42);
+  background: #f6fbf7;
+}
+
+.alternate-interior-angles__measure--derived {
+  border-color: rgba(124, 58, 237, 0.4);
+  background: #faf7ff;
+}
+
+.alternate-interior-angles__measure--note {
+  border-color: rgba(100, 116, 139, 0.42);
+  border-style: dashed;
+}
+
+.alternate-interior-angles__measure--result {
+  border-color: rgba(31, 95, 191, 0.42);
+  background: #f7faff;
+}
+
+.alternate-interior-angles__controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.alternate-interior-angles__control {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.alternate-interior-angles__control > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.alternate-interior-angles__control > span > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.alternate-interior-angles__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: #c25b2a;
+}
+
+.alternate-interior-angles__control input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.alternate-interior-angles__pair-action {
+  justify-self: start;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid #9eb4d6;
+  border-radius: 6px;
+  background: #f7faff;
+  color: #174a96;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
+}
+
+.alternate-interior-angles__pair-action:hover {
+  border-color: #1f5fbf;
+  background: #edf3fc;
+}
+
+.alternate-interior-angles__pair-action:active {
+  box-shadow: none;
+  transform: translateY(1px);
+}
+
+.alternate-interior-angles__pair-action:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.alternate-interior-angles__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.alternate-interior-angles__status--result {
+  border-color: rgba(31, 95, 191, 0.42);
+  color: #174a96;
+}
+
+@container lesson-interactive (max-width: 620px) {
+  .alternate-interior-angles__control > span {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+
+}

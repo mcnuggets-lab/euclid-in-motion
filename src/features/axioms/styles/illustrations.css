@@ -1,0 +1,102 @@
+.axiom-figure {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.axiom-figure__svg {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.axiom-figure__label {
+  fill: #444;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.axiom-figure__handle {
+  cursor: grab;
+  stroke-width: 2;
+  transition:
+    r 120ms ease,
+    stroke 120ms ease,
+    fill 120ms ease;
+}
+
+.axiom-figure__handle:hover {
+  r: 8.5;
+}
+
+.axiom-figure__handle:active {
+  cursor: grabbing;
+  r: 9;
+}
+
+.axiom-figure__handle--accent {
+  fill: #1f5fbf;
+  stroke: rgba(31, 95, 191, 0.15);
+}
+
+.axiom-figure__handle--accent:hover,
+.axiom-figure__handle--accent:active {
+  fill: #184b97;
+  stroke: rgba(31, 95, 191, 0.35);
+}
+
+.axiom-figure__handle--secondary {
+  fill: #c25b2a;
+  stroke: rgba(194, 91, 42, 0.15);
+}
+
+.axiom-figure__handle--secondary:hover,
+.axiom-figure__handle--secondary:active {
+  fill: #a5491f;
+  stroke: rgba(194, 91, 42, 0.35);
+}
+
+.axiom-figure__controls {
+  display: grid;
+  gap: 10px;
+}
+
+.axiom-figure__controls label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+}
+
+.axiom-figure__controls input[type="range"] {
+  width: 100%;
+}
+
+.axiom-figure__note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.axiom-figure__measurements {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.axiom-measure {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.axiom-measure span {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+

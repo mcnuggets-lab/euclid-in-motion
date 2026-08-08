@@ -1,0 +1,44 @@
+{
+  "id": "segment-angle-comparison",
+  "title": "Segment and Angle Comparison Theorem",
+  "family": "Foundations",
+  "statement": "If AB and CD are segments, exactly one holds: AB is shorter than CD, \\(AB \\cong CD\\), or CD is shorter than AB.\n\nIf \\(\\angle AOB\\) and \\(\\angle COD\\) are nonstraight angles, exactly one holds: \\(\\angle AOB\\) has a smaller angle size than \\(\\angle COD\\), \\(\\angle AOB \\cong \\angle COD\\), or the reverse.",
+  "theoremLatex": "\\begin{gathered}AB<CD\\quad\\text{or}\\quad AB\\cong CD\\quad\\text{or}\\quad AB>CD \\\\ \\angle AOB<\\angle COD\\quad\\text{or}\\quad\\angle AOB\\cong\\angle COD\\quad\\text{or}\\quad\\angle AOB>\\angle COD\\end{gathered}",
+  "summary": "For two segments, one is shorter, the segments are congruent, or the other is shorter—never more than one. The same three-way comparison holds for two nonstraight angles. Replacing either object with a congruent one preserves the comparison.",
+  "proofIdea": "Copy segment AB from C along ray CD to a point E. Either E is D, E lies between C and D, or D lies between C and E; copy uniqueness, betweenness, and segment addition interpret those cases as congruent, shorter, or longer. For angles, the Protractor Axiom assigns degree values, and real-number trichotomy makes exactly one value smaller, equal, or larger. Congruent segments and angles keep the same copy or degree value, so they may replace one another in a comparison.",
+  "dependsOn": ["order", "congruence", "protractor"],
+  "definitionIds": ["segment", "segment-comparison", "ray", "betweenness", "congruent", "angle", "angle-comparison", "angle-measure"],
+  "explorationPrompt": "Change the two segments and the two angles. In each panel, find the one relation that remains true: shorter, congruent, or longer.",
+  "proofSteps": [
+    {
+      "title": "Lay off one segment on the other",
+      "detail": "On ray CD, use the Congruence Axioms to copy segment AB from C to a unique point E. Thus CE ≅ AB. This construction gives one common ray on which the segment comparison can be read."
+    },
+    {
+      "title": "Read the three segment cases",
+      "detail": "Either E is D, E lies between C and D, or D lies between C and E. In the first case AB ≅ CD. In the second, the copy CE is a proper part of CD, so AB is shorter than CD. In the third, CD is a proper part of CE, so CD is shorter than AB."
+    },
+    {
+      "title": "Preserve a segment comparison",
+      "detail": "If a short segment and a long segment are each replaced by congruent segments, copy the short part and the remaining part onto the new ray. Segment addition and unique segment transport give the same endpoint order, so the shorter-than relation is unchanged. The longer-than case is the same statement with the names reversed."
+    },
+    {
+      "title": "Read two angle sizes on one scale",
+      "detail": "Use the Protractor Axiom to read both nonstraight angles on degree scales. Their degree values are ordered: one is smaller, they are equal, or the other is smaller. Equal angle sizes mean congruent angles."
+    },
+    {
+      "title": "Read the positive difference",
+      "detail": "If ∠AOB = b° and ∠COD = c° with b < c, then c − b is positive. By the definition of angle comparison, the smaller degree value means that ∠AOB has the smaller angle size. This numerical comparison does not require placing one geometric angle inside the other."
+    },
+    {
+      "title": "Preserve an angle comparison",
+      "detail": "Congruent angles have equal degree values by the Protractor Axiom. Replacing either angle with a congruent angle therefore leaves a smaller-than or larger-than comparison unchanged."
+    }
+  ],
+  "relatedResults": [
+    "exterior-angle inequality",
+    "triangle side-angle order",
+    "hinge theorem",
+    "SSS congruence"
+  ]
+}

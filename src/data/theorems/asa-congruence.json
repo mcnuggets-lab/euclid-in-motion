@@ -1,0 +1,78 @@
+{
+  "id": "asa-congruence",
+  "title": "ASA Congruence Theorem",
+  "family": "Triangle Congruence",
+  "statement": "If \\(\\angle ABC \\cong \\angle DEF\\), \\(BC \\cong EF\\), and \\(\\angle ACB \\cong \\angle DFE\\), then \\(\\triangle ABC \\cong \\triangle DEF\\) with correspondence \\(A \\leftrightarrow D\\), \\(B \\leftrightarrow E\\), and \\(C \\leftrightarrow F\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\angle ABC\\cong\\angle DEF,\\ BC\\cong EF,\\ \\angle ACB\\cong\\angle DFE,\\\\ \\text{then }\\triangle ABC\\cong\\triangle DEF.\\end{gathered}",
+  "summary": "Two congruent corresponding angle pairs and their congruent included sides force the triangles to be congruent.",
+  "proofIdea": "Copy side DE onto ray BA, naming the copied endpoint G. The copied segment, the included side, and the angle at B give triangle GBC congruent to triangle DEF by SAS. This transfers the angle at F to the angle formed by CG and CB. The original ASA data give the same angle on ray CA. Because A and G are in the same half-plane, angle-copy uniqueness makes rays CA and CG the same ray. Lines AB and AC have only one common point, so G and A are the same point, and the SAS copy is the original triangle.",
+  "readingGuideIds": [
+    "triangle-correspondence"
+  ],
+  "dependsOn": [
+    "incidence",
+    "congruence",
+    "order"
+  ],
+  "definitionIds": [
+    "angle",
+    "congruent",
+    "half-plane",
+    "included-angle",
+    "incidence",
+    "intersection",
+    "line",
+    "point",
+    "ray",
+    "segment",
+    "triangle",
+    "triangle-correspondence"
+  ],
+  "explorationPrompt": "Drag A to change both endpoint angles. The second triangle is reconstructed from a congruent included side and two copied angle rays; their intersection locates D. These examples illustrate ASA rigidity, while the guided SAS-and-uniqueness argument proves it.",
+  "proofSteps": [
+    {
+      "title": "Name the ASA data",
+      "detail": "Suppose \\(\\angle ABC \\cong \\angle DEF\\), \\(BC \\cong EF\\), and \\(\\angle ACB \\cong \\angle DFE\\). The congruent side pair lies between the two given angle pairs. The goal is to prove \\(\\triangle ABC \\cong \\triangle DEF\\) with correspondence A ↔ D, B ↔ E, and C ↔ F."
+    },
+    {
+      "title": "Make a SAS copy on ray BA",
+      "detail": "On ray BA, use unique segment copy to construct G so that \\(BG \\cong DE\\). Because G lies on ray BA, angles \\(\\angle GBC\\) and \\(\\angle ABC\\) name the same angle, so \\(\\angle GBC \\cong \\angle DEF\\). Together with \\(BG \\cong DE\\) and the given \\(BC \\cong EF\\), SAS gives \\(\\triangle GBC \\cong \\triangle DEF\\)."
+    },
+    {
+      "title": "Match the angle at C",
+      "detail": "Corresponding parts of the SAS-congruent triangles give \\(\\angle GCB \\cong \\angle DFE\\). The original ASA data give \\(\\angle ACB \\cong \\angle DFE\\). Symmetry and transitivity of angle congruence therefore give \\(\\angle GCB \\cong \\angle ACB\\)."
+    },
+    {
+      "title": "Use the unique angle copy",
+      "detail": "Points A and G are distinct from B and lie on the same ray BA, so they lie in the same half-plane bounded by line BC. Thus rays CA and CG lie in the same chosen half-plane bounded by line CB. The congruent angles \\(\\angle ACB\\) and \\(\\angle GCB\\) share baseline ray CB, so angle-copy uniqueness forces rays CA and CG to be the same ray."
+    },
+    {
+      "title": "Identify the vertex and finish",
+      "detail": "Point G lies on line AB by construction and on line AC because rays CG and CA are the same ray. Since ABC is a triangle, lines AB and AC are distinct; the Incidence Axioms allow them at most one common point. They already meet at A, so G and A are the same point. Therefore triangle GBC is triangle ABC, and the SAS result from Step 2 gives \\(\\triangle ABC \\cong \\triangle DEF\\)."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: Converse of the Isosceles Base-Angles Theorem",
+      "illustrationId": "isosceles-base-angles-converse",
+      "statement": "If \\(\\angle ABC \\cong \\angle ACB\\) in triangle \\(ABC\\), then \\(AB \\cong AC\\); a triangle with two congruent angles is isosceles.",
+      "theoremLatex": "\\begin{gathered}\\text{If }\\angle ABC\\cong\\angle ACB,\\\\ \\text{then }AB\\cong AC.\\end{gathered}",
+      "proof": "Compare triangle ABC with the same triangle named in reverse as ACB. The given base-angle pair supplies both angle correspondences, and \\(BC \\cong CB\\) is the common included side. ASA gives \\(\\triangle ABC \\cong \\triangle ACB\\), so corresponding parts give \\(AB \\cong AC\\)."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.26 and triangle determination",
+    "paragraphs": [
+      "Euclid's Proposition I.26 contains the classical two-angles-and-one-side congruence cases.",
+      "This lesson isolates the included-side case, now called ASA. The non-included-side case, AAS, follows later by first recovering the third angle from the Triangle Angle Sum Theorem.",
+      "The proof here makes the uniqueness reasoning explicit: a segment copy creates an SAS triangle, a unique angle copy fixes its final ray, and unique line intersection fixes its final vertex."
+    ]
+  },
+  "relatedResults": [
+    "SAS Congruence Postulate",
+    "SSS Congruence Theorem",
+    "Converse of the Isosceles Base-Angles Theorem",
+    "AAS Congruence Theorem",
+    "triangle rigidity"
+  ]
+}

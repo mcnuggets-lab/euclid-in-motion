@@ -1,0 +1,440 @@
+@layer theorem {
+.rhs-congruence {
+  container: rhs-congruence / inline-size;
+}
+
+.rhs-congruence__svg {
+  touch-action: none;
+}
+
+.rhs-congruence__triangle,
+.rhs-congruence__side,
+.rhs-congruence__construction,
+.rhs-congruence__construction-arc,
+.rhs-congruence__result-segment,
+.rhs-congruence__angle,
+.rhs-congruence__handle,
+.rhs-congruence__right-angle {
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    fill 140ms ease,
+    stroke-width 140ms ease;
+}
+
+.rhs-congruence__triangle {
+  fill: rgba(31, 95, 191, 0.04);
+  stroke: #34445d;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.rhs-congruence__triangle--target {
+  fill: rgba(194, 91, 42, 0.035);
+}
+
+.rhs-congruence__triangle--auxiliary {
+  fill: rgba(114, 82, 163, 0.06);
+  stroke: #7252a3;
+  stroke-dasharray: 5 4;
+}
+
+.rhs-congruence__triangle--isosceles {
+  fill: rgba(35, 128, 90, 0.06);
+  stroke: #23805a;
+}
+
+.rhs-congruence__triangle--muted {
+  opacity: 0.86;
+}
+
+.rhs-congruence__triangle--final {
+  fill: rgba(35, 128, 90, 0.08);
+  stroke: #23805a;
+}
+
+.rhs-congruence__side,
+.rhs-congruence__construction,
+.rhs-congruence__result-segment {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 3.5;
+}
+
+.rhs-congruence__side--leg {
+  stroke: #1f5fbf;
+}
+
+.rhs-congruence__side--hypotenuse {
+  stroke: #c25b2a;
+}
+
+.rhs-congruence__construction,
+.rhs-congruence__construction-arc {
+  stroke: #7252a3;
+  stroke-dasharray: 6 4;
+}
+
+.rhs-congruence__construction-arc {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 2.5;
+}
+
+.rhs-congruence__result-segment {
+  stroke: #23805a;
+}
+
+.rhs-congruence__angle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.rhs-congruence__angle--result {
+  stroke: #23805a;
+}
+
+.rhs-congruence__right-angle {
+  fill: none;
+  stroke: #3f4d62;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.rhs-congruence__right-angle--construction {
+  stroke: #7252a3;
+}
+
+.rhs-congruence__right-angle--result {
+  stroke: #23805a;
+}
+
+.rhs-congruence__point {
+  fill: #222;
+}
+
+.rhs-congruence__handle-target {
+  cursor: ns-resize;
+  fill: transparent;
+}
+
+.rhs-congruence__handle {
+  fill: #fff;
+  pointer-events: none;
+  stroke: #1f5fbf;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.rhs-congruence__handle--active {
+  fill: #e8f1ff;
+  transform: scale(1.15);
+}
+
+.rhs-congruence__point-label,
+.rhs-congruence__panel-label,
+.rhs-congruence__bridge-label {
+  fill: #222;
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+}
+
+.rhs-congruence__point-label {
+  font-size: 10.5px;
+}
+
+.rhs-congruence__panel-label,
+.rhs-congruence__bridge-label {
+  fill: var(--muted);
+  font-size: 9.5px;
+  text-anchor: middle;
+}
+
+.rhs-congruence__bridge-label--final {
+  fill: #245a45;
+}
+
+.rhs-congruence__summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.rhs-congruence__construction-card {
+  border-color: rgba(114, 82, 163, 0.38);
+  background: #faf8fd;
+}
+
+.rhs-congruence__construction-card strong {
+  color: #5e4387;
+}
+
+.rhs-congruence__result-card {
+  border-color: rgba(35, 128, 90, 0.4);
+  background: #f5fbf8;
+}
+
+.rhs-congruence__result-card strong {
+  color: #245a45;
+}
+
+.rhs-congruence__proof-note {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(114, 82, 163, 0.32);
+  border-radius: 6px;
+  background: #faf8fd;
+  color: #5e4387;
+  line-height: 1.45;
+}
+
+.rhs-congruence__controls {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rhs-congruence__control {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.rhs-congruence__control > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.rhs-congruence__control > span > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.rhs-congruence__control input {
+  width: 100%;
+}
+
+.rhs-congruence__control input:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.rhs-congruence__proof-summary {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+}
+
+.rhs-congruence__proof-summary span {
+  color: #245a45;
+}
+
+.rhs-congruence__proof-result {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.38);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  text-align: center;
+}
+
+.rhs-congruence__proof-result span {
+  color: var(--muted);
+}
+
+.rhs-congruence__proof-result--derived {
+  border-color: rgba(114, 82, 163, 0.4);
+  background: #faf8fd;
+  color: #5e4387;
+}
+
+.rhs-congruence__proof-result--final {
+  border-color: rgba(35, 128, 90, 0.42);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+.rhs-congruence__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.35);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  line-height: 1.45;
+}
+
+.rhs-congruence__status--proof {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+@container rhs-congruence (max-width: 700px) {
+  .rhs-congruence__summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@container rhs-congruence (max-width: 620px) {
+  .rhs-congruence__controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.rhs-ssa-comparison {
+  container: rhs-ssa-comparison / inline-size;
+  margin: 4px 0 14px;
+}
+
+.rhs-ssa-comparison__panels {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rhs-ssa-comparison__panel {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.rhs-ssa-comparison__panel > strong {
+  color: #26364f;
+  text-align: center;
+}
+
+.rhs-ssa-comparison__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.rhs-ssa-comparison__construction,
+.rhs-ssa-comparison__given-side,
+.rhs-ssa-comparison__variable-base,
+.rhs-ssa-comparison__result-side {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rhs-ssa-comparison__construction {
+  stroke: #7252a3;
+  stroke-dasharray: 6 4;
+  stroke-width: 2.5;
+}
+
+.rhs-ssa-comparison__triangle {
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.rhs-ssa-comparison__triangle--near {
+  fill: rgba(31, 95, 191, 0.06);
+  stroke: #1f5fbf;
+}
+
+.rhs-ssa-comparison__triangle--far {
+  fill: rgba(194, 91, 42, 0.05);
+  stroke: #c25b2a;
+  stroke-dasharray: 5 4;
+}
+
+.rhs-ssa-comparison__triangle--rhs {
+  fill: rgba(35, 128, 90, 0.07);
+  stroke: #23805a;
+}
+
+.rhs-ssa-comparison__given-side {
+  stroke-width: 3.5;
+}
+
+.rhs-ssa-comparison__given-side--first {
+  stroke: #1f5fbf;
+}
+
+.rhs-ssa-comparison__given-side--second {
+  stroke: #c25b2a;
+}
+
+.rhs-ssa-comparison__variable-base {
+  stroke: #23805a;
+  stroke-width: 3.5;
+}
+
+.rhs-ssa-comparison__variable-base--far {
+  stroke-dasharray: 5 4;
+}
+
+.rhs-ssa-comparison__result-side {
+  stroke: #23805a;
+  stroke-width: 3.5;
+}
+
+.rhs-ssa-comparison__given-angle {
+  stroke: #7252a3;
+}
+
+.rhs-ssa-comparison__right-angle {
+  stroke: #7252a3;
+}
+
+.rhs-ssa-comparison__intersection {
+  fill: #fff;
+  stroke: #7252a3;
+  stroke-width: 2;
+}
+
+.rhs-ssa-comparison__intersection--single {
+  stroke: #23805a;
+}
+
+.rhs-ssa-comparison__point {
+  fill: #222;
+}
+
+.rhs-ssa-comparison__point-label {
+  fill: #222;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  text-anchor: middle;
+}
+
+.rhs-ssa-comparison__caption {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+@container rhs-ssa-comparison (max-width: 560px) {
+  .rhs-ssa-comparison__panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+}

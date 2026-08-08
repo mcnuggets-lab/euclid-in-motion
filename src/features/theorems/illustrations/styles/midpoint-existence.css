@@ -1,0 +1,203 @@
+@layer theorem {
+.midpoint-existence {
+  gap: 10px;
+}
+
+.midpoint-existence__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+  touch-action: none;
+}
+
+.midpoint-existence__base,
+.midpoint-existence__side,
+.midpoint-existence__bisector,
+.midpoint-existence__angle-arc,
+.midpoint-existence__tick {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.midpoint-existence__base,
+.midpoint-existence__side {
+  stroke: #252525;
+  stroke-width: 2;
+  transition: stroke 120ms ease, stroke-width 120ms ease;
+}
+
+.midpoint-existence__side--leg {
+  stroke: #1f5fbf;
+  stroke-width: 2.35;
+}
+
+.midpoint-existence__base--result {
+  stroke: #2f7d4a;
+  stroke-width: 2.35;
+}
+
+.midpoint-existence__bisector {
+  stroke: #2f7d4a;
+  stroke-width: 2.1;
+  transition: stroke-width 120ms ease;
+}
+
+.midpoint-existence__bisector--sas {
+  stroke-width: 2.65;
+}
+
+.midpoint-existence__angle-arc {
+  stroke: #c25b2a;
+  stroke-width: 3;
+  transition: stroke-width 120ms ease;
+}
+
+.midpoint-existence__tick {
+  stroke: #805ad5;
+  stroke-width: 2.5;
+}
+
+.midpoint-existence__tick--result {
+  stroke-width: 2.8;
+}
+
+.midpoint-existence__point {
+  fill: #252525;
+  stroke: #fff;
+  stroke-width: 1.25;
+}
+
+.midpoint-existence__point--m {
+  fill: #2f7d4a;
+}
+
+.midpoint-existence__point--result {
+  fill: #23623a;
+}
+
+.midpoint-existence__label {
+  fill: #252525;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  text-anchor: middle;
+}
+
+.midpoint-existence__label--m {
+  fill: #23623a;
+}
+
+.midpoint-existence__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.midpoint-existence__handle-target:active {
+  cursor: grabbing;
+}
+
+.midpoint-existence__handle {
+  stroke: #fff;
+  stroke-width: 2;
+  pointer-events: none;
+  transition: fill 120ms ease, r 120ms ease;
+}
+
+.midpoint-existence__handle--base {
+  fill: #c25b2a;
+}
+
+.midpoint-existence__handle--candidate,
+.midpoint-existence__handle--apex {
+  fill: #1f5fbf;
+}
+
+.midpoint-existence__handle--result {
+  fill: #2f7d4a;
+}
+
+.midpoint-existence__handle--active {
+  r: 10;
+}
+
+.midpoint-existence__summary,
+.midpoint-existence__controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.midpoint-existence__controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.midpoint-existence__measure--leg {
+  border-color: rgba(31, 95, 191, 0.42);
+}
+
+.midpoint-existence__measure--shared {
+  border-color: rgba(47, 125, 74, 0.42);
+}
+
+.midpoint-existence__measure--angle {
+  border-color: rgba(194, 91, 42, 0.42);
+}
+
+.midpoint-existence__measure--result {
+  border-color: rgba(128, 90, 213, 0.42);
+  background: rgba(128, 90, 213, 0.045);
+}
+
+.midpoint-existence__control {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.midpoint-existence__control>span {
+  display: grid;
+  gap: 2px;
+}
+
+.midpoint-existence__control>span>span,
+.midpoint-existence__status {
+  color: var(--muted);
+}
+
+.midpoint-existence__control>span>span {
+  font-size: 0.9rem;
+}
+
+.midpoint-existence__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+
+.midpoint-existence__control input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.68);
+  outline-offset: 2px;
+}
+
+.midpoint-existence__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.midpoint-existence__status--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  color: #23623a;
+}
+
+}

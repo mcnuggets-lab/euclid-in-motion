@@ -1,0 +1,164 @@
+.theorem-discovery {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.theorem-discovery__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.theorem-discovery__count {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.theorem-discovery__step-title {
+  font-size: 0.95rem;
+}
+
+.theorem-discovery__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+.theorem-discovery__tab {
+  min-width: 18px;
+  padding: 4px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #1f32c7;
+  line-height: 1.25;
+}
+
+.theorem-discovery__tab--active {
+  color: #111;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.theorem-discovery__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  color: var(--muted);
+}
+
+.theorem-discovery__footer {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+}
+
+.theorem-discovery__footer--single-line {
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.theorem-discovery__previous {
+  justify-self: start;
+}
+
+.theorem-discovery__next {
+  justify-self: end;
+}
+
+.theorem-discovery__nav--single-line {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 2px 0;
+  scrollbar-width: thin;
+}
+
+.theorem-discovery__button {
+  padding: 4px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #1f32c7;
+  line-height: 1.25;
+}
+
+.theorem-discovery__button:disabled {
+  cursor: default;
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.theorem-discovery__button:not(:disabled):hover,
+.theorem-discovery__tab:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.theorem-discovery__button:focus-visible,
+.theorem-discovery__tab:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 3px;
+}
+
+.theorem-discovery__mode-button {
+  padding: 8px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.theorem-discovery__mode-button--active {
+  border-color: var(--accent);
+  background: #f7faff;
+}
+
+.theorem-discovery__mode-button:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.theorem-discovery__prompt,
+.theorem-discovery__insight span {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.theorem-discovery__insight {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.theorem-discovery__uses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.theorem-discovery__chip {
+  padding: 6px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  background: #fafafa;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+

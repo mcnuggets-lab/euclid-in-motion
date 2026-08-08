@@ -1,0 +1,88 @@
+{
+  "id": "alternate-interior-converse",
+  "title": "Converse of the Alternate Interior Angles Theorem",
+  "family": "Parallel Lines",
+  "statement": "Let transversal \\(t\\) meet distinct coplanar lines \\(\\ell\\) and \\(m\\) at distinct points \\(P\\) and \\(Q\\). Choose \\(A\\) on \\(\\ell\\) and \\(B\\) on \\(m\\) so that \\(\\angle APQ\\) and \\(\\angle PQB\\) are alternate interior angles. If \\(\\angle APQ \\cong \\angle PQB\\), then \\(\\ell \\parallel m\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\angle APQ \\cong \\angle PQB, \\\\ \\text{then }\\ell \\parallel m.\\end{gathered}",
+  "summary": "If a transversal forms congruent alternate interior angles on two distinct coplanar lines, then those lines are parallel.",
+  "proofIdea": "Assume the lines meet at a point R. Depending on which side of the transversal contains R, the hypothesis angle is either directly an exterior angle or congruent by vertical angles to an exterior angle of triangle PQR. In both cases the exterior-angle inequality says that exterior angle must be larger than the remote interior angle, contradicting the given congruence.",
+  "readingGuideIds": ["transversal-angle-pairs"],
+  "dependsOn": [
+    "incidence",
+    "order",
+    "linear-pair",
+    "vertical-angles",
+    "exterior-angle-inequality"
+  ],
+  "definitionIds": [
+    "angle",
+    "congruent",
+    "exterior-angle",
+    "intersection",
+    "line",
+    "linear-pair",
+    "opposite-rays",
+    "parallel-lines",
+    "remote-interior-angle",
+    "same-side-interior-angles",
+    "supplementary-angles",
+    "triangle",
+    "transversal",
+    "transversal-interior-angle",
+    "alternate-interior-angles",
+    "corresponding-angles-transversal",
+    "vertical-angles"
+  ],
+  "explorationPrompt": "Track how the two alternate interior angles compare as line m turns. The proof shows that any actual intersection would force an exterior angle of triangle PQR to equal a remote interior angle, which is impossible.",
+  "proofSteps": [
+    {
+      "title": "State the hypothesis",
+      "detail": "Transversal t meets lines ℓ and m at P and Q, and the chosen alternate interior angles satisfy ∠APQ ≅ ∠PQB. That congruence is the given hypothesis; it is not inferred from the picture."
+    },
+    {
+      "title": "Assume the lines intersect",
+      "detail": "For contradiction, suppose ℓ and m have an intersection R. Because P and Q are distinct points on transversal t, the intersection R is not on t, so P, Q, and R determine triangle PQR. Order places R on exactly one side of t or the other."
+    },
+    {
+      "title": "Handle the side containing B",
+      "detail": "If R lies on the side of t containing B, then ∠APQ is an exterior angle of triangle PQR and ∠PQB is its remote interior angle. The Exterior-Angle Inequality Theorem says that exterior angle is larger than the remote interior angle, contradicting ∠APQ ≅ ∠PQB."
+    },
+    {
+      "title": "Handle the opposite side with vertical angles",
+      "detail": "If R lies on the other side of t, use the exterior angle at Q that is vertical to ∠PQB. The Vertical Angles Theorem makes that exterior angle congruent to ∠PQB, so the hypothesis transfers to make that exterior angle congruent to remote interior angle ∠APQ. The Exterior-Angle Inequality Theorem then says the same exterior angle is larger than ∠APQ, another contradiction."
+    },
+    {
+      "title": "Conclude the lines are parallel",
+      "detail": "Both possible locations of the assumed intersection R lead to contradictions, so ℓ and m have no common point. Since they are distinct coplanar lines, the definition of parallel lines gives ℓ ∥ m."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: converse for corresponding angles",
+      "illustrationId": "corresponding-angles-converse",
+      "statement": "Let transversal t meet distinct coplanar lines ℓ and m at P and Q. If corresponding angles ∠APQ and ∠DQC are congruent, then ℓ and m are parallel.",
+      "theoremLatex": "\\begin{gathered}\\text{If }\\angle APQ \\cong \\angle DQC, \\\\ \\text{then }\\ell \\parallel m.\\end{gathered}",
+      "proof": "At Q, ∠DQC and ∠PQB are vertical angles, so they are congruent. The hypothesis and transitivity therefore give ∠APQ ≅ ∠PQB. These are alternate interior angles, so the Converse of the Alternate Interior Angles Theorem shows that ℓ and m are parallel."
+    },
+    {
+      "title": "Corollary: converse for same-side interior angles",
+      "illustrationId": "same-side-interior-converse",
+      "statement": "Let transversal t meet distinct coplanar lines ℓ and m at P and Q. If same-side interior angles ∠APQ and ∠CQP are supplementary, then ℓ and m are parallel.",
+      "theoremLatex": "\\begin{gathered}\\text{If }\\angle APQ+\\angle CQP=180^\\circ, \\\\ \\text{then }\\ell \\parallel m.\\end{gathered}",
+      "proof": "Choose B on m so rays QC and QB are opposite. Angles ∠CQP and ∠PQB form a linear pair, so they add to 180°. The hypothesis says ∠APQ and ∠CQP also add to 180°. Thus ∠APQ and ∠PQB have the same size and are congruent. They are alternate interior angles, so the Converse of the Alternate Interior Angles Theorem shows that ℓ and m are parallel."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.27–I.28 before the direct parallel-line theorems",
+    "paragraphs": [
+      "Euclid's Proposition I.27 proves this converse first: equal alternate interior angles force two lines to be parallel. That ordering matters because the argument uses only contradiction and the exterior-angle inequality, not the Parallel Axiom.",
+      "Proposition I.28 then gives two more tests for parallel lines: equal corresponding angles, or same-side interior angles adding to two right angles. These are the two corollaries above, obtained from I.27 using vertical angles or a linear pair.",
+      "Proposition I.29 goes in the opposite direction and derives the familiar angle relationships from parallel lines. That direct direction requires the Parallel Axiom. Keeping I.27–I.28 before it prevents circular reasoning and makes the later use of Playfair's uniqueness visible."
+    ]
+  },
+  "relatedResults": [
+    "alternate interior angles theorem",
+    "corresponding angles theorem",
+    "same-side interior angles theorem"
+  ]
+}

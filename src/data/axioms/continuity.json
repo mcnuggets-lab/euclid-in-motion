@@ -1,0 +1,19 @@
+{
+  "category": "geometry",
+  "id": "continuity",
+  "title": "Elementary Continuity Axioms",
+  "definitionIds": ["continuity", "point", "line", "circle", "inside-outside-circle", "segment-comparison"],
+  "summary": "Elementary continuity axioms guarantee the line-circle and circle-circle intersections used in straightedge-and-compass constructions, but only under explicit crossing conditions.",
+  "statements": [
+    "Line-circle continuity: if a line contains a point strictly inside a circle, then the line meets the circle in two distinct points.",
+    "Circle-circle continuity: if there are points P and Q on one circle such that P lies strictly inside another circle and Q lies strictly outside it, then the two circles meet in two distinct points."
+  ],
+  "historicalContext": {
+    "title": "Making construction assumptions explicit",
+    "paragraphs": [
+      "Euclid's constructions sometimes introduce line-circle or circle-circle intersection points when the diagram suggests that they exist, without stating a general continuity principle that guarantees them. Later foundations made such existence assumptions explicit.",
+      "The elementary continuity axioms used here state only the two crossing principles needed for standard straightedge-and-compass constructions. They are narrower than full Dedekind or Hilbert completeness and do not assert that arbitrary lines or circles meet."
+    ]
+  },
+  "whatItEnables": "You can justify construction steps that require a line or circle to cross a circle. These axioms do not claim that arbitrary lines or circles intersect."
+}

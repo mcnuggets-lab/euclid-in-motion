@@ -1,0 +1,268 @@
+@layer theorem {
+.triangle-side-angle-order {
+  container: lesson-interactive / inline-size;
+}
+
+.triangle-side-angle-order__svg {
+  touch-action: none;
+}
+
+.triangle-side-angle-order__side,
+.triangle-side-angle-order__constructed,
+.triangle-side-angle-order__angle,
+.triangle-side-angle-order__handle {
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    stroke-width 140ms ease,
+    transform 140ms ease;
+}
+
+.triangle-side-angle-order__side {
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.triangle-side-angle-order__side--ab {
+  stroke: #1f5fbf;
+}
+
+.triangle-side-angle-order__side--ac {
+  stroke: #c25b2a;
+}
+
+.triangle-side-angle-order__side--bc {
+  stroke: #7252a3;
+}
+
+.triangle-side-angle-order__constructed {
+  stroke: #23805a;
+  stroke-width: 2.4;
+}
+
+.triangle-side-angle-order__angle {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+
+.triangle-side-angle-order__angle--ab,
+.triangle-side-angle-order__angle--whole {
+  stroke: #1f5fbf;
+}
+
+.triangle-side-angle-order__angle--ac,
+.triangle-side-angle-order__angle--target {
+  stroke: #c25b2a;
+}
+
+.triangle-side-angle-order__angle--bc {
+  stroke: #7252a3;
+}
+
+.triangle-side-angle-order__angle--equal {
+  stroke: #23805a;
+}
+
+.triangle-side-angle-order__angle--exterior {
+  stroke: #1f5fbf;
+  stroke-width: 5;
+}
+
+.triangle-side-angle-order__angle--remainder {
+  stroke: #7252a3;
+  stroke-dasharray: 4 3;
+}
+
+.triangle-side-angle-order__point {
+  fill: #222;
+}
+
+.triangle-side-angle-order__point--constructed {
+  fill: #23805a;
+}
+
+.triangle-side-angle-order__point-label,
+.triangle-side-angle-order__angle-label,
+.triangle-side-angle-order__side-measure {
+  fill: #222;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  text-anchor: middle;
+}
+
+.triangle-side-angle-order__point-label--constructed {
+  fill: #1d684a;
+}
+
+.triangle-side-angle-order__angle-label {
+  font-size: 10px;
+}
+
+.triangle-side-angle-order__side-measure {
+  dominant-baseline: middle;
+  font-size: 9.5px;
+}
+
+.triangle-side-angle-order__side-measure--ab {
+  fill: #174b98;
+}
+
+.triangle-side-angle-order__side-measure--ac {
+  fill: #99451e;
+}
+
+.triangle-side-angle-order__side-measure--bc {
+  fill: #59407f;
+}
+
+.triangle-side-angle-order__angle-label--ab {
+  fill: #174b98;
+}
+
+.triangle-side-angle-order__angle-label--ac {
+  fill: #99451e;
+}
+
+.triangle-side-angle-order__angle-label--bc {
+  fill: #59407f;
+}
+
+.triangle-side-angle-order__handle-target {
+  fill: transparent;
+  cursor: grab;
+}
+
+.triangle-side-angle-order__handle {
+  fill: #fff;
+  stroke: #1f5fbf;
+  stroke-width: 3;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.triangle-side-angle-order__handle--active {
+  fill: #e8f1ff;
+  transform: scale(1.15);
+}
+
+.triangle-side-angle-order__ranking,
+.triangle-side-angle-order__controls,
+.triangle-side-angle-order__cases {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.triangle-side-angle-order__rank-card:first-child {
+  border-color: rgba(31, 95, 191, 0.42);
+}
+
+.triangle-side-angle-order__rank-card:last-child {
+  border-color: rgba(114, 82, 163, 0.42);
+}
+
+.triangle-side-angle-order__rank-card span,
+.triangle-side-angle-order__proof-summary span {
+  color: #222;
+  font-weight: 650;
+}
+
+.triangle-side-angle-order__proof-summary {
+  border-color: rgba(35, 128, 90, 0.42);
+}
+
+.triangle-side-angle-order__cases {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.triangle-side-angle-order__case {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.triangle-side-angle-order__case span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.triangle-side-angle-order__case--rejected {
+  border-color: rgba(160, 64, 54, 0.38);
+  background: #fff9f8;
+}
+
+.triangle-side-angle-order__case--rejected strong {
+  color: #8d332b;
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+
+.triangle-side-angle-order__case--accepted {
+  border-color: rgba(35, 128, 90, 0.42);
+  background: #f5fbf8;
+}
+
+.triangle-side-angle-order__controls {
+  align-items: stretch;
+}
+
+.triangle-side-angle-order__control {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.triangle-side-angle-order__control>span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.triangle-side-angle-order__control>span>span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.triangle-side-angle-order__control input {
+  width: 100%;
+}
+
+.triangle-side-angle-order__control input:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.triangle-side-angle-order__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.35);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  line-height: 1.45;
+}
+
+.triangle-side-angle-order__status--proof {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+}

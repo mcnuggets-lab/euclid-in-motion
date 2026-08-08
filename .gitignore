@@ -1,0 +1,34 @@
+# Environment and secrets
+.env
+.env.*
+
+# Build artifacts
+build/
+dist/
+node_modules/
+.vite/
+*.local
+*.tsbuildinfo
+
+# Local runtime artifacts
+logs/
+
+# Local editor files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local tooling and legacy untracked documentation
+.omx/
+docs/
+temp/
+
+# OS files
+Thumbs.db

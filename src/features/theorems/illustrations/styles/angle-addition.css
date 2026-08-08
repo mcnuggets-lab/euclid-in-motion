@@ -1,0 +1,377 @@
+@layer theorem {
+.angle-addition {
+  gap: 10px;
+}
+
+.angle-addition__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+}
+
+.angle-addition__panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+  transition:
+    opacity 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.angle-addition__panel--muted {
+  opacity: 0.64;
+}
+
+.angle-addition__badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  color: var(--muted);
+}
+
+.angle-addition__badge strong {
+  color: #222;
+}
+
+.angle-addition__protractor {
+  fill: none;
+  stroke: rgba(95, 95, 95, 0.28);
+  stroke-dasharray: 6 4;
+  stroke-width: 2;
+  transition:
+    stroke 120ms ease,
+    stroke-width 120ms ease,
+    opacity 120ms ease;
+}
+
+.angle-addition__protractor--active {
+  stroke: rgba(31, 95, 191, 0.65);
+  stroke-width: 2.4;
+}
+
+.angle-addition__whole-angle {
+  fill: none;
+  stroke: rgba(34, 34, 34, 0.76);
+  stroke-width: 2.5;
+}
+
+.angle-addition__difference-arc {
+  fill: none;
+  stroke: rgba(31, 95, 191, 0.28);
+  stroke-width: 2;
+  transition:
+    stroke 120ms ease,
+    opacity 120ms ease,
+    stroke-width 120ms ease;
+}
+
+.angle-addition__difference-arc--secondary {
+  stroke: rgba(194, 91, 42, 0.32);
+  stroke-dasharray: 5 3;
+}
+
+.angle-addition__difference-arc--whole {
+  stroke: rgba(34, 34, 34, 0.48);
+}
+
+.angle-addition__difference-arc--active {
+  opacity: 1;
+  stroke-width: 2.4;
+}
+
+.angle-addition__ray {
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.angle-addition__ray--base {
+  stroke: #555;
+}
+
+.angle-addition__ray--accent {
+  stroke: var(--accent);
+}
+
+.angle-addition__ray--secondary {
+  stroke: #c25b2a;
+}
+
+.angle-addition__coordinate-label,
+.angle-addition__measure-label,
+.angle-addition__point-label {
+  fill: #222;
+  font-family: inherit;
+  text-anchor: middle;
+}
+
+.angle-addition__coordinate-label {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.angle-addition__measure-label {
+  font-size: 11px;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+}
+
+.angle-addition__measure-label--secondary {
+  fill: #8b3d1c;
+}
+
+.angle-addition__measure-label--whole {
+  fill: #444;
+}
+
+.angle-addition__point-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.angle-addition__handle-target {
+  fill: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+.angle-addition__handle {
+  stroke-width: 2;
+  transition:
+    r 120ms ease,
+    stroke 120ms ease,
+    fill 120ms ease;
+}
+
+.angle-addition__handle--accent {
+  fill: #1f5fbf;
+  stroke: rgba(31, 95, 191, 0.22);
+}
+
+.angle-addition__handle--secondary {
+  fill: #c25b2a;
+  stroke: rgba(194, 91, 42, 0.22);
+}
+
+.angle-addition__handle--dragging,
+.angle-addition__handle-target:active+.angle-addition__handle {
+  r: 9;
+}
+
+.angle-addition__summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.angle-addition__card--muted {
+  opacity: 0.74;
+}
+
+.angle-addition__interval {
+  display: grid;
+  gap: 10px;
+}
+
+.angle-addition__interval-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.angle-addition__interval-heading span {
+  color: var(--muted);
+}
+
+.angle-addition__interval-axis {
+  position: relative;
+  height: 18px;
+  border-bottom: 1px dashed rgba(34, 34, 34, 0.2);
+}
+
+.angle-addition__axis-label {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.angle-addition__axis-label--start {
+  left: 0;
+  transform: none;
+}
+
+.angle-addition__interval-row,
+.angle-addition__subtraction-bar {
+  display: flex;
+  width: 100%;
+  min-height: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(34, 34, 34, 0.08);
+  border-radius: 999px;
+  background: #f4f4f4;
+}
+
+.angle-addition__segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 5px 8px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.angle-addition__segment--accent {
+  background: rgba(31, 95, 191, 0.14);
+  color: #173d76;
+}
+
+.angle-addition__segment--secondary {
+  background:
+    repeating-linear-gradient(-45deg,
+      rgba(194, 91, 42, 0.13),
+      rgba(194, 91, 42, 0.13) 8px,
+      rgba(255, 255, 255, 0.92) 8px,
+      rgba(255, 255, 255, 0.92) 16px);
+  color: #8b3d1c;
+}
+
+.angle-addition__segment--whole {
+  background: rgba(34, 34, 34, 0.1);
+  color: #333;
+}
+
+.angle-addition__segment--rest {
+  flex: 1 0 0;
+  background: rgba(95, 95, 95, 0.08);
+}
+
+.angle-addition__segment--removed {
+  opacity: 0.38;
+  text-decoration: line-through;
+}
+
+.angle-addition__equations {
+  display: grid;
+  gap: 10px;
+}
+
+.angle-addition__equation-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.angle-addition__equation-row strong {
+  color: #222;
+}
+
+.angle-addition__equation-row span {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.angle-addition__equation-row--expanded {
+  padding: 10px 12px;
+  border: 1px solid rgba(34, 34, 34, 0.08);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.angle-addition__equation-row--focus {
+  border-color: rgba(31, 95, 191, 0.28);
+  background: #f7faff;
+}
+
+.angle-addition__equation-expression {
+  font-variant-numeric: tabular-nums;
+}
+
+.angle-addition__cancel-term {
+  position: relative;
+  display: inline-block;
+}
+
+.angle-addition__cancel-term::after {
+  content: "";
+  position: absolute;
+  inset: 50% -1px auto -1px;
+  border-top: 2px solid rgba(194, 91, 42, 0.72);
+  transform: rotate(-17deg);
+  transform-origin: center;
+}
+
+.angle-addition__subtraction {
+  display: grid;
+  gap: 10px;
+}
+
+.angle-addition__subtraction--focus {
+  padding-top: 2px;
+}
+
+.angle-addition__subtraction-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.angle-addition__subtraction-row span {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.angle-addition__controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.angle-addition__control {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.angle-addition__control span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.angle-addition__control strong {
+  color: #222;
+}
+
+.angle-addition__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+
+.angle-addition__control input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.68);
+  outline-offset: 2px;
+}
+
+}

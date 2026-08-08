@@ -1,0 +1,21 @@
+{
+  "category": "measurement",
+  "id": "protractor",
+  "title": "Protractor Axiom",
+  "definitionIds": ["point", "line", "half-plane", "ray", "opposite-rays", "angle", "angle-interior", "straight-angle", "angle-measure", "congruent"],
+  "summary": "This Birkhoff-style degree-based supplement assigns each ray on a chosen side of a line a unique coordinate from 0° to 180°.",
+  "statements": [
+    "Given a point O, a line through O, a chosen half-plane bounded by that line, and a choice of one boundary ray as 0°, the rays from O in that half-plane together with its two boundary rays match up one-to-one with the real numbers from 0° through 180°. The chosen boundary ray has coordinate 0° and its opposite ray has coordinate 180°.",
+    "The correspondence preserves order: if two rays form a nonstraight angle and a third ray lies in its interior, the third ray's coordinate lies strictly between the coordinates of the angle's two sides.",
+    "If two rays in this coordinate system have coordinates a° and b°, then the angle between them has size (b - a)° when a < b, and size (a - b)° when b < a. This angle size depends only on the two rays, not on the coordinate system used to calculate it.",
+    "Two angles are congruent exactly when they have the same angle size."
+  ],
+  "historicalContext": {
+    "title": "A degree-based supplement",
+    "paragraphs": [
+      "Euclid and Hilbert compared angles through congruence rather than assigning every angle a real-number coordinate. In 1932, George David Birkhoff published a shorter metric foundation for plane geometry based on numerical scale and protractor readings.",
+      "This app retains a synthetic point-line and congruence foundation while borrowing a Birkhoff-style protractor axiom for numerical angle size. It is presented as a supplement because it adds degree coordinates rather than replacing the geometric core."
+    ]
+  },
+  "whatItEnables": "A chosen initial ray, half-plane, and angle size determine exactly one ray. Angle addition follows from coordinate differences, and a straight angle has size 180°."
+}

@@ -1,0 +1,83 @@
+{
+  "id": "hinge-theorem",
+  "title": "Hinge Theorem",
+  "family": "Triangle Properties",
+  "statement": "Suppose triangles \\(ABC\\) and \\(DEF\\) have two pairs of corresponding sides congruent: \\(AB \\cong DE\\) and \\(AC \\cong DF\\). If the included angle \\(\\angle BAC\\) is larger than \\(\\angle EDF\\), then the opposite side \\(BC\\) is longer than \\(EF\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }AB\\cong DE,\\ AC\\cong DF,\\text{ and }\\angle BAC>\\angle EDF,\\\\ \\text{then }BC>EF.\\end{gathered}",
+  "summary": "When two pairs of corresponding sides are congruent, the triangle with the larger included angle has the longer third side.",
+  "proofIdea": "Copy the smaller hinge into the larger angle. SAS makes the copied triangle congruent to the original smaller triangle, reducing the goal to comparing the two third sides in one diagram. If the copied point G lies on BC, the interior-ray condition puts G between B and C, so BG < BC immediately. Otherwise triangle BGH can be used safely: bisect the angle between AG and AC, use Crossbar to locate H on BC, apply SAS to prove HG congruent to HC, and finish with Triangle Inequality.",
+  "readingGuideIds": [
+    "triangle-correspondence"
+  ],
+  "dependsOn": [
+    "congruence",
+    "segment-angle-comparison",
+    "crossbar",
+    "angle-bisector-existence",
+    "triangle-inequality"
+  ],
+  "definitionIds": [
+    "angle",
+    "angle-bisector",
+    "angle-comparison",
+    "angle-interior",
+    "betweenness",
+    "congruent",
+    "included-angle",
+    "ray",
+    "segment",
+    "segment-comparison",
+    "triangle",
+    "triangle-correspondence"
+  ],
+  "explorationPrompt": "Change the two included angles while the two corresponding side pairs remain congruent. The displayed examples show the same order for the included angles and third sides; the guided construction proves that this must always happen.",
+  "proofSteps": [
+    {
+      "title": "Name the comparison",
+      "detail": "Let AB ≅ DE and AC ≅ DF, and suppose ∠BAC is larger than ∠EDF. The goal is to prove BC > EF. The two side pairs and the included-angle comparison are given; the appearance of the drawing does not prove the third-side comparison."
+    },
+    {
+      "title": "Put both hinges at A",
+      "detail": "Inside ∠BAC, copy ∠EDF to construct ray AG with ∠BAG ≅ ∠EDF. Copy DF onto ray AG so AG ≅ DF. Since AB ≅ DE, SAS gives △BAG ≅ △EDF. Therefore BG ≅ EF, and it remains to prove BC > BG. The common-hinge drawing sets up that new goal; its appearance does not settle it."
+    },
+    {
+      "title": "Split off the collinear case",
+      "detail": "If G lies on BC, Crossbar puts the unique intersection of the interior ray AG with line BC between B and C; that intersection is G. Therefore BG is a proper part of BC, so BG < BC, and BG ≅ EF finishes the proof. Now suppose G does not lie on BC. Then triangle BGH will be nondegenerate for the point H constructed strictly between B and C below. Work backward from Triangle Inequality: it is enough to construct H on BC with HG ≅ HC, because then BG < BH + HG = BH + HC = BC."
+    },
+    {
+      "title": "Construct H",
+      "detail": "Continue under the assumption that G does not lie on BC. The construction gives AG ≅ DF, and the hypothesis gives DF ≅ AC, so AG ≅ AC. Use the Angle Bisector Existence Theorem to bisect ∠GAC with ray AH. This ray lies inside ∠BAC, so the Crossbar Theorem says it meets segment BC at a point H between B and C."
+    },
+    {
+      "title": "Prove the needed match",
+      "detail": "Triangles AGH and ACH have AG ≅ AC, the common side AH, and ∠GAH ≅ ∠HAC because AH bisects ∠GAC. SAS gives △AGH ≅ △ACH, so GH ≅ HC, exactly as the route plan requires. This does not say H is a midpoint: GH and HC are not parts of the same segment."
+    },
+    {
+      "title": "Use the broken route",
+      "detail": "In the noncollinear case, triangle BGH is nondegenerate, so Triangle Inequality gives BG < BH + HG. Since HG = HC and H lies between B and C, BH + HG = BH + HC = BC. Hence BG < BC. The collinear case already gave BG < BC directly. In either case BG ≅ EF, so comparison preservation gives EF < BC, or BC > EF."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: Converse Hinge Theorem",
+      "illustrationId": "hinge-converse",
+      "statement": "Suppose AB ≅ DE and AC ≅ DF. If BC > EF, then ∠BAC is larger than ∠EDF.",
+      "theoremLatex": "\\begin{gathered}\\text{If }AB\\cong DE,\\ AC\\cong DF,\\text{ and }BC>EF,\\\\ \\text{then }\\angle BAC>\\angle EDF.\\end{gathered}",
+      "proof": "Compare the two included angles. If ∠BAC ≅ ∠EDF, SAS would make the triangles congruent and give BC ≅ EF. If ∠BAC were smaller than ∠EDF, the Hinge Theorem with the triangles exchanged would give BC < EF. Both cases contradict BC > EF. Angle trichotomy therefore leaves only ∠BAC > ∠EDF."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.24 and I.25",
+    "paragraphs": [
+      "Euclid's Proposition I.24 is the direct SAS inequality: when two adjacent side pairs match, the larger included angle produces the longer base. Proposition I.25 proves the converse comparison from the longer base back to the larger included angle.",
+      "Euclid's classical proof copies a triangle and finishes with an angle-order argument. This lesson uses the same common-hinge reduction, then applies the already established Triangle Inequality. The draggable measurements illustrate the relationship, while the construction proves it."
+    ]
+  },
+  "relatedResults": [
+    "triangle inequality theorem",
+    "triangle side–angle order theorem",
+    "isosceles base-angles theorem",
+    "SAS congruence axiom",
+    "distance comparison in triangles"
+  ]
+}

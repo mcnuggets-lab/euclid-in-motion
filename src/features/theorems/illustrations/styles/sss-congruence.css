@@ -1,0 +1,350 @@
+@layer theorem {
+.sss-congruence {
+  container: sss-congruence / inline-size;
+}
+
+.sss-congruence__svg {
+  touch-action: none;
+}
+
+.sss-congruence__side,
+.sss-congruence__shared-base,
+.sss-congruence__connector,
+.sss-congruence__copied-angle,
+.sss-congruence__base-angle,
+.sss-congruence__included-angle,
+.sss-congruence__handle,
+.sss-congruence__triangle-fill {
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    stroke-width 140ms ease,
+    fill-opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.sss-congruence__side,
+.sss-congruence__shared-base,
+.sss-congruence__connector,
+.sss-congruence__copied-angle,
+.sss-congruence__base-angle,
+.sss-congruence__included-angle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sss-congruence__side {
+  stroke-width: 3;
+}
+
+.sss-congruence__side--first {
+  stroke: #1f5fbf;
+}
+
+.sss-congruence__side--second {
+  stroke: #c25b2a;
+}
+
+.sss-congruence__side--muted {
+  opacity: 0.36;
+}
+
+.sss-congruence__shared-base {
+  stroke: #23805a;
+  stroke-width: 3;
+}
+
+.sss-congruence__shared-base--emphasis {
+  stroke-width: 4.5;
+}
+
+.sss-congruence__connector {
+  stroke: #6a5a80;
+  stroke-dasharray: 6 4;
+  stroke-width: 2.3;
+}
+
+.sss-congruence__copied-angle {
+  stroke: #7252a3;
+  stroke-width: 3.5;
+}
+
+.sss-congruence__base-angle {
+  stroke-width: 3.5;
+}
+
+.sss-congruence__base-angle--first {
+  stroke: #1f5fbf;
+}
+
+.sss-congruence__base-angle--second {
+  stroke: #c25b2a;
+  stroke-dasharray: 4 3;
+}
+
+.sss-congruence__included-angle {
+  stroke: #7252a3;
+  stroke-width: 4.5;
+}
+
+.sss-congruence__triangle-fill {
+  stroke: none;
+}
+
+.sss-congruence__triangle-fill--upper {
+  fill: rgba(31, 95, 191, 0.08);
+}
+
+.sss-congruence__triangle-fill--lower {
+  fill: rgba(35, 128, 90, 0.08);
+}
+
+.sss-congruence__point {
+  fill: #222;
+}
+
+.sss-congruence__point--constructed {
+  fill: #23805a;
+}
+
+.sss-congruence__point-label,
+.sss-congruence__triangle-name,
+.sss-congruence__panel-name,
+.sss-congruence__measurement {
+  fill: #222;
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  text-anchor: middle;
+}
+
+.sss-congruence__point-label {
+  font-size: 10.5px;
+}
+
+.sss-congruence__point-label--constructed {
+  fill: #1d684a;
+}
+
+.sss-congruence__triangle-name,
+.sss-congruence__panel-name {
+  fill: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.sss-congruence__triangle-name {
+  font-size: 9.5px;
+}
+
+.sss-congruence__panel-name {
+  font-size: 9px;
+}
+
+.sss-congruence__measurement {
+  dominant-baseline: middle;
+  font-size: 9.5px;
+}
+
+.sss-congruence__measurement--first {
+  fill: #174b98;
+}
+
+.sss-congruence__measurement--second {
+  fill: #99451e;
+}
+
+.sss-congruence__measurement--shared {
+  fill: #1d684a;
+}
+
+.sss-congruence__handle-target {
+  fill: transparent;
+  cursor: grab;
+}
+
+.sss-congruence__handle {
+  fill: #fff;
+  stroke: #1f5fbf;
+  stroke-width: 3;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.sss-congruence__handle--active {
+  fill: #e8f1ff;
+  transform: scale(1.15);
+}
+
+.sss-congruence__summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sss-congruence__proof-summary {
+  border-color: rgba(35, 128, 90, 0.42);
+}
+
+.sss-congruence__proof-summary span {
+  color: #222;
+  font-weight: 650;
+}
+
+.sss-congruence__controls {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sss-congruence__control {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.sss-congruence__control > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sss-congruence__control > span > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.sss-congruence__control input {
+  width: 100%;
+}
+
+.sss-congruence__control input:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.sss-congruence__cases {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sss-congruence__case-card,
+.sss-congruence__copy-result,
+.sss-congruence__chain {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.sss-congruence__case-card {
+  align-content: start;
+  width: 100%;
+  appearance: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms ease;
+}
+
+.sss-congruence__case-card:hover {
+  border-color: rgba(114, 82, 163, 0.34);
+  background: #fcfbfe;
+  transform: translateY(-1px);
+}
+
+.sss-congruence__case-card:focus-visible {
+  outline: 2px solid rgba(114, 82, 163, 0.72);
+  outline-offset: 2px;
+}
+
+.sss-congruence__copy-result {
+  border-color: rgba(114, 82, 163, 0.42);
+  background: #faf8fd;
+  color: #4f3974;
+  text-align: center;
+}
+
+.sss-congruence__case-card--shown {
+  border-color: rgba(114, 82, 163, 0.42);
+  background: #faf8fd;
+  box-shadow: inset 0 0 0 1px rgba(114, 82, 163, 0.08);
+}
+
+.sss-congruence__case-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sss-congruence__case-card .sss-congruence__case-card-header {
+  color: #222;
+}
+
+.sss-congruence__case-card span,
+.sss-congruence__copy-result span,
+.sss-congruence__chain span {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.sss-congruence__case-card code {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #222;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 650;
+  white-space: normal;
+}
+
+.sss-congruence__case-card .sss-congruence__case-badge {
+  color: #5b4382;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sss-congruence__chain {
+  border-color: rgba(35, 128, 90, 0.42);
+  background: #f5fbf8;
+  color: #245a45;
+  text-align: center;
+}
+
+.sss-congruence__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.35);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  line-height: 1.45;
+}
+
+.sss-congruence__status--proof {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+}

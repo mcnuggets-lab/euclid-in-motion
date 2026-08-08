@@ -1,0 +1,94 @@
+{
+  "id": "triangle-angle-sum",
+  "title": "Triangle Angle Sum Theorem",
+  "family": "Angle Sums",
+  "statement": "In triangle \\(ABC\\), the three interior angles have a total of \\(180^\\circ\\).",
+  "theoremLatex": "\\angle BAC+\\angle ABC+\\angle BCA=180^\\circ",
+  "summary": "The three interior angles of every Euclidean triangle add to 180°.",
+  "proofIdea": "Through vertex A, use the Parallel Axiom to draw line DE parallel to side BC. The Alternate Interior Angles Theorem copies the angles at B and C to angles DAB and CAE at A. Those two copied angles and angle BAC partition straight angle DAE, so Angle Addition and the Linear Pair Theorem give a total of 180°. Replacing the copies by the congruent triangle angles gives the result.",
+  "readingGuideIds": [
+    "transversal-angle-pairs",
+    "triangle-correspondence"
+  ],
+  "dependsOn": [
+    "parallels",
+    "linear-pair",
+    "angle-addition",
+    "alternate-interior-angles"
+  ],
+  "definitionIds": [
+    "adjacent-angles",
+    "angle",
+    "angle-measure",
+    "congruent",
+    "exterior-angle",
+    "line",
+    "opposite-rays",
+    "parallel-lines",
+    "remote-interior-angle",
+    "right-angle",
+    "straight-angle",
+    "transversal",
+    "alternate-interior-angles",
+    "triangle",
+    "triangle-interior-angle",
+    "triangle-correspondence"
+  ],
+  "explorationPrompt": "Move vertex A to make different triangles and track the three interior angle sizes. The measurements illustrate that their total remains 180°; the guided construction explains why every Euclidean triangle has that total.",
+  "proofSteps": [
+    {
+      "title": "Name the triangle and the target",
+      "detail": "Let ABC be a triangle. Its three interior angles are ∠BAC, ∠ABC, and ∠BCA. The goal is to prove that their angle sizes add to 180°; the appearance of the drawing alone does not establish that total."
+    },
+    {
+      "title": "Draw a parallel through A",
+      "detail": "Use the Parallel Axiom to draw the unique line through A parallel to line BC. Choose D and E on that line so D, A, and E occur in that order. Thus rays AD and AE are opposite, and ∠DAE is a straight angle."
+    },
+    {
+      "title": "Copy the angle at B",
+      "detail": "Line AB cuts the parallel lines DE and BC. Angles ∠DAB and ∠ABC are alternate interior angles, so the Alternate Interior Angles Theorem gives ∠DAB ≅ ∠ABC."
+    },
+    {
+      "title": "Copy the angle at C",
+      "detail": "Line AC also cuts the parallel lines DE and BC. Angles ∠CAE and ∠BCA are alternate interior angles, so the Alternate Interior Angles Theorem gives ∠CAE ≅ ∠BCA."
+    },
+    {
+      "title": "Partition the straight angle",
+      "detail": "The adjacent angles ∠DAB, ∠BAC, and ∠CAE partition straight angle ∠DAE. Angle Addition and the Linear Pair Theorem therefore give ∠DAB + ∠BAC + ∠CAE = 180°."
+    },
+    {
+      "title": "Substitute the triangle angles",
+      "detail": "Congruent angles have the same angle size. Replace ∠DAB by ∠ABC and ∠CAE by ∠BCA in the straight-angle sum. This gives ∠BAC + ∠ABC + ∠BCA = 180°."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: Exterior Angle Theorem",
+      "illustrationId": "triangle-exterior-angle-sum",
+      "statement": "In triangle ABC, extend side BC through C to D. Exterior angle ∠ACD has the same angle size as the two remote interior angles ∠BAC and ∠ABC added together.",
+      "theoremLatex": "\\angle ACD=\\angle BAC+\\angle ABC",
+      "proof": "The Triangle Angle Sum Theorem gives ∠BAC + ∠ABC + ∠BCA = 180°. Angles ∠BCA and ∠ACD form a linear pair, so ∠BCA + ∠ACD = 180°. Subtracting the common angle size ∠BCA from these equal totals gives ∠ACD = ∠BAC + ∠ABC."
+    },
+    {
+      "title": "Corollary: Third Angle Theorem",
+      "illustrationId": "triangle-third-angle",
+      "statement": "If two pairs of corresponding angles in two triangles are congruent, then the remaining pair of corresponding angles is congruent.",
+      "theoremLatex": "\\begin{gathered}\\text{If }\\angle BAC\\cong\\angle EDF\\text{ and }\\angle ABC\\cong\\angle DEF, \\\\ \\text{then }\\angle BCA\\cong\\angle EFD.\\end{gathered}",
+      "proof": "The angle sizes in each triangle add to 180°. The two given congruent pairs have matching angle sizes, so subtracting those two matching sizes from each 180° total leaves equal sizes for ∠BCA and ∠EFD. Therefore ∠BCA ≅ ∠EFD. In particular, if each triangle has a right angle, those two right angles already supply one congruent pair. One more congruent angle pair forces the remaining pair to be congruent."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.32 and the parallel postulate",
+    "paragraphs": [
+      "Euclid's Proposition I.32 uses the same construction: draw a parallel through one triangle vertex, copy the other two angles to that vertex, and compare the three adjacent angles with a straight angle. The proposition establishes both the exterior-angle equality and the triangle's two-right-angle total.",
+      "This proof uses Euclid I.29, the direct parallel-line angle theorem, and therefore ultimately depends on the parallel postulate. Without the parallel postulate, the remaining axioms do not prove that every triangle has angle sum exactly 180°.",
+      "Other geometries behave differently: e.g. on a sphere, a triangle whose sides follow great circles has an angle sum greater than 180°, and the excess above 180° is proportional to the triangle's area. An angle sum of exactly 180° is a specifically Euclidean result."
+    ]
+  },
+  "relatedResults": [
+    "exterior angle inequality theorem",
+    "alternate interior angles theorem",
+    "linear pair theorem",
+    "third angle theorem"
+  ]
+}

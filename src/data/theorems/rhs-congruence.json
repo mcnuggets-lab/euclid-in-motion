@@ -1,0 +1,75 @@
+{
+  "id": "rhs-congruence",
+  "title": "RHS Congruence Theorem",
+  "family": "Triangle Congruence",
+  "statement": "If \\(\\triangle ABC\\) and \\(\\triangle DEF\\) are right triangles with right angles at \\(B\\) and \\(E\\), \\(AC \\cong DF\\), and \\(AB \\cong DE\\), then \\(\\triangle ABC \\cong \\triangle DEF\\) with correspondence \\(A \\leftrightarrow D\\), \\(B \\leftrightarrow E\\), and \\(C \\leftrightarrow F\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\triangle ABC\\text{ and }\\triangle DEF\\text{ are right triangles with }\\angle ABC\\text{ and }\\angle DEF\\text{ right,}\\\\ AC\\cong DF\\text{ and }AB\\cong DE,\\text{ then }\\triangle ABC\\cong\\triangle DEF.\\end{gathered}",
+  "summary": "In right triangles, a congruent hypotenuse and one corresponding leg force the triangles to be congruent.",
+  "proofIdea": "Start with the two right triangles and extend \\(BC\\) through \\(B\\) to a new point \\(G\\) so that \\(BG \\cong EF\\). Linear Pair makes \\(\\angle ABG\\) a right angle, so \\(AB \\cong DE\\), \\(BG \\cong EF\\), and \\(\\angle ABG \\cong \\angle DEF\\) give \\(\\triangle ABG \\cong \\triangle DEF\\) by SAS. That congruence yields \\(AG \\cong DF\\), and the given \\(AC \\cong DF\\) turns \\(\\triangle ACG\\) into an isosceles triangle. Its base angles then match, the acute angle at \\(G\\) transfers to \\(\\angle DFE\\), and AAS finishes the original triangle congruence.",
+  "readingGuideIds": [
+    "triangle-correspondence"
+  ],
+  "dependsOn": [
+    "congruence",
+    "linear-pair",
+    "isosceles-base-angles",
+    "aas-congruence"
+  ],
+  "definitionIds": [
+    "angle",
+    "base-angles",
+    "congruent",
+    "hypotenuse",
+    "isosceles-triangle",
+    "leg",
+    "linear-pair",
+    "right-angle",
+    "right-triangle",
+    "segment",
+    "triangle",
+    "triangle-correspondence",
+    "triangle-interior-angle"
+  ],
+  "explorationPrompt": "Adjust the shared leg and hypotenuse of two right triangles. Each top vertex sits on a perpendicular ray, and the far vertex is reconstructed where the horizontal ray meets the matching hypotenuse arc. That reconstruction shows RHS rigidity, but the guided extension, Linear Pair, SAS, isosceles, and AAS chain is the proof.",
+  "proofSteps": [
+    {
+      "title": "Name the RHS data",
+      "detail": "Suppose \\(\\triangle ABC\\) and \\(\\triangle DEF\\) are right triangles with right angles at \\(B\\) and \\(E\\), \\(AC \\cong DF\\), and \\(AB \\cong DE\\). The given side pair consists of one leg and the hypotenuse, and the goal is to prove \\(\\triangle ABC \\cong \\triangle DEF\\)."
+    },
+    {
+      "title": "Extend side BC and copy EF",
+      "detail": "Extend \\(BC\\) through \\(B\\) to a point \\(G\\). On that extension, choose \\(G\\) so that \\(BG \\cong EF\\). The new triangle \\(\\triangle ABG\\) is now ready to compare with \\(\\triangle DEF\\)."
+    },
+    {
+      "title": "Use Linear Pair and SAS",
+      "detail": "Because \\(\\angle ABC\\) is a right angle and \\(\\angle ABC\\) and \\(\\angle ABG\\) form a linear pair, \\(\\angle ABG\\) is also a right angle, so \\(\\angle ABG \\cong \\angle DEF\\). With \\(AB \\cong DE\\), \\(BG \\cong EF\\), and that included right-angle pair, SAS gives \\(\\triangle ABG \\cong \\triangle DEF\\). In particular, \\(AG \\cong DF\\)."
+    },
+    {
+      "title": "Make triangle ACG isosceles",
+      "detail": "The theorem data give \\(AC \\cong DF\\), and the auxiliary SAS copy gives \\(AG \\cong DF\\). Since both \\(AC\\) and \\(AG\\) are congruent to \\(DF\\), they are congruent to each other, so \\(\\triangle ACG\\) is isosceles."
+    },
+    {
+      "title": "Transfer the acute angle",
+      "detail": "In the isosceles triangle \\(\\triangle ACG\\), the base angles are congruent, so \\(\\angle ACG \\cong \\angle AGC\\). From \\(\\triangle ABG \\cong \\triangle DEF\\), the angle at \\(G\\) matches the acute angle at \\(F\\): \\(\\angle AGB \\cong \\angle DFE\\). Because \\(C\\), \\(B\\), and \\(G\\) are collinear with \\(B\\) between \\(C\\) and \\(G\\), rays \\(CG\\) and \\(CB\\) agree at \\(C\\), and rays \\(GB\\) and \\(GC\\) agree at \\(G\\). Therefore \\(\\angle ACB \\cong \\angle DFE\\)."
+    },
+    {
+      "title": "Apply AAS and finish",
+      "detail": "Now the original triangles have a right-angle pair \\(\\angle ABC \\cong \\angle DEF\\), a derived acute-angle pair \\(\\angle ACB \\cong \\angle DFE\\), and the given hypotenuse pair \\(AC \\cong DF\\). That is AAS data, so the AAS Congruence Theorem gives \\(\\triangle ABC \\cong \\triangle DEF\\)."
+    }
+  ],
+  "historicalContext": {
+    "illustrationId": "rhs-ssa-ambiguity",
+    "title": "Why RHS is a valid SSA case",
+    "paragraphs": [
+      "The RHS information is an SSA pattern: one given angle and two given sides, with the right angle opposite the hypotenuse rather than included between the two sides.",
+      "In general, SSA is not a congruence criterion. Fixing two sides and a non-included angle can leave no triangle, one triangle, or two different triangles.",
+      "The diagram shows the ambiguous case: the same angle ray meets the circle twice, producing two different triangles with the same SSA data. For RHS, the angle is right and lies opposite the hypotenuse, so the chosen perpendicular ray meets the hypotenuse circle only once.",
+      "Terminology note: many US textbooks call the RHS criterion the Hypotenuse–Leg (HL) Theorem."
+    ]
+  },
+  "relatedResults": [
+    "Linear Pair Theorem",
+    "Isosceles Base Angles Theorem",
+    "AAS Congruence Theorem"
+  ]
+}

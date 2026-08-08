@@ -1,0 +1,50 @@
+{
+  "id": "same-side-interior-supplementary",
+  "title": "Same-Side Interior Angles Theorem",
+  "family": "Parallel Lines",
+  "statement": "Let transversal \\(t\\) meet distinct coplanar parallel lines \\(\\ell\\) and \\(m\\) at distinct points \\(P\\) and \\(Q\\). Choose \\(A\\) on \\(\\ell\\) and \\(C\\) on \\(m\\) so that \\(\\angle APQ\\) and \\(\\angle CQP\\) are same-side interior angles. Then \\(\\angle APQ + \\angle CQP = 180^\\circ\\), so the angles are supplementary.",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\ell \\parallel m, \\\\ \\text{then }\\angle APQ+\\angle CQP=180^\\circ.\\end{gathered}",
+  "summary": "Parallel lines cut by a transversal create supplementary same-side interior angles.",
+  "proofIdea": "Choose D on transversal t beyond Q. The Corresponding Angles Theorem gives ∠APQ ≅ ∠DQC. Since rays QP and QD are opposite, ∠DQC and ∠CQP form a linear pair and add to 180°. Replacing ∠DQC by the congruent angle ∠APQ gives ∠APQ + ∠CQP = 180°.",
+  "readingGuideIds": ["transversal-angle-pairs"],
+  "dependsOn": ["linear-pair", "corresponding-angles"],
+  "definitionIds": [
+    "angle",
+    "congruent",
+    "line",
+    "linear-pair",
+    "opposite-rays",
+    "parallel-lines",
+    "point",
+    "ray",
+    "supplementary-angles",
+    "transversal",
+    "transversal-interior-angle",
+    "corresponding-angles-transversal",
+    "same-side-interior-angles"
+  ],
+  "explorationPrompt": "Move Q to change the transversal and switch between the two same-side interior pairs. As one angle grows, the other shrinks while their total remains 180°. The measurements illustrate the result; the guided proof explains why it always holds.",
+  "proofSteps": [
+    {
+      "title": "Name the same-side pair",
+      "detail": "Lines ℓ and m are parallel, transversal t meets them at P and Q, and ∠APQ and ∠CQP are the selected same-side interior pair. The goal is to prove ∠APQ + ∠CQP = 180°."
+    },
+    {
+      "title": "Apply the corresponding angles theorem",
+      "detail": "Choose D on t so Q lies between P and D. Angles ∠APQ and ∠DQC are corresponding angles, so the Corresponding Angles Theorem gives ∠APQ ≅ ∠DQC."
+    },
+    {
+      "title": "Form a linear pair",
+      "detail": "Rays QP and QD are opposite and ray QC is shared, so ∠DQC and ∠CQP form a linear pair. The Linear Pair Theorem gives ∠DQC + ∠CQP = 180°."
+    },
+    {
+      "title": "Substitute the target angle",
+      "detail": "Because ∠APQ ≅ ∠DQC, those angles have the same angle size. Replace ∠DQC in the linear-pair equation by ∠APQ to obtain ∠APQ + ∠CQP = 180°. Therefore the original same-side interior pair is supplementary."
+    }
+  ],
+  "relatedResults": [
+    "corresponding angles theorem",
+    "linear pair theorem",
+    "triangle angle-sum theorem"
+  ]
+}

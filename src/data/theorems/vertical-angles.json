@@ -1,0 +1,34 @@
+{
+  "id": "vertical-angles",
+  "title": "Vertical Angles Theorem",
+  "family": "Intersecting Lines",
+  "theoremLatex": "\\angle 1 \\cong \\angle 3 \\quad \\text{and} \\quad \\angle 2 \\cong \\angle 4",
+  "summary": "When two lines intersect, each pair of vertical angles is congruent.",
+  "proofIdea": "When two lines cross, each vertical angle and its adjacent angle form a straight angle. Angles that complete the same straight angle are equal, so the opposite angles match.",
+  "dependsOn": ["linear-pair", "protractor"],
+  "definitionIds": ["vertical-angles", "congruent", "adjacent-angles", "straight-angle"],
+  "explorationPrompt": "In this diagram, move O, L, or M and compare the two opposite angle pairs as the lines rotate and shift.",
+  "proofSteps": [
+    {
+      "title": "Adjacent angles form a straight angle",
+      "detail": "Each vertical angle sits next to a neighboring angle on a straight line, so each adjacent pair makes a straight angle."
+    },
+    {
+      "title": "Both pairs complete the same straight angle",
+      "detail": "If one opposite angle and the shared adjacent angle make a straight angle, and the other opposite angle with that same adjacent angle also makes a straight angle, then both sums are equal."
+    },
+    {
+      "title": "Subtract the shared adjacent angle",
+      "detail": "Since the shared adjacent angle appears in both equal sums, removing it leaves the two vertical angles congruent."
+    },
+    {
+      "title": "Repeat for the other pair",
+      "detail": "The same argument works for the remaining opposite pair, so both vertical-angle pairs are congruent."
+    }
+  ],
+  "relatedResults": [
+    "parallel-line angle theorems",
+    "isosceles-triangle angle arguments",
+    "triangle congruence proofs"
+  ]
+}

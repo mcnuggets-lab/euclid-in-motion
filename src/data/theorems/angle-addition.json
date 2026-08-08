@@ -1,0 +1,51 @@
+{
+  "id": "angle-addition",
+  "title": "Angle Addition Theorem",
+  "family": "Angle Sums",
+  "theoremLatex": "\\begin{gathered}\\angle AOB+\\angle BOC=\\angle AOC \\\\ \\angle AOB=\\angle AOC-\\angle BOC \\\\ \\angle BOC=\\angle AOC-\\angle AOB\\end{gathered}",
+  "summary": "If ray OB lies inside nonstraight angle AOC, then the two smaller adjacent angles fill the whole angle. The two smaller angles add to the whole, and either one can be found by subtraction.",
+  "proofIdea": "Choose OA as coordinate 0° in a Protractor Axiom coordinate system, let OB have coordinate b°, and let OC have coordinate c°. Because OB lies inside ∠AOC, order gives 0 < b < c < 180. Then ∠AOB = b°, ∠BOC = (c - b)°, and ∠AOC = c°, so adding the two adjacent parts gives the whole angle and subtraction recovers either part.",
+  "dependsOn": ["order", "protractor", "linear-pair"],
+  "definitionIds": ["ray", "angle", "angle-interior", "straight-angle", "adjacent-angles", "angle-measure", "congruent", "linear-pair", "supplementary-angles"],
+  "explorationPrompt": "Move the inside ray or the outer ray and compare the two adjacent parts with the whole angle they make together.",
+  "proofSteps": [
+    {
+      "title": "Choose one degree scale",
+      "detail": "Take OA as the 0° boundary ray on the side containing OC. Because ray OB lies inside ∠AOC, the Order Axioms and the Protractor Axiom put the degree marks in the order 0 < b < c < 180."
+    },
+    {
+      "title": "Read the three angle sizes",
+      "detail": "The Protractor Axiom gives ∠AOB = b°, ∠BOC = (c - b)°, and ∠AOC = c°. Because 0 < b < c, each subtraction already comes out positive."
+    },
+    {
+      "title": "Add and cancel the repeated value",
+      "detail": "Add the adjacent degree values: b + (c - b) = b + c - b = c. The repeated value b is counted once positively and once negatively, so it cancels and leaves the whole angle size."
+    },
+    {
+      "title": "Recover either part by subtraction",
+      "detail": "Starting from ∠AOB + ∠BOC = ∠AOC, subtract either smaller angle from the whole to get the other one. These are rearrangements of the same addition statement, not new rules."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: supplements of congruent angles are congruent",
+      "statement": "If two congruent angles each form a linear pair with another angle, then the other two angles are congruent; equivalently, supplements of congruent angles are congruent.",
+      "theoremLatex": "\\begin{gathered}\\text{If }\\angle AOB \\cong \\angle COD, \\\\ \\angle AOB\\text{ and }\\angle BOC\\text{ are supplementary,} \\\\ \\text{and }\\angle COD\\text{ and }\\angle DOE\\text{ are supplementary,} \\\\ \\text{then }\\angle BOC \\cong \\angle DOE.\\end{gathered}",
+      "proof": "Let ∠AOB = x° and ∠COD = x° because the two angles are congruent. The Linear Pair Theorem gives ∠BOC = (180 - x)° and ∠DOE = (180 - x)°. Therefore the two supplements have the same angle size, so ∠BOC ≅ ∠DOE.",
+      "proofLatex": "\\angle AOB = x^\\circ,\\ \\angle COD = x^\\circ,\\ \\text{ so }\\angle BOC = (180-x)^\\circ,\\ \\angle DOE = (180-x)^\\circ"
+    }
+  ],
+  "historicalContext": {
+    "title": "Why this proof uses the Protractor Axiom",
+    "paragraphs": [
+      "Geometry does not need a physical protractor, or even a number of degrees for every angle, to describe a whole angle as two adjacent parts. Classical geometry compared angles by congruence instead.",
+      "This lesson uses the Protractor Axiom because its conclusion is an equation about degrees. The axiom supplies the degree values used in the proof; it is one route to angle addition, not a claim that protractors are required for every proof."
+    ]
+  },
+  "relatedResults": [
+    "angle comparison",
+    "angle bisectors",
+    "exterior angles",
+    "angles around a point"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "id": "triangle-side-angle-order",
+  "title": "Triangle Side–Angle Order Theorem",
+  "family": "Triangle Properties",
+  "statement": "In a triangle, a longer side lies opposite a larger angle, and a larger angle lies opposite a longer side.\n\nFor triangle \\(ABC\\), side \\(AB\\) is longer than side \\(AC\\) exactly when \\(\\angle ACB\\) has a larger angle size than \\(\\angle ABC\\).",
+  "theoremLatex": "\\begin{gathered}AB>AC\\quad\\text{exactly when}\\quad\\angle ACB>\\angle ABC\\end{gathered}",
+  "summary": "Within any triangle, the sides from shortest to longest lie opposite the angles from smallest to largest—and conversely.",
+  "proofIdea": "Suppose AB is longer than AC. Lay off a copy AD of AC on AB. The resulting isosceles triangle ACD makes angles ACD and CDA congruent, while CDA is an exterior angle of triangle BCD and is therefore larger than angle ABC. Angle Addition makes the full angle ACB larger still. For the converse, segment trichotomy rules out equal sides and the reverse side order because each would contradict the given angle order.",
+  "dependsOn": [
+    "congruence",
+    "angle-addition",
+    "segment-angle-comparison",
+    "isosceles-base-angles",
+    "exterior-angle-inequality"
+  ],
+  "definitionIds": [
+    "angle",
+    "angle-comparison",
+    "angle-measure",
+    "base-angles",
+    "betweenness",
+    "congruent",
+    "exterior-angle",
+    "isosceles-triangle",
+    "segment",
+    "segment-comparison",
+    "triangle",
+    "triangle-interior-angle"
+  ],
+  "explorationPrompt": "Move vertex A and compare each side with its opposite angle. Their shortest-to-longest and smallest-to-largest rankings always match; the guided construction proves why.",
+  "proofSteps": [
+    {
+      "title": "Lay off the shorter side",
+      "detail": "Suppose AB is longer than AC. By the Segment and Angle Comparison Theorem and the segment-copy part of the Congruence Axioms, there is a point D between A and B such that AD ≅ AC. Join C to D."
+    },
+    {
+      "title": "Use the isosceles triangle",
+      "detail": "Since AD ≅ AC, triangle ACD is isosceles with base CD. The Isosceles Base-Angles Theorem gives ∠ACD ≅ ∠CDA."
+    },
+    {
+      "title": "Use the exterior angle",
+      "detail": "Because D lies between A and B, ray DA extends side DB of triangle BCD. Thus ∠CDA is an exterior angle of triangle BCD. The Exterior-Angle Inequality Theorem gives ∠CDA > ∠DBC, and ∠DBC is the same angle as ∠ABC."
+    },
+    {
+      "title": "Assemble the forward comparison",
+      "detail": "Ray CD lies inside ∠ACB, so Angle Addition gives ∠ACB = ∠ACD + ∠DCB. Therefore ∠ACB > ∠ACD. Together with ∠ACD ≅ ∠CDA and ∠CDA > ∠ABC, this proves ∠ACB > ∠ABC: the longer side AB lies opposite the larger angle."
+    },
+    {
+      "title": "Prove the converse by trichotomy",
+      "detail": "Now suppose ∠ACB > ∠ABC. Segment trichotomy says exactly one of AB ≅ AC, AB < AC, or AB > AC holds. If AB ≅ AC, the Isosceles Base-Angles Theorem would give ∠ACB ≅ ∠ABC. If AB < AC, the direction just proved would give ∠ACB < ∠ABC. Both contradict the hypothesis, so AB > AC."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.18 and I.19",
+    "paragraphs": [
+      "Euclid's Proposition I.18 proves that the greater side of a triangle lies opposite the greater angle. Proposition I.19 proves the converse. Together they turn the visual pairing of sides and opposite angles into a two-way comparison theorem.",
+      "The next lesson treats Euclid I.20, the Triangle Inequality, which is a fundamental pattern far beyond elementary geometry."
+    ]
+  },
+  "relatedResults": [
+    "isosceles base-angles theorem",
+    "exterior-angle inequality theorem",
+    "triangle inequality",
+    "hinge theorem"
+  ]
+}

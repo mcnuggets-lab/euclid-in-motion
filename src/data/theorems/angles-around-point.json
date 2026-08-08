@@ -1,0 +1,34 @@
+{
+  "id": "angles-around-point",
+  "title": "Angles Around a Point Theorem",
+  "family": "Angle Sums",
+  "theoremLatex": "\\angle 1+\\angle 2+\\cdots+\\angle n=360^\\circ",
+  "summary": "Consecutive angles around a point that fill a full turn add to 360°. This is also commonly called the angles at a point theorem.",
+  "proofIdea": "Choose one boundary ray and add its opposite ray through the common vertex. On each side of the resulting line, use a Protractor coordinate system to order the boundary rays from 0° to 180°. The consecutive angle sizes are successive coordinate differences, so their sum telescopes to 180° on each side. The two half-plane sums therefore total 360°. If the added opposite ray splits an original angle, put that angle's first side at 0° on its own Protractor scale. If the new ray and the other side have coordinates x° and y°, the two pieces have sizes x° and (y − x)°, which add to the original size y°. Thus the auxiliary ray does not change the original full-turn sum.",
+  "dependsOn": ["protractor"],
+  "definitionIds": ["consecutive-angles", "point", "full-turn", "line", "straight-angle", "adjacent-angles", "angle-measure"],
+  "explorationPrompt": "Choose three, four, or five angles, move their boundary rays, and compare the changing angles with the 360° total.",
+  "proofSteps": [
+    {
+      "title": "Set the two degree scales",
+      "detail": "Choose one boundary ray OA and add its opposite ray OX. In the half-plane on one side of line AX, use OA as coordinate 0° and OX as 180°. In the other half-plane, use OX as coordinate 0° and OA as 180°."
+    },
+    {
+      "title": "Telescope the first half-plane",
+      "detail": "List the ray coordinates in the first half-plane as 0 = a₀ < a₁ < ··· < aₖ = 180. The consecutive angle sizes are a₁ − a₀, a₂ − a₁, and so on. Adding them cancels every interior coordinate and leaves aₖ − a₀ = 180°."
+    },
+    {
+      "title": "Telescope the second half-plane",
+      "detail": "Apply the same Protractor-coordinate argument in the other half-plane. Its successive coordinate differences also telescope from 0° to 180°, so the consecutive angles there total 180°."
+    },
+    {
+      "title": "Recover the original full turn",
+      "detail": "The two half-plane sums cover the full turn without overlap, so together they give 180° + 180° = 360°. If OX split an original angle, use a Protractor scale with the first original side at 0°, OX at x°, and the other side at y°. The pieces x° and (y − x)° add to the original size y°, so removing OX does not change the total."
+    }
+  ],
+  "relatedResults": [
+    "angles in a polygon",
+    "exterior-angle sums",
+    "bearings and rotations"
+  ]
+}

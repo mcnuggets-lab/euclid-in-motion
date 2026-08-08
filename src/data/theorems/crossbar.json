@@ -1,0 +1,52 @@
+{
+  "id": "crossbar",
+  "title": "Crossbar Theorem",
+  "family": "Order and Separation",
+  "statement": "If ray AD lies inside \\(\\angle BAC\\) of triangle ABC, then ray AD meets segment BC at a point E between B and C.",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\overrightarrow{AD}\\text{ lies inside }\\angle BAC, \\\\ \\text{then }\\overrightarrow{AD}\\text{ meets }\\overline{BC}\\text{ at }E,\\text{ with }E\\text{ between }B\\text{ and }C.\\end{gathered}",
+  "summary": "If a ray starts at a vertex of a triangle and stays inside that vertex angle, then the ray must leave the triangle through the opposite side.",
+  "proofIdea": "Extend AB past A to Q and apply plane separation to triangle QBC. The line through A and D meets side QB at A, so Pasch's triangle-crossing conclusion says it must meet QC or BC. The same-side part of angle interior rules out QC, leaving BC as the only possible crossing side.",
+  "dependsOn": ["incidence", "order"],
+  "definitionIds": ["point", "line", "ray", "segment", "triangle", "angle-interior", "betweenness", "half-plane", "intersection", "collinear"],
+  "explorationPrompt": "Move D inside the fixed triangle and track where ray AD reaches side BC. Then step through the proof to see why QC is the only branch that gets eliminated.",
+  "proofSteps": [
+    {
+      "title": "Extend AB past A to Q",
+      "detail": "By the Order Axioms, line AB can be extended past A to a point Q with A between Q and B. This turns the original triangle into the larger triangle QBC while keeping A on side QB."
+    },
+    {
+      "title": "Use plane separation on triangle QBC",
+      "detail": "The line through A and D meets side QB of triangle QBC at A, and because D is inside the original angle, that line does not pass through Q, B, or C. Plane Separation, in Pasch form, says that a line entering triangle QBC through side QB must also meet either side QC or side BC."
+    },
+    {
+      "title": "Rule out the QC branch",
+      "detail": "Because ray AD lies inside ∠BAC, point D is on the same side of line AC as B. Point Q lies on the opposite side of AC from B, and every point of segment QC except C stays on Q's side of AC. So ray AD cannot meet QC."
+    },
+    {
+      "title": "Conclude the hit lies on BC",
+      "detail": "The QC option is impossible, so the remaining Pasch intersection is a point E on BC. Since E is also on ray AD, E lies between B and C on side BC."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: triangle-crossing line form",
+      "statement": "If a line meets one side of a triangle at an interior point and avoids the vertices, then it meets exactly one other side of the triangle.",
+      "theoremLatex": "\\begin{gathered}\\text{A line meets side }AB\\text{ at point }P\\text{ between }A\\text{ and }B \\\\ \\text{The line avoids vertices }A, B, C \\\\ \\text{Then it meets exactly one of sides }AC\\text{ or }BC\\end{gathered}",
+      "proof": "Let the line meet side AB at an interior point P. Exactly one ray from P lies on the same side of AB as C, so exactly one ray enters the triangle interior. Segment PC divides that interior near P into the two disjoint angles ∠APC and ∠CPB, so the inward ray lies inside exactly one of them. If it lies inside ∠APC, apply the Crossbar Theorem in triangle APC to show that ray meets side AC. If it lies inside ∠CPB, apply the theorem in triangle PBC to show that ray meets side BC. These cases are exclusive, so the line meets exactly one other side of triangle ABC.",
+      "proofLatex": "\\begin{gathered}\\text{Exactly one ray from }P\\text{ enters the triangle.} \\\\ \\text{That ray lies inside either }\\angle APC\\text{ or }\\angle CPB. \\\\ \\text{Apply Crossbar in triangle }APC\\text{ or }PBC. \\\\ \\text{The cases are exclusive, so only one other side is met.}\\end{gathered}"
+    }
+  ],
+  "historicalContext": {
+    "title": "Pasch's triangle-crossing insight",
+    "paragraphs": [
+      "Moritz Pasch emphasized that a line crossing a triangle cannot be justified by a picture alone; it depends on explicit order and same-side principles.",
+      "The crossbar theorem is one clean consequence of that shift. It turns angle interior and plane separation into a rigorous reason that a ray from a vertex must hit the opposite side."
+    ]
+  },
+  "relatedResults": [
+    "Pasch theorem",
+    "triangle exterior-angle arguments",
+    "same-side and opposite-side reasoning",
+    "order-based triangle crossing"
+  ]
+}

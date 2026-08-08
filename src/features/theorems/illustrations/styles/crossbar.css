@@ -1,0 +1,301 @@
+@layer theorem {
+.crossbar {
+  gap: 10px;
+}
+
+.crossbar__svg {
+  background:
+    linear-gradient(180deg, rgba(246, 249, 255, 0.96), rgba(255, 253, 249, 0.98)),
+    #fafafa;
+}
+
+.crossbar__panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+  transition:
+    opacity 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.crossbar__panel--muted {
+  opacity: 0.64;
+}
+
+.crossbar__badge-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.crossbar__badge-row--exploring,
+.crossbar__summary.crossbar__summary--exploring {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.crossbar__badge {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(34, 34, 34, 0.08);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.crossbar__badge strong {
+  color: #222;
+}
+
+.crossbar__badge span {
+  color: var(--muted);
+}
+
+.crossbar__badge--muted {
+  opacity: 0.64;
+}
+
+.crossbar__edge {
+  stroke: #5a5a5a;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.crossbar__edge--accent {
+  stroke: rgba(31, 95, 191, 0.72);
+}
+
+.crossbar__edge--opposite {
+  stroke: rgba(194, 91, 42, 0.7);
+  stroke-dasharray: 6 4;
+}
+
+.crossbar__edge--opposite-active {
+  stroke-width: 2.8;
+}
+
+.crossbar__edge--extension {
+  stroke: rgba(31, 95, 191, 0.34);
+  stroke-dasharray: 7 5;
+}
+
+.crossbar__edge--extension-active {
+  stroke: rgba(31, 95, 191, 0.72);
+}
+
+.crossbar__edge--candidate {
+  stroke: rgba(95, 95, 95, 0.28);
+  stroke-dasharray: 4 4;
+}
+
+.crossbar__edge--candidate-active {
+  stroke: rgba(95, 95, 95, 0.72);
+}
+
+.crossbar__pasch-line {
+  stroke: rgba(34, 34, 34, 0.32);
+  stroke-dasharray: 5 4;
+  stroke-width: 2;
+}
+
+.crossbar__ray {
+  stroke: #1f5fbf;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+}
+
+.crossbar__intersection-ring {
+  fill: none;
+  stroke: rgba(31, 95, 191, 0.12);
+  stroke-width: 2;
+}
+
+.crossbar__intersection-ring--active {
+  stroke: rgba(31, 95, 191, 0.42);
+}
+
+.crossbar__blocked-mark {
+  stroke: rgba(194, 91, 42, 0.82);
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.crossbar__point {
+  stroke-width: 2;
+  transition:
+    r 120ms ease,
+    fill 120ms ease,
+    stroke 120ms ease;
+}
+
+.crossbar__point--fixed {
+  fill: #1f5fbf;
+  stroke: rgba(31, 95, 191, 0.18);
+}
+
+.crossbar__point--draggable {
+  fill: #fff;
+  stroke: #1f5fbf;
+}
+
+.crossbar__point--derived {
+  fill: #fff7f1;
+  stroke: #c25b2a;
+}
+
+.crossbar__point--focused,
+.crossbar__handle-target:active+.crossbar__point--draggable {
+  r: 8.5;
+}
+
+.crossbar__handle-target {
+  fill: transparent;
+  cursor: grab;
+  touch-action: none;
+}
+
+.crossbar__point-label {
+  fill: #222;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.crossbar__point-label {
+  font-size: 13px;
+}
+
+.crossbar__summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.crossbar__summary-card--blocked {
+  border-color: rgba(194, 91, 42, 0.4);
+  background:
+    linear-gradient(-45deg,
+      rgba(194, 91, 42, 0.08),
+      rgba(194, 91, 42, 0.08) 10px,
+      rgba(255, 255, 255, 0.92) 10px,
+      rgba(255, 255, 255, 0.92) 20px);
+}
+
+.crossbar__route-heading {
+  display: grid;
+  gap: 4px;
+}
+
+.crossbar__route-heading strong {
+  color: #222;
+}
+
+.crossbar__route-heading span {
+  color: var(--muted);
+}
+
+.crossbar__route-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.crossbar__route-chip {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid rgba(34, 34, 34, 0.08);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.crossbar__route-chip strong {
+  color: #222;
+}
+
+.crossbar__route-chip span:last-child {
+  justify-self: end;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 0.78rem;
+}
+
+.crossbar__route-chip--active {
+  border-color: rgba(31, 95, 191, 0.26);
+  background: #f7faff;
+}
+
+.crossbar__route-chip--blocked {
+  border-color: rgba(194, 91, 42, 0.3);
+  background:
+    linear-gradient(-45deg,
+      rgba(194, 91, 42, 0.08),
+      rgba(194, 91, 42, 0.08) 10px,
+      rgba(255, 255, 255, 0.92) 10px,
+      rgba(255, 255, 255, 0.92) 20px);
+}
+
+.crossbar__route-swatch {
+  width: 24px;
+  height: 0;
+  border-top-width: 3px;
+  border-top-style: solid;
+  border-top-color: #1f5fbf;
+}
+
+.crossbar__route-swatch--dashed {
+  border-top-color: #c25b2a;
+  border-top-style: dashed;
+}
+
+.crossbar__route-swatch--solid {
+  border-top-color: #1f5fbf;
+}
+
+.crossbar__controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.crossbar__control {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.crossbar__control span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.crossbar__control strong {
+  color: #222;
+}
+
+.crossbar__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+
+.crossbar__control input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.68);
+  outline-offset: 2px;
+}
+
+.crossbar__status {
+  margin: 0;
+}
+
+
+}

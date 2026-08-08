@@ -1,0 +1,191 @@
+@layer theorem {
+.aas-congruence {
+  container: aas-congruence / inline-size;
+}
+
+.aas-congruence__svg {
+  touch-action: none;
+}
+
+.aas-congruence__triangle,
+.aas-congruence__angle,
+.aas-congruence__handle {
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    stroke-width 140ms ease,
+    fill 140ms ease,
+    transform 140ms ease;
+}
+
+.aas-congruence__triangle {
+  fill: rgba(31, 95, 191, 0.045);
+  stroke: #34445d;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.aas-congruence__triangle--second {
+  fill: rgba(194, 91, 42, 0.045);
+}
+
+.aas-congruence__triangle--result {
+  fill: rgba(35, 128, 90, 0.075);
+  stroke: #23805a;
+}
+
+.aas-congruence__angle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.aas-congruence__angle--first {
+  stroke: #1f5fbf;
+}
+
+.aas-congruence__angle--second {
+  stroke: #c25b2a;
+}
+
+.aas-congruence__angle--derived {
+  stroke: #7252a3;
+  stroke-dasharray: 4 3;
+}
+
+.aas-congruence__point {
+  fill: #222;
+}
+
+.aas-congruence__point-label,
+.aas-congruence__panel-label,
+.aas-congruence__bridge-label,
+.aas-congruence__included-label {
+  fill: #222;
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  text-anchor: middle;
+}
+
+.aas-congruence__point-label {
+  font-size: 10.5px;
+}
+
+.aas-congruence__panel-label,
+.aas-congruence__bridge-label,
+.aas-congruence__included-label {
+  fill: var(--muted);
+  font-size: 9px;
+}
+
+.aas-congruence__bridge-label,
+.aas-congruence__included-label {
+  font-size: 9.5px;
+}
+
+.aas-congruence__bridge-label--result {
+  fill: #245a45;
+}
+
+.aas-congruence__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.aas-congruence__handle {
+  fill: #fff;
+  pointer-events: none;
+  stroke: #1f5fbf;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.aas-congruence__handle--active {
+  fill: #e8f1ff;
+  transform: scale(1.15);
+}
+
+.aas-congruence__summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.aas-congruence__derived-card {
+  border-color: rgba(114, 82, 163, 0.38);
+  background: #faf8fd;
+}
+
+.aas-congruence__derived-card strong {
+  color: #5e4387;
+}
+
+.aas-congruence__result-card {
+  border-color: rgba(35, 128, 90, 0.35);
+  background: #f5fbf8;
+}
+
+.aas-congruence__proof-summary,
+.aas-congruence__proof-result {
+  border-color: rgba(35, 128, 90, 0.4);
+}
+
+.aas-congruence__proof-summary span {
+  color: #222;
+  font-weight: 650;
+}
+
+.aas-congruence__proof-result {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.38);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  text-align: center;
+}
+
+.aas-congruence__proof-result span {
+  color: var(--muted);
+}
+
+.aas-congruence__proof-result--derived {
+  border-color: rgba(114, 82, 163, 0.4);
+  background: #faf8fd;
+  color: #5e4387;
+}
+
+.aas-congruence__proof-result--final {
+  border-color: rgba(35, 128, 90, 0.42);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+.aas-congruence__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.35);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  line-height: 1.45;
+}
+
+.aas-congruence__status--proof {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+@container aas-congruence (max-width: 700px) {
+  .aas-congruence__summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+}

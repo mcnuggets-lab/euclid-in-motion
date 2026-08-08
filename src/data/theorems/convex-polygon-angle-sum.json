@@ -1,0 +1,73 @@
+{
+  "id": "convex-polygon-angle-sum",
+  "title": "Convex Polygon Angle Sum Theorem",
+  "family": "Angle Sums",
+  "statement": "For a convex \\(n\\)-gon with interior angle sizes \\(a_1,a_2,\\ldots,a_n\\), the interior angles have a total of \\((n-2)180^\\circ\\).",
+  "theoremLatex": "a_1+a_2+\\cdots+a_n=(n-2)180^\\circ",
+  "summary": "A convex n-gon can be divided from one vertex into n − 2 triangles, so its interior angles total (n − 2) × 180°.",
+  "proofIdea": "Choose one vertex of the convex polygon and draw its diagonals to every nonadjacent vertex. Convexity keeps those segments in the polygon. Plane Separation justifies, by induction, that the diagonals form a fan of exactly n − 2 triangles with disjoint interiors and the whole polygon as their union; Crossbar supplies the previously proved triangle-crossing fact used when checking boundary intersections. The Triangle Angle Sum Theorem gives 180° for each triangle, and repeated Angle Addition reassembles the triangle pieces into the polygon's interior angles.",
+  "dependsOn": [
+    "order",
+    "crossbar",
+    "linear-pair",
+    "angle-addition",
+    "triangle-angle-sum"
+  ],
+  "definitionIds": [
+    "adjacent-angles",
+    "angle-measure",
+    "convex-polygon",
+    "half-plane",
+    "linear-pair",
+    "polygon",
+    "polygon-diagonal",
+    "polygon-exterior-angle",
+    "polygon-interior-angle",
+    "polygon-triangulation",
+    "simple-polygon",
+    "triangle"
+  ],
+  "explorationPrompt": "Change the number of sides and compare the fan of triangles with the polygon's interior-angle total. The diagram illustrates the count; the guided proof establishes that the fan covers every convex polygon without overlaps or gaps.",
+  "proofSteps": [
+    {
+      "title": "Choose a convex polygon",
+      "detail": "Let V₁V₂…Vₙ be a convex n-gon, with n ≥ 3 and the vertices named in boundary order. Convexity means that every segment joining two points of its region stays in the region; the noncollinearity condition keeps all fan triangles nondegenerate."
+    },
+    {
+      "title": "Draw the fan diagonals",
+      "detail": "From V₁ draw the diagonals V₁V₃, V₁V₄, …, V₁Vₙ₋₁. Each entire diagonal lies in the polygon directly by the convex segment condition. Distinct fan diagonals share V₁ and, because the vertices occur in strict convex boundary order, have no other common point."
+    },
+    {
+      "title": "Justify the triangular partition",
+      "detail": "Use induction on n. A 3-gon is already one triangle. For n > 3, diagonal V₁Vₙ₋₁ lies inside the polygon. Its line places V₂,…,Vₙ₋₂ on one side and Vₙ on the other, so Plane Separation splits the region into convex (n − 1)-gon V₁…Vₙ₋₁ and triangle V₁Vₙ₋₁Vₙ with disjoint interiors. The induction hypothesis fans the smaller polygon into n − 3 triangles; adding the final triangle gives n − 2 triangles and covers the original region."
+    },
+    {
+      "title": "Total the triangle angles",
+      "detail": "Every fan triangle has interior-angle total 180° by the Triangle Angle Sum Theorem. Since there are n − 2 triangles, all of their angle sizes together total (n − 2)180°."
+    },
+    {
+      "title": "Reassemble the polygon angles",
+      "detail": "At each polygon vertex, the fan rays partition that interior angle into the adjacent angles belonging to the fan triangles. Repeated Angle Addition says that adding all triangle-angle pieces is exactly the same as adding the n original interior angles; no angle is omitted or counted twice."
+    },
+    {
+      "title": "Conclude the formula",
+      "detail": "Therefore a₁ + a₂ + ··· + aₙ = (n − 2)180°. For n = 3 this recovers 180°, for n = 4 it gives 360°, and each additional vertex adds one triangle and another 180°."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: Exterior Angle Sum",
+      "illustrationId": "convex-polygon-exterior-angle-sum",
+      "statement": "Choose one exterior angle at every vertex of a convex polygon by traversing its boundary in one fixed direction. Those exterior angle sizes add to 360°.",
+      "theoremLatex": "e_1+e_2+\\cdots+e_n=360^\\circ",
+      "proof": "Let aᵢ be the interior angle and eᵢ the consistently chosen exterior angle at vertex Vᵢ. They form a linear pair, so eᵢ = 180° − aᵢ. Add these n equations and substitute the Convex Polygon Angle Sum formula as shown below.",
+      "proofLatex": "\\begin{aligned}\\sum_{i=1}^{n}e_i &= n\\cdot180^\\circ-\\sum_{i=1}^{n}a_i \\\\ &= n\\cdot180^\\circ-(n-2)180^\\circ \\\\ &= 360^\\circ\\end{aligned}"
+    }
+  ],
+  "relatedResults": [
+    "triangle angle sum theorem",
+    "angle addition theorem",
+    "linear pair theorem",
+    "exterior angle sum"
+  ]
+}

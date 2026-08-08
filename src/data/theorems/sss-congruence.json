@@ -1,0 +1,76 @@
+{
+  "id": "sss-congruence",
+  "title": "SSS Congruence Theorem",
+  "family": "Triangle Congruence",
+  "statement": "If \\(AB \\cong DE\\), \\(BC \\cong EF\\), and \\(AC \\cong DF\\), then \\(\\triangle ABC \\cong \\triangle DEF\\) with correspondence \\(A \\leftrightarrow D\\), \\(B \\leftrightarrow E\\), and \\(C \\leftrightarrow F\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }AB\\cong DE,\\ BC\\cong EF,\\ AC\\cong DF,\\\\ \\text{then }\\triangle ABC\\cong\\triangle DEF.\\end{gathered}",
+  "summary": "Three congruent corresponding side pairs force the two triangles to be congruent.",
+  "proofIdea": "Recall the earlier SAS exploration: once two sides and the included angle are certified, the whole triangle is fixed. For SSS, construct on the side of line BC opposite A a triangle GBC with BC \\(\\cong\\) EF, BG \\(\\cong\\) DE, and \\(\\angle GBC \\cong \\angle DEF\\), so SAS gives \\(\\triangle GBC \\cong \\triangle DEF\\). The original side matches give AB \\(\\cong\\) BG and AC \\(\\cong\\) CG. If A, B, G or A, C, G are collinear, the one nondegenerate isosceles triangle gives the required included-angle congruence directly. Otherwise both auxiliary triangles are isosceles, and their base-angle equalities recover \\(\\angle BAC \\cong \\angle BGC\\) by angle addition or subtraction. A final SAS step and transitivity then prove \\(\\triangle ABC \\cong \\triangle DEF\\).",
+  "readingGuideIds": [
+    "triangle-correspondence"
+  ],
+  "dependsOn": [
+    "order",
+    "congruence",
+    "angle-addition",
+    "isosceles-base-angles"
+  ],
+  "definitionIds": [
+    "angle",
+    "angle-comparison",
+    "angle-interior",
+    "base-angles",
+    "betweenness",
+    "congruent",
+    "half-plane",
+    "included-angle",
+    "isosceles-triangle",
+    "ray",
+    "segment",
+    "triangle",
+    "triangle-correspondence"
+  ],
+  "explorationPrompt": "Recall the SAS exploration, then drag A in triangle ABC while the separate triangle DEF is reconstructed from the same three side lengths. The matched measurements and circle intersections illustrate rigidity, while the guided SAS-and-isosceles construction proves SSS.",
+  "proofSteps": [
+    {
+      "title": "Name the SSS data",
+      "detail": "Suppose AB \\(\\cong\\) DE, BC \\(\\cong\\) EF, and AC \\(\\cong\\) DF. The goal is to prove \\(\\triangle ABC \\cong \\triangle DEF\\) with correspondence A ↔ D, B ↔ E, and C ↔ F. No angle congruence has yet been established."
+    },
+    {
+      "title": "Make a SAS copy at BC",
+      "detail": "On the side of line BC opposite A, copy \\(\\angle DEF\\) at B to form ray BG, and copy DE onto that ray so BG \\(\\cong\\) DE. The given side BC \\(\\cong\\) EF and the copied included angle \\(\\angle GBC \\cong \\angle DEF\\) give \\(\\triangle GBC \\cong \\triangle DEF\\) by SAS. Corresponding parts then give GC \\(\\cong\\) DF."
+    },
+    {
+      "title": "Draw AG and identify the cases",
+      "detail": "The hypotheses give AB \\(\\cong\\) DE and AC \\(\\cong\\) DF. Step 2 gives BG \\(\\cong\\) DE and GC \\(\\cong\\) DF, so transitivity yields AB \\(\\cong\\) BG and AC \\(\\cong\\) GC. Draw AG. If A, B, and G are collinear, figure ABG is degenerate but triangle ACG is a nondegenerate isosceles triangle. If A, C, and G are collinear, figure ACG is degenerate but triangle ABG is a nondegenerate isosceles triangle. Otherwise both triangles ABG and ACG are nondegenerate and isosceles with base AG."
+    },
+    {
+      "title": "Match only valid base angles",
+      "detail": "Apply the Isosceles Base-Angles Theorem only to nondegenerate auxiliary triangles. Thus triangle ABG, when nondegenerate, gives \\(\\angle BAG \\cong \\angle AGB\\), and triangle ACG, when nondegenerate, gives \\(\\angle CAG \\cong \\angle AGC\\). In either collinear case one of these pairs is enough; in the noncollinear case both pairs are available."
+    },
+    {
+      "title": "Recover the included angle",
+      "detail": "First handle the collinear cases. If A, B, and G are collinear, then B lies between A and G because A and G are on opposite sides of line BC. Hence rays AB and AG agree, rays GB and GA agree, and the base angles of isosceles triangle ACG give \\(\\angle BAC = \\angle GAC \\cong \\angle AGC = \\angle BGC\\). If A, C, and G are collinear, then C lies between A and G; rays AC and AG agree, rays GC and GA agree, and the base angles of isosceles triangle ABG give \\(\\angle BAC = \\angle BAG \\cong \\angle BGA = \\angle BGC\\). Now suppose neither triple is collinear. If ray AG lies inside both angles, Angle Addition and the two base-angle pairs give equal sums. If ray AG lies outside beyond AB, then \\(\\angle BAC = \\angle CAG - \\angle BAG\\) and \\(\\angle BGC = \\angle AGC - \\angle AGB\\). If ray AG lies outside beyond AC, then \\(\\angle BAC = \\angle BAG - \\angle CAG\\) and \\(\\angle BGC = \\angle AGB - \\angle AGC\\). The corresponding congruent terms give equal differences in either outside case. Therefore \\(\\angle BAC \\cong \\angle BGC\\) in every case."
+    },
+    {
+      "title": "Finish with SAS and transitivity",
+      "detail": "From Step 3, AB \\(\\cong\\) BG and AC \\(\\cong\\) GC. Step 5 gives the included-angle congruence \\(\\angle BAC \\cong \\angle BGC\\). Therefore SAS gives \\(\\triangle ABC \\cong \\triangle GBC\\). Step 2 already gave \\(\\triangle GBC \\cong \\triangle DEF\\), so transitivity of triangle congruence yields \\(\\triangle ABC \\cong \\triangle DEF\\)."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.8 and triangle rigidity",
+    "paragraphs": [
+      "Euclid's Proposition I.8 is the classical SSS result: when three corresponding sides match, the included angles and then the whole triangles must match.",
+      "Euclid's presentation is often associated with placing one figure onto another. This lesson instead constructs a certified SAS copy and then uses isosceles base-angle relations, so the proof does not rely on unproved physical motion.",
+      "The theorem expresses triangle rigidity in a synthetic way: once the three side lengths of a nondegenerate triangle are fixed, the triangle's shape cannot flex."
+    ]
+  },
+  "relatedResults": [
+    "SAS Congruence Postulate",
+    "Isosceles Base-Angles Theorem",
+    "triangle rigidity",
+    "ASA congruence",
+    "AAS congruence",
+    "RHS Congruence Theorem"
+  ]
+}

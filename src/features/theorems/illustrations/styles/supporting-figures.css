@@ -1,0 +1,275 @@
+@layer theorem {
+.angles-around-point__total {
+  grid-column: 1 / -1;
+}
+
+.angles-around-point__controls {
+  display: grid;
+  gap: 6px;
+  padding: 9px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.angles-around-point__controls label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.angles-around-point__controls strong {
+  color: #222;
+}
+
+.angles-around-point__controls input {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.angles-around-point__summary {
+  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+  gap: 8px;
+}
+
+.angles-around-point__auxiliary {
+  stroke: #666;
+  stroke-dasharray: 5 4;
+  stroke-width: 2;
+}
+
+.angles-around-point__auxiliary-point {
+  fill: #fff;
+  stroke: #666;
+  stroke-width: 2;
+}
+
+.theorem-figure__note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.linear-pair-corollary {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+}
+
+.linear-pair-corollary__svg {
+  background: #fff;
+}
+
+.linear-pair-corollary__sector {
+  stroke: rgba(34, 34, 34, 0.28);
+  stroke-width: 1;
+}
+
+.linear-pair-corollary__ray {
+  stroke: #555;
+  stroke-width: 2;
+}
+
+.linear-pair-corollary__angle-label,
+.linear-pair-corollary__ray-label,
+.linear-pair-corollary__origin {
+  fill: #222;
+  font-family: inherit;
+  text-anchor: middle;
+}
+
+.linear-pair-corollary__angle-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.linear-pair-corollary__difference,
+.linear-pair-corollary__coordinate {
+  fill: var(--muted);
+  font-weight: 400;
+}
+
+.linear-pair-corollary__ray-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.linear-pair-corollary__origin {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.linear-pair-corollary__key rect {
+  fill: #fafafa;
+  stroke: var(--panel-border);
+}
+
+.linear-pair-corollary__key text {
+  fill: #444;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.linear-pair-corollary__key-term {
+  fill: #222;
+  font-weight: 700;
+}
+
+.linear-pair-corollary figcaption {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.congruent-linear-pair {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+}
+
+.congruent-linear-pair__svg {
+  background: #fff;
+}
+
+.congruent-linear-pair__sector {
+  stroke: rgba(34, 34, 34, 0.24);
+  stroke-width: 1;
+}
+
+.congruent-linear-pair__sector--left {
+  fill: rgba(194, 91, 42, 0.14);
+}
+
+.congruent-linear-pair__sector--right {
+  fill: rgba(31, 95, 191, 0.14);
+}
+
+.congruent-linear-pair__line {
+  stroke: #555;
+  stroke-width: 2;
+}
+
+.congruent-linear-pair__right-angle {
+  fill: none;
+  stroke: #222;
+  stroke-width: 2;
+}
+
+.congruent-linear-pair__measure,
+.congruent-linear-pair__relation,
+.congruent-linear-pair__point-label {
+  fill: #222;
+  font-family: inherit;
+}
+
+.congruent-linear-pair__measure {
+  font-size: 17px;
+  text-anchor: middle;
+}
+
+.congruent-linear-pair__relation {
+  font-size: 18px;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.congruent-linear-pair__point {
+  fill: var(--accent);
+}
+
+.congruent-linear-pair__point-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.congruent-linear-pair figcaption {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.median-existence-corollary {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.median-existence-corollary__svg {
+  max-height: 330px;
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+}
+
+.median-existence-corollary__side,
+.median-existence-corollary__median,
+.median-existence-corollary__tick {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.median-existence-corollary__side {
+  stroke: #252525;
+  stroke-width: 2.2;
+}
+
+.median-existence-corollary__median {
+  stroke: #0f766e;
+  stroke-width: 3;
+}
+
+.median-existence-corollary__tick {
+  stroke: #805ad5;
+  stroke-width: 3;
+}
+
+.median-existence-corollary__point {
+  fill: #252525;
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.median-existence-corollary__point--midpoint {
+  fill: #0f766e;
+}
+
+.median-existence-corollary__label {
+  fill: #252525;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 5px;
+  text-anchor: middle;
+}
+
+.median-existence-corollary__label--midpoint {
+  fill: #0f615b;
+}
+
+.median-existence-corollary__key rect {
+  fill: rgba(255, 255, 255, 0.94);
+  stroke: var(--panel-border);
+}
+
+.median-existence-corollary__key text {
+  fill: var(--muted);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.median-existence-corollary__key-result {
+  fill: #5b3aa5;
+  font-weight: 700;
+}
+
+.median-existence-corollary figcaption {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+}

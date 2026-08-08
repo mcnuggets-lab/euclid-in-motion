@@ -1,0 +1,46 @@
+{
+  "id": "angle-bisector-existence",
+  "title": "Angle Bisector Existence Theorem",
+  "family": "Triangle Constructions",
+  "statement": "Every nonstraight angle has exactly one interior ray that divides it into two congruent angles.",
+  "theoremLatex": "\\begin{gathered}\\text{Given }\\angle ABC\\text{ is nonstraight} \\\\ \\text{Then there is exactly one interior ray }\\overrightarrow{BD}\\text{ satisfies }\\angle ABD\\cong\\angle DBC\\end{gathered}",
+  "summary": "Each nonstraight angle has one and only one ray that splits its opening into two equal angle sizes.",
+  "proofIdea": "Put the two sides of the angle on one protractor scale, at 0° and θ°. The unique ray at θ / 2 lies inside the angle and makes both parts θ / 2°. Any ray that made equal parts would have to have that same coordinate, so the bisector is unique.",
+  "dependsOn": [
+    "order",
+    "protractor",
+    "angle-addition"
+  ],
+  "definitionIds": [
+    "angle",
+    "angle-bisector",
+    "angle-interior",
+    "angle-measure",
+    "congruent",
+    "ray"
+  ],
+  "explorationPrompt": "Change the opening and move the interior ray. Find the one position where the two angle sizes match, then compare any other position with it.",
+  "proofSteps": [
+    {
+      "title": "Set one degree scale",
+      "detail": "For a nonstraight angle ∠ABC, choose a Protractor coordinate system with ray BA at 0° and ray BC at θ°, where 0 < θ < 180."
+    },
+    {
+      "title": "Choose the halfway ray",
+      "detail": "The Protractor Axiom gives a unique ray BD at coordinate θ / 2. Since 0 < θ / 2 < θ, the order of the coordinates places BD inside ∠ABC."
+    },
+    {
+      "title": "Show that the parts are congruent",
+      "detail": "The two parts have sizes ∠ABD = θ / 2 and ∠DBC = θ − θ / 2 = θ / 2. Angle Addition confirms that these adjacent parts make the whole angle, so ∠ABD ≅ ∠DBC."
+    },
+    {
+      "title": "Show that no other bisector exists",
+      "detail": "Any interior ray that divides ∠ABC into two congruent angles makes two equal sizes whose sum is θ°. Each size must therefore be θ / 2. Protractor uniqueness says that ray is BD."
+    }
+  ],
+  "relatedResults": [
+    "isosceles-point construction",
+    "midpoint construction",
+    "angle constructions"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "alternate-interior-angles",
+  "title": "Alternate Interior Angles Theorem",
+  "family": "Parallel Lines",
+  "statement": "Let transversal \\(t\\) meet distinct coplanar parallel lines \\(\\ell\\) and \\(m\\) at distinct points \\(P\\) and \\(Q\\). Choose \\(A\\) on \\(\\ell\\) and \\(B\\) on \\(m\\) so that \\(\\angle APQ\\) and \\(\\angle PQB\\) are alternate interior angles. Then \\(\\angle APQ \\cong \\angle PQB\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\ell \\parallel m, \\\\ \\text{then }\\angle APQ \\cong \\angle PQB.\\end{gathered}",
+  "summary": "Parallel lines cut by a transversal create congruent alternate interior angles.",
+  "proofIdea": "Copy ∠PQB at P in the half-plane bounded by t that contains A, producing ray PX and the line n. The converse theorem shows n ∥ m, and Playfair's uniqueness identifies n with ℓ. Because PX and PA lie on the same resulting line and in the same chosen half-plane, they are the same ray, so the copied congruence becomes ∠APQ ≅ ∠PQB.",
+  "readingGuideIds": ["transversal-angle-pairs"],
+  "dependsOn": ["congruence", "parallels", "alternate-interior-converse"],
+  "definitionIds": [
+    "angle",
+    "congruent",
+    "line",
+    "parallel-lines",
+    "point",
+    "ray",
+    "transversal",
+    "transversal-interior-angle",
+    "alternate-interior-angles"
+  ],
+  "explorationPrompt": "Move Q to change the transversal. The equal measurements illustrate what happens in each shown case; the guided proof establishes the result for every transversal.",
+  "proofSteps": [
+    {
+      "title": "State the parallel hypothesis and goal",
+      "detail": "Transversal t meets lines ℓ and m at P and Q, ℓ ∥ m, and ∠APQ and ∠PQB are the selected alternate interior pair. The goal is to prove ∠APQ ≅ ∠PQB."
+    },
+    {
+      "title": "Copy the angle at P",
+      "detail": "In the half-plane bounded by t that contains A, the Congruence Axioms construct the unique ray PX such that ∠XPQ ≅ ∠PQB. Let n be the line containing PX. Choosing that half-plane keeps ∠XPQ as the intended alternate interior angle and later selects the same ray as PA."
+    },
+    {
+      "title": "Apply the converse theorem",
+      "detail": "Angles ∠XPQ and ∠PQB are congruent alternate interior angles for lines n and m cut by transversal t. The Converse of the Alternate Interior Angles Theorem therefore gives n ∥ m."
+    },
+    {
+      "title": "Use Playfair uniqueness",
+      "detail": "Both n and ℓ pass through P, and both are parallel to m. Because P is not on m, Playfair's Axiom says there is exactly one line through P parallel to m, so n = ℓ. Since rays PX and PA lie on that same line and in the chosen half-plane bounded by t, they are the same ray."
+    },
+    {
+      "title": "Substitute the original ray",
+      "detail": "The construction gave ∠XPQ ≅ ∠PQB, and step 4 shows that ray PX is ray PA. Replacing ray PX by ray PA turns ∠XPQ into ∠APQ, so ∠APQ ≅ ∠PQB."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.29 and the parallel postulate",
+    "paragraphs": [
+      "Euclid's Proposition I.29 identifies equal alternate interior angles as a direct consequence of parallel lines. Unlike Euclid I.27, the converse proved earlier in this course, the argument depends on the parallel postulate rather than on contradiction from triangle geometry alone.",
+      "This lesson uses Playfair's equivalent formulation of the Parallel Axiom: through a point not on a line there is exactly one parallel to that line. The copied ray first creates a candidate line n, and uniqueness then proves that candidate is the original parallel ℓ."
+    ]
+  },
+  "relatedResults": [
+    "converse of the alternate interior angles theorem",
+    "corresponding angles theorem",
+    "same-side interior angles theorem"
+  ]
+}

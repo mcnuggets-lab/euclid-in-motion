@@ -1,0 +1,232 @@
+@layer theorem {
+.asa-congruence {
+  container: asa-congruence / inline-size;
+}
+
+.asa-congruence__svg {
+  touch-action: none;
+}
+
+.asa-congruence__triangle,
+.asa-congruence__angle,
+.asa-congruence__ray,
+.asa-congruence__baseline,
+.asa-congruence__intersection-line,
+.asa-congruence__handle,
+.asa-congruence__intersection-ring {
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    stroke-width 140ms ease,
+    fill 140ms ease,
+    transform 140ms ease;
+}
+
+.asa-congruence__triangle {
+  fill: rgba(31, 95, 191, 0.045);
+  stroke: #34445d;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.asa-congruence__triangle--second {
+  fill: rgba(194, 91, 42, 0.045);
+}
+
+.asa-congruence__triangle--constructed {
+  fill: rgba(114, 82, 163, 0.07);
+  stroke: #7252a3;
+}
+
+.asa-congruence__triangle--result {
+  fill: rgba(35, 128, 90, 0.075);
+  stroke: #23805a;
+}
+
+.asa-congruence__angle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.asa-congruence__angle--first {
+  stroke: #1f5fbf;
+}
+
+.asa-congruence__angle--second {
+  stroke: #c25b2a;
+}
+
+.asa-congruence__angle--derived {
+  stroke: #7252a3;
+  stroke-dasharray: 4 3;
+}
+
+.asa-congruence__angle--unique {
+  stroke: #7252a3;
+}
+
+.asa-congruence__point {
+  fill: #222;
+}
+
+.asa-congruence__point--constructed {
+  fill: #7252a3;
+}
+
+.asa-congruence__point--result {
+  fill: #23805a;
+}
+
+.asa-congruence__point-label,
+.asa-congruence__panel-label,
+.asa-congruence__bridge-label,
+.asa-congruence__half-plane-label,
+.asa-congruence__ray-label,
+.asa-congruence__line-label,
+.asa-congruence__corollary-given {
+  fill: #222;
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  text-anchor: middle;
+}
+
+.asa-congruence__point-label {
+  font-size: 10.5px;
+}
+
+.asa-congruence__panel-label,
+.asa-congruence__bridge-label,
+.asa-congruence__half-plane-label,
+.asa-congruence__ray-label,
+.asa-congruence__line-label,
+.asa-congruence__corollary-given {
+  fill: var(--muted);
+  font-size: 9px;
+}
+
+.asa-congruence__bridge-label,
+.asa-congruence__corollary-given {
+  font-size: 9.5px;
+}
+
+.asa-congruence__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.asa-congruence__handle {
+  fill: #fff;
+  pointer-events: none;
+  stroke: #1f5fbf;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.asa-congruence__handle--active {
+  fill: #e8f1ff;
+  transform: scale(1.15);
+}
+
+.asa-congruence__half-plane {
+  fill: rgba(114, 82, 163, 0.065);
+  stroke: none;
+}
+
+.asa-congruence__baseline {
+  stroke: #23805a;
+  stroke-dasharray: 6 4;
+  stroke-width: 2.5;
+}
+
+.asa-congruence__ray {
+  stroke: #7252a3;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.asa-congruence__intersection-line {
+  stroke: rgba(114, 82, 163, 0.55);
+  stroke-dasharray: 6 4;
+  stroke-width: 2;
+}
+
+.asa-congruence__intersection-ring {
+  fill: rgba(35, 128, 90, 0.08);
+  stroke: #23805a;
+  stroke-width: 2.5;
+}
+
+.asa-congruence__summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.asa-congruence__result-card {
+  border-color: rgba(35, 128, 90, 0.35);
+  background: #f5fbf8;
+}
+
+.asa-congruence__proof-summary,
+.asa-congruence__proof-result {
+  border-color: rgba(35, 128, 90, 0.4);
+}
+
+.asa-congruence__proof-summary span {
+  color: #222;
+  font-weight: 650;
+}
+
+.asa-congruence__proof-result {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid rgba(114, 82, 163, 0.4);
+  border-radius: 6px;
+  background: #faf8fd;
+  color: #4f3974;
+  text-align: center;
+}
+
+.asa-congruence__proof-result span {
+  color: var(--muted);
+}
+
+.asa-congruence__proof-result--final {
+  border-color: rgba(35, 128, 90, 0.42);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+.asa-congruence__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.35);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  line-height: 1.45;
+}
+
+.asa-congruence__status--proof {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+.asa-congruence--corollary {
+  margin-top: 8px;
+}
+
+@container asa-congruence (max-width: 620px) {
+  .asa-congruence__summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+}

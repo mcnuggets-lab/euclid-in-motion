@@ -1,0 +1,346 @@
+@layer theorem {
+.alternate-converse {
+  gap: 10px;
+}
+
+.alternate-converse__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.94), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+  touch-action: none;
+}
+
+.alternate-converse__line,
+.alternate-converse__triangle,
+.alternate-converse__angle,
+.alternate-converse__parallel-mark,
+.alternate-converse__edge-marker path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.alternate-converse__line {
+  stroke: #252525;
+  stroke-width: 1.9;
+}
+
+.alternate-converse__line--transversal {
+  stroke: #475569;
+  stroke-dasharray: 5 4;
+}
+
+.alternate-converse__triangle {
+  fill: rgba(15, 118, 110, 0.045);
+  stroke: #0f766e;
+  stroke-dasharray: 4 3;
+  stroke-width: 1.5;
+}
+
+.alternate-converse__angle {
+  stroke-width: 3;
+  transition: opacity 120ms ease, stroke-width 120ms ease;
+}
+
+.alternate-converse__angle--first {
+  stroke: #1f5fbf;
+}
+
+.alternate-converse__angle--second {
+  stroke: #c25b2a;
+}
+
+.alternate-converse__angle--vertical {
+  stroke: #a12d78;
+  stroke-dasharray: 3 3;
+}
+
+.alternate-converse__parallel-mark {
+  stroke: #2f7d4a;
+  stroke-width: 2.7;
+}
+
+.alternate-converse__point {
+  fill: #252525;
+  stroke: #fff;
+  stroke-width: 1.2;
+}
+
+.alternate-converse__point--named {
+  fill: #64748b;
+}
+
+.alternate-converse__point--intersection {
+  fill: #0f766e;
+}
+
+.alternate-converse__point-label,
+.alternate-converse__line-label,
+.alternate-converse__angle-label,
+.alternate-converse__edge-marker text {
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  text-anchor: middle;
+}
+
+.alternate-converse__point-label,
+.alternate-converse__line-label,
+.alternate-converse__edge-marker text {
+  fill: #252525;
+  font-size: 11px;
+}
+
+.alternate-converse__point-label--intersection,
+.alternate-converse__edge-marker text {
+  fill: #0f615b;
+}
+
+.alternate-converse__line-label {
+  fill: #475569;
+  font-style: italic;
+}
+
+.alternate-converse__angle-label {
+  dominant-baseline: middle;
+  font-size: 10.5px;
+}
+
+.alternate-converse__angle-label--first {
+  fill: #174a96;
+}
+
+.alternate-converse__angle-label--second {
+  fill: #9a411c;
+}
+
+.alternate-converse__edge-marker path {
+  stroke: #0f766e;
+  stroke-width: 2.4;
+}
+
+.alternate-converse__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.alternate-converse__handle-target:active {
+  cursor: grabbing;
+}
+
+.alternate-converse__handle {
+  fill: #c25b2a;
+  stroke: #fff;
+  stroke-width: 2;
+  pointer-events: none;
+  transition: r 120ms ease;
+}
+
+.alternate-converse__handle--active {
+  r: 10;
+}
+
+.alternate-converse__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.alternate-converse__measure--first {
+  border-color: rgba(31, 95, 191, 0.42);
+}
+
+.alternate-converse__measure--second {
+  border-color: rgba(194, 91, 42, 0.42);
+}
+
+.alternate-converse__measure--given {
+  border-color: rgba(31, 95, 191, 0.42);
+  background: #f7faff;
+}
+
+.alternate-converse__measure--assumption {
+  border-color: rgba(100, 116, 139, 0.46);
+  border-style: dashed;
+}
+
+.alternate-converse__measure--vertical {
+  border-color: rgba(161, 45, 120, 0.42);
+}
+
+.alternate-converse__measure--contradiction {
+  border-color: rgba(180, 55, 55, 0.48);
+  background: #fff8f7;
+}
+
+.alternate-converse__measure--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  background: #f6fbf7;
+}
+
+.alternate-converse__controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.alternate-converse__control {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.alternate-converse__control>span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.alternate-converse__control>span>span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.alternate-converse__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: #c25b2a;
+}
+
+.alternate-converse__control input[type="range"]:focus-visible,
+.alternate-converse__actions button:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.alternate-converse__actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.alternate-converse__actions button {
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid #9eb4d6;
+  border-radius: 6px;
+  background: #f7faff;
+  color: #174a96;
+  font: inherit;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
+}
+
+.alternate-converse__actions button:hover {
+  border-color: #1f5fbf;
+  background: #edf3fc;
+}
+
+.alternate-converse__actions button:active {
+  box-shadow: none;
+  transform: translateY(1px);
+}
+
+.alternate-converse__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.alternate-converse__status--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  color: #23623a;
+}
+
+.alternate-converse__status--contradiction {
+  border-color: rgba(180, 55, 55, 0.48);
+  color: #8f2f2f;
+}
+
+.alternate-converse-corollary {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+
+.alternate-converse-corollary__svg {
+  max-height: 320px;
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.94), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+}
+
+.alternate-converse-corollary__line,
+.alternate-converse-corollary__angle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.alternate-converse-corollary__line {
+  stroke: #252525;
+  stroke-width: 2;
+}
+
+.alternate-converse-corollary__line--transversal {
+  stroke: #475569;
+  stroke-dasharray: 6 5;
+}
+
+.alternate-converse-corollary__angle {
+  stroke-width: 3.2;
+}
+
+.alternate-converse-corollary__angle--first {
+  stroke: #1f5fbf;
+}
+
+.alternate-converse-corollary__angle--corresponding {
+  stroke: #805ad5;
+}
+
+.alternate-converse-corollary__angle--same-side {
+  stroke: #c25b2a;
+}
+
+.alternate-converse-corollary__point {
+  fill: #252525;
+  stroke: #fff;
+  stroke-width: 1.2;
+}
+
+.alternate-converse-corollary__point-label,
+.alternate-converse-corollary__line-label {
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  text-anchor: middle;
+}
+
+.alternate-converse-corollary__point-label {
+  fill: #252525;
+  font-size: 13px;
+}
+
+.alternate-converse-corollary__line-label {
+  fill: #475569;
+  font-size: 14px;
+  font-style: italic;
+}
+
+}

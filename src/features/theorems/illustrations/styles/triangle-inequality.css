@@ -1,0 +1,243 @@
+@layer theorem {
+.triangle-inequality {
+  container: triangle-inequality / inline-size;
+}
+
+.triangle-inequality__svg {
+  touch-action: none;
+}
+
+.triangle-inequality__side,
+.triangle-inequality__constructed,
+.triangle-inequality__comparison-longer,
+.triangle-inequality__angle,
+.triangle-inequality__handle {
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    stroke-width 140ms ease,
+    transform 140ms ease;
+}
+
+.triangle-inequality__side {
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.triangle-inequality__side--ab {
+  stroke: #1f5fbf;
+}
+
+.triangle-inequality__side--ac {
+  stroke: #c25b2a;
+}
+
+.triangle-inequality__side--bc {
+  stroke: #7252a3;
+}
+
+.triangle-inequality__side--muted {
+  opacity: 0.32;
+}
+
+.triangle-inequality__side--comparison-shorter {
+  stroke-width: 5;
+}
+
+.triangle-inequality__constructed {
+  stroke: #23805a;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+
+.triangle-inequality__constructed--join {
+  stroke-width: 2.2;
+}
+
+.triangle-inequality__comparison-longer {
+  stroke: #23805a;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.triangle-inequality__angle {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+
+.triangle-inequality__angle--equal {
+  stroke: #23805a;
+}
+
+.triangle-inequality__angle--whole {
+  stroke: #7252a3;
+  stroke-width: 5;
+}
+
+.triangle-inequality__angle--added {
+  stroke: #c25b2a;
+  stroke-dasharray: 4 3;
+}
+
+.triangle-inequality__point {
+  fill: #222;
+}
+
+.triangle-inequality__point--constructed {
+  fill: #23805a;
+}
+
+.triangle-inequality__point-label,
+.triangle-inequality__side-measure {
+  fill: #222;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  text-anchor: middle;
+}
+
+.triangle-inequality__point-label--constructed {
+  fill: #1d684a;
+}
+
+.triangle-inequality__side-measure {
+  dominant-baseline: middle;
+  font-size: 9.5px;
+}
+
+.triangle-inequality__side-measure--ab {
+  fill: #174b98;
+}
+
+.triangle-inequality__side-measure--ac {
+  fill: #99451e;
+}
+
+.triangle-inequality__side-measure--bc {
+  fill: #59407f;
+}
+
+.triangle-inequality__handle-target {
+  fill: transparent;
+  cursor: grab;
+}
+
+.triangle-inequality__handle {
+  fill: #fff;
+  stroke: #1f5fbf;
+  stroke-width: 3;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.triangle-inequality__handle--active {
+  fill: #e8f1ff;
+  transform: scale(1.15);
+}
+
+.triangle-inequality__inequalities,
+.triangle-inequality__results {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.triangle-inequality__inequality-card,
+.triangle-inequality__result {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.triangle-inequality__inequality-values {
+  color: #222;
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.triangle-inequality__inequality-card small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.triangle-inequality__proof-summary {
+  border-color: rgba(35, 128, 90, 0.42);
+}
+
+.triangle-inequality__proof-summary span {
+  color: #222;
+  font-weight: 650;
+}
+
+.triangle-inequality__result {
+  border-color: rgba(35, 128, 90, 0.42);
+  background: #f5fbf8;
+  color: #245a45;
+  text-align: center;
+}
+
+.triangle-inequality__controls {
+  display: grid;
+  align-items: stretch;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.triangle-inequality__control {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.triangle-inequality__control>span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.triangle-inequality__control>span>span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.triangle-inequality__control input {
+  width: 100%;
+}
+
+.triangle-inequality__control input:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+.triangle-inequality__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(31, 95, 191, 0.35);
+  border-radius: 6px;
+  background: #f7faff;
+  color: #203a66;
+  line-height: 1.45;
+}
+
+.triangle-inequality__status--proof {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+}

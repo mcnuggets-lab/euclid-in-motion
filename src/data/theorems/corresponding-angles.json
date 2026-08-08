@@ -1,0 +1,47 @@
+{
+  "id": "corresponding-angles",
+  "title": "Corresponding Angles Theorem",
+  "family": "Parallel Lines",
+  "statement": "Let transversal \\(t\\) meet distinct coplanar parallel lines \\(\\ell\\) and \\(m\\) at distinct points \\(P\\) and \\(Q\\). Choose \\(A\\) on \\(\\ell\\), \\(C\\) on \\(m\\), and \\(D\\) on \\(t\\), with \\(Q\\) between \\(P\\) and \\(D\\), so that \\(\\angle APQ\\) and \\(\\angle DQC\\) are corresponding angles. Then \\(\\angle APQ \\cong \\angle DQC\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\ell \\parallel m, \\\\ \\text{then }\\angle APQ \\cong \\angle DQC.\\end{gathered}",
+  "summary": "Parallel lines cut by a transversal create congruent corresponding angles.",
+  "proofIdea": "Choose B on line m so rays QB and QC are opposite. The Alternate Interior Angles Theorem gives \\(\\angle APQ \\cong \\angle PQB\\), and the Vertical Angles Theorem gives \\(\\angle PQB \\cong \\angle DQC\\). Transitivity then transfers congruence through the bridge angle \\(\\angle PQB\\) to the original corresponding pair.",
+  "readingGuideIds": ["transversal-angle-pairs"],
+  "dependsOn": ["vertical-angles", "alternate-interior-angles"],
+  "definitionIds": [
+    "angle",
+    "congruent",
+    "line",
+    "parallel-lines",
+    "point",
+    "ray",
+    "transversal",
+    "corresponding-angles-transversal",
+    "alternate-interior-angles",
+    "vertical-angles"
+  ],
+  "explorationPrompt": "Move Q to change the transversal. The equal measurements illustrate the corresponding-angle result in each shown case; the guided proof explains why it follows from two earlier theorems.",
+  "proofSteps": [
+    {
+      "title": "Name the corresponding pair",
+      "detail": "Lines ℓ and m are parallel, transversal t meets them at P and Q, and D lies on t with Q between P and D. Angles ∠APQ and ∠DQC are the named corresponding pair. The goal is to prove ∠APQ ≅ ∠DQC."
+    },
+    {
+      "title": "Apply the alternate interior theorem",
+      "detail": "Choose B on line m so rays QB and QC are opposite. Then ∠APQ and bridge angle ∠PQB are alternate interior angles, so the Alternate Interior Angles Theorem gives ∠APQ ≅ ∠PQB."
+    },
+    {
+      "title": "Apply the vertical angles theorem",
+      "detail": "At Q, rays QP and QD are opposite and rays QB and QC are opposite. Therefore ∠PQB and ∠DQC are vertical angles, so the Vertical Angles Theorem gives ∠PQB ≅ ∠DQC."
+    },
+    {
+      "title": "Transfer congruence",
+      "detail": "Transitivity combines ∠APQ ≅ ∠PQB with ∠PQB ≅ ∠DQC, so the original corresponding pair satisfies ∠APQ ≅ ∠DQC."
+    }
+  ],
+  "relatedResults": [
+    "same-side interior angles theorem",
+    "parallel-line converse theorems",
+    "transversal angle-pair classification"
+  ]
+}

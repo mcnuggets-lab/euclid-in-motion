@@ -1,0 +1,86 @@
+{
+  "id": "triangle-correspondence",
+  "parentAxiomId": "congruence",
+  "title": "Reading Triangle Correspondence",
+  "guideType": "Notation",
+  "illustrationId": "triangle-correspondence",
+  "introductionLabel": "Read before triangle congruence",
+  "summary": "Learn how the order of triangle names determines every corresponding vertex, side, and angle before using a triangle congruence test.",
+  "statusText": "This guide explains notation and correspondence. It does not prove that a pair of triangles is congruent.",
+  "statementLatex": "\\text{If }\\triangle ABC \\cong \\triangle EFD,\\ \\text{ then }A\\leftrightarrow E,\\;B\\leftrightarrow F,\\;C\\leftrightarrow D.",
+  "definitionIds": [
+    "triangle-correspondence",
+    "corresponding-parts",
+    "triangle",
+    "segment",
+    "angle",
+    "congruent"
+  ],
+  "learningObjectives": [
+    "Read an ordered triangle-congruence statement from left to right.",
+    "Recover every corresponding vertex, side, and angle from that order.",
+    "Write a valid correspondence statement from a marked diagram.",
+    "Treat matching diagram marks as given information rather than estimating from the picture.",
+    "Distinguish congruent geometric objects from equal numerical values.",
+    "Recognize that screen position and orientation do not determine correspondence."
+  ],
+  "sections": [
+    {
+      "id": "ordered-names",
+      "title": "Names carry an order",
+      "paragraphs": [
+        "In △ABC ≅ △EFD, the first letters correspond, the second letters correspond, and the third letters correspond. Therefore A pairs with E, B pairs with F, and C pairs with D.",
+        "The order is part of the statement. Rearranging the same three letters can assert a different triangle correspondence."
+      ]
+    },
+    {
+      "id": "given-markings",
+      "title": "Read markings as given information",
+      "paragraphs": [
+        "Matching side numbers, hatch marks, or angle arcs state which parts are paired. They are given facts from the diagram, not estimates based on how the picture looks.",
+        "Unmarked parts must not be assumed congruent merely because they look alike."
+      ]
+    },
+    {
+      "id": "corresponding-parts",
+      "title": "Derive every corresponding part",
+      "paragraphs": [
+        "Once the vertices are paired, the sides follow from their endpoints. If A pairs with E and B pairs with F, then side AB pairs with side EF.",
+        "Angles follow directly from their vertices: ∠A pairs with ∠E, ∠B with ∠F, and ∠C with ∠D."
+      ]
+    },
+    {
+      "id": "congruence-notation",
+      "title": "Read congruence notation precisely",
+      "paragraphs": [
+        "Use ≅ for congruent geometric objects. Use = for numerical values after the notation has already told you that a symbol stands for a length or an angle size.",
+        "After triangle congruence is established, all corresponding sides and angles are congruent. This is often abbreviated CPCTC: corresponding parts of congruent triangles are congruent."
+      ]
+    },
+    {
+      "id": "repair-order",
+      "title": "Repair an invalid ordering",
+      "paragraphs": [
+        "Check a proposed statement one position at a time. The first mismatch already makes the ordering invalid, even if another pair happens to match.",
+        "Use the exercise to test all six possible orders of D, E, and F against the marked correspondence."
+      ]
+    },
+    {
+      "id": "orientation",
+      "title": "Correspondence is not appearance",
+      "paragraphs": [
+        "Rotating or reflecting a triangle changes its appearance, not its labels or stated vertex correspondence.",
+        "A diagram illustrates the given relationships; its screen position does not prove that two triangles are congruent."
+      ]
+    }
+  ],
+  "supplementalSections": [
+    {
+      "id": "similarity",
+      "title": "Use the same correspondence for similar triangles",
+      "paragraphs": [
+        "This section is reserved for the similarity unit. It will reuse the same ordered vertex rule and add consistent side-ratio direction only after similarity has been defined."
+      ]
+    }
+  ]
+}

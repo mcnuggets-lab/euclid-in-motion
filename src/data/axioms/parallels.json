@@ -1,0 +1,19 @@
+{
+  "category": "geometry",
+  "id": "parallels",
+  "title": "Parallel Axiom",
+  "definitionIds": ["parallel-lines", "point", "line"],
+  "summary": "Playfair's Axiom selects Euclidean geometry by asserting existence and uniqueness of a parallel through an external point.",
+  "statements": [
+    "Given a line ℓ and a point P not on ℓ, there is exactly one line through P that is parallel to ℓ."
+  ],
+  "historicalContext": {
+    "title": "From Euclid's fifth postulate to Playfair",
+    "paragraphs": [
+      "Euclid's fifth postulate was phrased using a transversal: if the interior angles on one side total less than two right angles, the two lines meet on that side. John Playfair later popularized the equivalent formulation now bearing his name: through an external point there is at most one parallel to a given line.",
+      "The other axioms can establish the existence of at least one parallel through an external point, so Playfair's historical at-most-one statement becomes exactly one. This app states exactly one directly to keep the foundation self-contained.",
+      "Centuries of attempts to derive the fifth postulate from the other axioms ultimately led to non-Euclidean geometry, where parallel behavior is different. Playfair's Axiom is therefore the deliberate assumption that selects Euclidean geometry here."
+    ]
+  },
+  "whatItEnables": "Once a constructed line through P is proved parallel to ℓ, uniqueness identifies it with the parallel supplied by the axiom. This is the specifically Euclidean step in later parallel-line theorems."
+}

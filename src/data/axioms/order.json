@@ -1,0 +1,21 @@
+{
+  "category": "geometry",
+  "id": "order",
+  "title": "Order Axioms",
+  "definitionIds": ["betweenness", "point", "line", "segment", "collinear", "plane", "half-plane", "opposite-rays", "angle-interior"],
+  "summary": "Order axioms specify betweenness on a line and how a line separates the rest of the plane.",
+  "statements": [
+    "If B lies between A and C, then A, B, and C are distinct collinear points, and B also lies between C and A.",
+    "For distinct points A and C, there is a point B on line AC such that C lies between A and B.",
+    "Of any three distinct collinear points, exactly one lies between the other two.",
+    "Plane Separation Axiom: every line divides the points not on it into two nonempty, disjoint half-planes. A segment joining two points in the same half-plane does not meet the line; a segment joining points in opposite half-planes meets the line in exactly one point."
+  ],
+  "historicalContext": {
+    "title": "From diagrams to order axioms",
+    "paragraphs": [
+      "Euclid often relied on the reader to see from a diagram how points lie between one another and how a line crosses a triangle. In 1882, Moritz Pasch argued that these order facts must be stated independently of the picture.",
+      "Hilbert's 1899 Foundations of Geometry incorporated explicit order axioms. This app uses plane separation as a strong modern formulation, making Pasch's triangle-crossing principle a theorem rather than an additional axiom."
+    ]
+  },
+  "whatItEnables": "You can extend segments, reason without relying on the appearance of a diagram, and justify same-side, opposite-side, ray, and angle-interior arguments. Plane separation also implies Pasch's triangle-crossing property: a line that enters a triangle through one side and avoids the vertices must leave through another side."
+}

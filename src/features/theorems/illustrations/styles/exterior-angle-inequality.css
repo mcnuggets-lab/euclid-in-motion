@@ -1,0 +1,225 @@
+@layer theorem {
+.exterior-angle-inequality {
+  gap: 10px;
+}
+
+.exterior-angle-inequality__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+  touch-action: none;
+}
+
+.exterior-angle-inequality__side,
+.exterior-angle-inequality__extension,
+.exterior-angle-inequality__auxiliary,
+.exterior-angle-inequality__angle-arc,
+.exterior-angle-inequality__vertical-arc,
+.exterior-angle-inequality__remainder-arc,
+.exterior-angle-inequality__tick {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.exterior-angle-inequality__side {
+  stroke: #252525;
+  stroke-width: 1.9;
+}
+
+.exterior-angle-inequality__extension {
+  stroke: #475569;
+  stroke-dasharray: 5 4;
+  stroke-width: 1.75;
+}
+
+.exterior-angle-inequality__auxiliary {
+  stroke: #0f766e;
+  stroke-width: 1.85;
+}
+
+.exterior-angle-inequality__angle-arc {
+  stroke-width: 3;
+  transition: opacity 120ms ease, stroke-width 120ms ease;
+}
+
+.exterior-angle-inequality__angle-arc--first {
+  stroke: #1f5fbf;
+}
+
+.exterior-angle-inequality__angle-arc--second {
+  stroke: #c25b2a;
+}
+
+.exterior-angle-inequality__angle-arc--exterior,
+.exterior-angle-inequality__angle-arc--exterior-opposite {
+  stroke: #2f7d4a;
+}
+
+.exterior-angle-inequality__angle-arc--exterior-opposite {
+  stroke-dasharray: 4 3;
+}
+
+.exterior-angle-inequality__vertical-arc {
+  stroke: #a12d78;
+  stroke-width: 2.7;
+}
+
+.exterior-angle-inequality__remainder-arc {
+  stroke: #64748b;
+  stroke-dasharray: 3 3;
+  stroke-width: 2.4;
+}
+
+.exterior-angle-inequality__tick {
+  stroke: #805ad5;
+  stroke-width: 2.45;
+}
+
+.exterior-angle-inequality__point {
+  fill: #252525;
+  stroke: #fff;
+  stroke-width: 1.25;
+}
+
+.exterior-angle-inequality__point--auxiliary {
+  fill: #0f766e;
+}
+
+.exterior-angle-inequality__point-label,
+.exterior-angle-inequality__angle-label {
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  text-anchor: middle;
+}
+
+.exterior-angle-inequality__point-label {
+  fill: #252525;
+  font-size: 11px;
+}
+
+.exterior-angle-inequality__point-label--auxiliary {
+  fill: #0f615b;
+}
+
+.exterior-angle-inequality__angle-label {
+  dominant-baseline: middle;
+  font-size: 10.5px;
+}
+
+.exterior-angle-inequality__angle-label--first {
+  fill: #174a96;
+}
+
+.exterior-angle-inequality__angle-label--second {
+  fill: #9a411c;
+}
+
+.exterior-angle-inequality__angle-label--exterior {
+  fill: #23623a;
+}
+
+.exterior-angle-inequality__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.exterior-angle-inequality__handle-target:active {
+  cursor: grabbing;
+}
+
+.exterior-angle-inequality__handle {
+  fill: #1f5fbf;
+  stroke: #fff;
+  stroke-width: 2;
+  pointer-events: none;
+  transition: r 120ms ease;
+}
+
+.exterior-angle-inequality__handle--active {
+  r: 10;
+}
+
+.exterior-angle-inequality__summary,
+.exterior-angle-inequality__controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.exterior-angle-inequality__controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.exterior-angle-inequality__measure--first {
+  border-color: rgba(31, 95, 191, 0.42);
+}
+
+.exterior-angle-inequality__measure--second {
+  border-color: rgba(194, 91, 42, 0.42);
+}
+
+.exterior-angle-inequality__measure--exterior {
+  border-color: rgba(47, 125, 74, 0.42);
+}
+
+.exterior-angle-inequality__measure--segment {
+  border-color: rgba(128, 90, 213, 0.42);
+}
+
+.exterior-angle-inequality__measure--vertical {
+  border-color: rgba(161, 45, 120, 0.42);
+}
+
+.exterior-angle-inequality__control {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.exterior-angle-inequality__control>span {
+  display: grid;
+  gap: 2px;
+}
+
+.exterior-angle-inequality__control>span>span,
+.exterior-angle-inequality__status {
+  color: var(--muted);
+}
+
+.exterior-angle-inequality__control>span>span {
+  font-size: 0.9rem;
+}
+
+.exterior-angle-inequality__control input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: var(--accent);
+}
+
+.exterior-angle-inequality__control input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.68);
+  outline-offset: 2px;
+}
+
+.exterior-angle-inequality__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.exterior-angle-inequality__status--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  color: #23623a;
+}
+
+}

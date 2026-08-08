@@ -1,0 +1,109 @@
+.theorem-figure {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.theorem-figure__loading {
+  display: grid;
+  min-height: 220px;
+  place-items: center;
+  color: var(--muted);
+}
+
+.theorem-figure__svg {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.theorem-figure__label {
+  fill: #444;
+  font-size: 12px;
+  font-family: inherit;
+  text-anchor: middle;
+}
+
+.theorem-figure__index {
+  fill: #111;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  text-anchor: middle;
+}
+
+.theorem-figure__sector {
+  transition:
+    opacity 120ms ease,
+    fill-opacity 120ms ease,
+    stroke 120ms ease,
+    stroke-width 120ms ease;
+}
+
+.theorem-figure__sector--focused {
+  stroke: rgba(34, 34, 34, 0.6);
+  stroke-width: 1.5;
+}
+
+.theorem-figure__sector--muted {
+  opacity: 0.38;
+}
+
+.theorem-figure__sector--shared {
+  stroke: rgba(34, 34, 34, 0.82);
+  stroke-width: 2.5;
+}
+
+.theorem-figure__straight-arc {
+  fill: none;
+  stroke: rgba(34, 34, 34, 0.72);
+  stroke-dasharray: 5 4;
+  stroke-width: 2;
+}
+
+.theorem-figure__straight-label {
+  fill: #222;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  text-anchor: middle;
+}
+
+.theorem-figure__summary {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-width: 0;
+}
+
+.linear-pair-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.theorem-measure {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+  min-width: 0;
+}
+
+.theorem-measure span {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.theorem-measure--accent {
+  border-color: rgba(31, 95, 191, 0.4);
+}
+
+.theorem-measure--secondary {
+  border-color: rgba(194, 91, 42, 0.4);
+}

@@ -1,0 +1,247 @@
+@layer theorem {
+.triangle-angle-sum {
+  gap: 10px;
+}
+
+.triangle-angle-sum__svg,
+.triangle-angle-sum-corollary__svg {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 255, 0.95), rgba(255, 255, 255, 0.98)),
+    #fafafa;
+}
+
+.triangle-angle-sum__svg {
+  touch-action: none;
+}
+
+.triangle-angle-sum__side,
+.triangle-angle-sum__constructed-line,
+.triangle-angle-sum__parallel-mark,
+.triangle-angle-sum__angle,
+.triangle-angle-sum-corollary__triangle,
+.triangle-angle-sum-corollary__extension,
+.triangle-angle-sum-corollary__angle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.triangle-angle-sum__side,
+.triangle-angle-sum-corollary__triangle {
+  stroke: #252525;
+  stroke-width: 1.9;
+}
+
+.triangle-angle-sum__constructed-line {
+  stroke: #2f7d4a;
+  stroke-width: 1.9;
+}
+
+.triangle-angle-sum__parallel-mark {
+  stroke: #2f7d4a;
+  stroke-width: 2.7;
+}
+
+.triangle-angle-sum__angle,
+.triangle-angle-sum-corollary__angle {
+  stroke-width: 3;
+  transition: opacity 120ms ease, stroke-width 120ms ease;
+}
+
+.triangle-angle-sum__angle--b,
+.triangle-angle-sum__angle--b-copy,
+.triangle-angle-sum-corollary__angle--blue {
+  stroke: #1f5fbf;
+}
+
+.triangle-angle-sum__angle--a,
+.triangle-angle-sum__angle--partition-a,
+.triangle-angle-sum-corollary__angle--orange {
+  stroke: #c25b2a;
+}
+
+.triangle-angle-sum__angle--c,
+.triangle-angle-sum__angle--c-copy,
+.triangle-angle-sum-corollary__angle--purple {
+  stroke: #805ad5;
+}
+
+.triangle-angle-sum__angle--muted {
+  opacity: 0.3;
+}
+
+.triangle-angle-sum__point,
+.triangle-angle-sum-corollary__point {
+  fill: #252525;
+  stroke: #fff;
+  stroke-width: 1.2;
+}
+
+.triangle-angle-sum__point--constructed {
+  fill: #2f7d4a;
+}
+
+.triangle-angle-sum__point-label,
+.triangle-angle-sum__angle-label,
+.triangle-angle-sum-corollary__point-label {
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  text-anchor: middle;
+}
+
+.triangle-angle-sum__point-label,
+.triangle-angle-sum-corollary__point-label {
+  fill: #252525;
+  font-size: 11px;
+}
+
+.triangle-angle-sum__point-label--constructed {
+  fill: #23623a;
+}
+
+.triangle-angle-sum__angle-label {
+  dominant-baseline: middle;
+  font-size: 10.5px;
+}
+
+.triangle-angle-sum__angle-label--b {
+  fill: #174a96;
+}
+
+.triangle-angle-sum__angle-label--a {
+  fill: #9a411c;
+}
+
+.triangle-angle-sum__angle-label--c {
+  fill: #6541a3;
+}
+
+.triangle-angle-sum__handle-target {
+  cursor: grab;
+  fill: transparent;
+}
+
+.triangle-angle-sum__handle-target:active {
+  cursor: grabbing;
+}
+
+.triangle-angle-sum__handle {
+  fill: #c25b2a;
+  stroke: #fff;
+  stroke-width: 2;
+  pointer-events: none;
+  transition: r 120ms ease;
+}
+
+.triangle-angle-sum__handle--active {
+  r: 10;
+}
+
+.triangle-angle-sum__summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.triangle-angle-sum__summary--guided {
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+}
+
+.triangle-angle-sum__measure--b {
+  border-color: rgba(31, 95, 191, 0.42);
+}
+
+.triangle-angle-sum__measure--a {
+  border-color: rgba(194, 91, 42, 0.42);
+}
+
+.triangle-angle-sum__measure--c {
+  border-color: rgba(128, 90, 213, 0.42);
+}
+
+.triangle-angle-sum__measure--parallel,
+.triangle-angle-sum__measure--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  background: #f6fbf7;
+}
+
+.triangle-angle-sum__measure--straight {
+  border-color: rgba(100, 116, 139, 0.46);
+  background: #fafafa;
+}
+
+.triangle-angle-sum__controls {
+  display: grid;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.triangle-angle-sum__controls label {
+  display: grid;
+  gap: 4px;
+}
+
+.triangle-angle-sum__controls label>span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.triangle-angle-sum__controls label>span>span:last-child {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.triangle-angle-sum__controls input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  accent-color: #c25b2a;
+}
+
+.triangle-angle-sum__controls input[type="range"]:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.68);
+  outline-offset: 2px;
+}
+
+.triangle-angle-sum__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.triangle-angle-sum__status--result {
+  border-color: rgba(47, 125, 74, 0.42);
+  color: #23623a;
+}
+
+.triangle-angle-sum-corollary {
+  margin: 14px 0 4px;
+}
+
+.triangle-angle-sum-corollary__svg {
+  max-height: 300px;
+}
+
+.triangle-angle-sum-corollary__extension {
+  stroke: #475569;
+  stroke-dasharray: 6 5;
+  stroke-width: 1.8;
+}
+
+.triangle-angle-sum-corollary__point-label {
+  font-size: 13px;
+}
+
+}

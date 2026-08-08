@@ -1,0 +1,64 @@
+{
+  "id": "midpoint-existence",
+  "title": "Midpoint Existence Theorem",
+  "family": "Triangle Constructions",
+  "statement": "Every segment \\(AB\\) has a point \\(M\\) between \\(A\\) and \\(B\\) such that \\(AM \\cong MB\\).",
+  "theoremLatex": "\\text{For every }\\overline{AB},\\ \\text{there is some }M\\text{ between }A\\text{ and }B\\text{ satisfies }AM \\cong MB",
+  "summary": "Every segment has a midpoint: a point between its endpoints that divides it into two congruent segments.",
+  "proofIdea": "Construct an isosceles point P off the segment, bisect its apex angle, and use Crossbar to meet the base at M. SAS makes the two smaller triangles congruent, so their corresponding base segments AM and MB are congruent.",
+  "dependsOn": [
+    "congruence",
+    "crossbar",
+    "angle-bisector-existence",
+    "isosceles-point-construction"
+  ],
+  "definitionIds": [
+    "angle-bisector",
+    "angle-interior",
+    "betweenness",
+    "congruent",
+    "corresponding-parts",
+    "isosceles-point",
+    "midpoint",
+    "ray",
+    "segment",
+    "triangle-median",
+    "triangle"
+  ],
+  "explorationPrompt": "Move M along segment AB and compare AM with MB. The guided proof constructs the position where the two lengths must match.",
+  "proofSteps": [
+    {
+      "title": "Construct an isosceles point",
+      "detail": "Apply the isosceles-point construction to segment AB. It gives a point P off line AB with PA ≅ PB, so APB is a genuine triangle."
+    },
+    {
+      "title": "Bisect the apex angle",
+      "detail": "Apply angle-bisector existence to ∠APB. The resulting ray from P lies inside the angle and divides it into two congruent angles."
+    },
+    {
+      "title": "Meet the base",
+      "detail": "By the Crossbar Theorem, the interior angle-bisector ray meets segment AB at a point M. In particular, M lies between A and B."
+    },
+    {
+      "title": "Apply SAS to the two halves",
+      "detail": "In triangles PAM and PBM, PA ≅ PB by construction, PM ≅ PM by reflexivity, and ∠APM ≅ ∠MPB because PM lies on the angle bisector. Therefore △PAM ≅ △PBM by SAS."
+    },
+    {
+      "title": "Read the midpoint",
+      "detail": "Corresponding parts of the congruent triangles give AM ≅ MB. Since M lies between A and B, M is a midpoint of segment AB by definition."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: a median exists from each vertex",
+      "illustrationId": "median-existence",
+      "statement": "Every triangle has a median from each vertex: a segment joining that vertex to the midpoint of the opposite side.",
+      "proof": "Apply the Midpoint Existence Theorem to each of the triangle's three sides. Join each midpoint to the opposite vertex. By the definition of a median, the three resulting segments are medians of the triangle."
+    }
+  ],
+  "relatedResults": [
+    "segment bisection",
+    "medians of triangles",
+    "perpendicular bisectors"
+  ]
+}

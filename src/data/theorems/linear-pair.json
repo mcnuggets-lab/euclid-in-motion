@@ -1,0 +1,48 @@
+{
+  "id": "linear-pair",
+  "title": "Linear Pair Theorem",
+  "family": "Intersecting Lines",
+  "theoremLatex": "\\angle AOB+\\angle BOC=180^\\circ",
+  "summary": "Two adjacent angles form a linear pair when their non-common sides are opposite rays. The two angles add to 180°, so they are supplementary.",
+  "proofIdea": "Use the Protractor Axiom to assign coordinates 0° and 180° to the opposite rays of the straight line. If the shared ray has coordinate t°, then ∠AOB = t° and ∠BOC = (180 - t)°, whose degree values add to 180°.",
+  "dependsOn": ["order", "protractor"],
+  "definitionIds": ["adjacent-angles", "linear-pair", "opposite-rays", "supplementary-angles", "straight-angle", "congruent", "right-angle", "perpendicular-lines"],
+  "explorationPrompt": "Move the shared ray and compare the two adjacent angles with their 180° total.",
+  "proofSteps": [
+    {
+      "title": "Set the straight-angle coordinates",
+      "detail": "Assign coordinate 0° to ray OA and 180° to its opposite ray OC."
+    },
+    {
+      "title": "Read the two angle sizes",
+      "detail": "If ray OB has coordinate t°, then ∠AOB = t° and ∠BOC = (180 - t)°."
+    },
+    {
+      "title": "Add the adjacent angles",
+      "detail": "The sum t + (180 - t) simplifies to 180, so the linear pair is supplementary."
+    }
+  ],
+  "corollaries": [
+    {
+      "title": "Corollary: several angles on a straight line",
+      "illustrationId": "linear-pair-partition",
+      "statement": "If several adjacent angles partition a straight angle, then they add to 180°. The intermediate coordinate differences cancel when added.",
+      "theoremLatex": "\\angle AOB_1+\\angle B_1OB_2+\\cdots+\\angle B_nOC=180^\\circ",
+      "proof": "Assign the ordered rays coordinates 0 = b₀ < b₁ < ⋯ < bₙ < bₙ₊₁ = 180. By the Protractor Axiom, each adjacent angle has size (bᵢ − bᵢ₋₁)°. Adding these differences cancels every intermediate coordinate, leaving only 180 − 0.",
+      "proofLatex": "(b_1-b_0)+(b_2-b_1)+\\cdots+(b_{n+1}-b_n)=180^\\circ"
+    },
+    {
+      "title": "Corollary: a congruent linear pair",
+      "illustrationId": "congruent-linear-pair",
+      "statement": "If two angles in a linear pair are congruent, each is a right angle. Consequently, the line containing their common side is perpendicular to the line containing their non-common sides.",
+      "theoremLatex": "\\text{If }\\angle AOB \\cong \\angle BOC,\\ \\text{ then }\\angle AOB = 90^\\circ,\\ \\angle BOC = 90^\\circ \\quad \\text{and} \\quad \\overleftrightarrow{OB} \\perp \\overleftrightarrow{AC}.",
+      "proof": "Let each congruent angle have size x°. By the Linear Pair Theorem, x + x = 180°, so 2x = 180° and x = 90°. Each angle is therefore a right angle, and the line through O and B is perpendicular to the line through A, O, and C by definition.",
+      "proofLatex": "x+x=180^\\circ,\\ \\text{ so }2x=180^\\circ,\\ \\text{ and therefore }x=90^\\circ"
+    }
+  ],
+  "relatedResults": [
+    "vertical angles theorem",
+    "angles formed by a transversal",
+    "exterior angle arguments"
+  ]
+}

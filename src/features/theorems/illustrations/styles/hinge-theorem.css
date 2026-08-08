@@ -1,0 +1,350 @@
+@layer theorem {
+.hinge-theorem {
+  container: hinge-theorem / inline-size;
+}
+
+.hinge-theorem__svg {
+  touch-action: none;
+}
+
+.hinge-theorem__arm,
+.hinge-theorem__third-side,
+.hinge-theorem__copied,
+.hinge-theorem__route-plan,
+.hinge-theorem__bisector,
+.hinge-theorem__small-match,
+.hinge-theorem__angle,
+.hinge-theorem__handle {
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    stroke-width 140ms ease,
+    transform 140ms ease;
+}
+
+.hinge-theorem__arm,
+.hinge-theorem__third-side,
+.hinge-theorem__copied,
+.hinge-theorem__route-plan,
+.hinge-theorem__bisector,
+.hinge-theorem__small-match {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hinge-theorem__arm {
+  stroke-width: 3;
+}
+
+.hinge-theorem__arm--first {
+  stroke: #1f5fbf;
+}
+
+.hinge-theorem__arm--second {
+  stroke: #c25b2a;
+}
+
+.hinge-theorem__third-side {
+  stroke: #7252a3;
+  stroke-width: 2.5;
+}
+
+.hinge-theorem__third-side--longer {
+  stroke-width: 5;
+}
+
+.hinge-theorem__copied {
+  stroke: #23805a;
+  stroke-width: 2.7;
+}
+
+.hinge-theorem__copied--shorter {
+  stroke-width: 4.5;
+}
+
+.hinge-theorem__comparison-side--muted {
+  opacity: 0.42;
+}
+
+.hinge-theorem__route-plan {
+  stroke: #7b6d8f;
+  stroke-dasharray: 4 4;
+  stroke-width: 2;
+}
+
+.hinge-theorem__bisector {
+  stroke: #7252a3;
+  stroke-dasharray: 6 4;
+  stroke-width: 2.5;
+}
+
+.hinge-theorem__small-match {
+  stroke: #23805a;
+  stroke-width: 4;
+}
+
+.hinge-theorem__angle {
+  fill: none;
+  stroke: #7252a3;
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.hinge-theorem__angle--copied {
+  stroke: #23805a;
+}
+
+.hinge-theorem__angle--half {
+  stroke: #7252a3;
+  stroke-width: 3.5;
+}
+
+.hinge-theorem__point {
+  fill: #222;
+}
+
+.hinge-theorem__point--copied,
+.hinge-theorem__point--constructed {
+  fill: #23805a;
+}
+
+.hinge-theorem__point--planned {
+  fill: #fff;
+  stroke: #7b6d8f;
+  stroke-dasharray: 2 2;
+  stroke-width: 2;
+}
+
+.hinge-theorem__point-label,
+.hinge-theorem__triangle-name,
+.hinge-theorem__angle-measure,
+.hinge-theorem__side-measure {
+  fill: #222;
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 3px;
+  text-anchor: middle;
+}
+
+.hinge-theorem__point-label {
+  font-size: 10.5px;
+}
+
+.hinge-theorem__point-label--copied,
+.hinge-theorem__point-label--constructed {
+  fill: #1d684a;
+}
+
+.hinge-theorem__point-label--planned {
+  fill: #665978;
+  font-style: italic;
+}
+
+.hinge-theorem__triangle-name {
+  fill: var(--muted);
+  font-size: 9.5px;
+  letter-spacing: 0.02em;
+}
+
+.hinge-theorem__angle-measure,
+.hinge-theorem__side-measure {
+  dominant-baseline: middle;
+  font-size: 9px;
+}
+
+.hinge-theorem__angle-measure {
+  fill: #59407f;
+}
+
+.hinge-theorem__side-measure {
+  fill: #4f3974;
+}
+
+.hinge-theorem__handle-target {
+  fill: transparent;
+  cursor: grab;
+}
+
+.hinge-theorem__handle {
+  fill: #fff;
+  stroke: #c25b2a;
+  stroke-width: 3;
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.hinge-theorem__handle--active {
+  fill: #fff2ea;
+  transform: scale(1.15);
+}
+
+.hinge-theorem__controls {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hinge-theorem__control {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.hinge-theorem__control > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.hinge-theorem__control > span > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.hinge-theorem__control input {
+  width: 100%;
+}
+
+.hinge-theorem__control input:focus-visible {
+  outline: 2px solid rgba(114, 82, 163, 0.72);
+  outline-offset: 2px;
+}
+
+.hinge-theorem__proof-summary {
+  border-color: rgba(35, 128, 90, 0.42);
+}
+
+.hinge-theorem__proof-summary span {
+  color: #222;
+  font-weight: 650;
+}
+
+.hinge-theorem__equation {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px solid rgba(35, 128, 90, 0.42);
+  border-radius: 6px;
+  background: #f5fbf8;
+  color: #245a45;
+  text-align: center;
+}
+
+.hinge-theorem__route-question {
+  display: grid;
+  gap: 5px;
+  padding: 10px 12px;
+  border: 1px dashed rgba(114, 82, 163, 0.48);
+  border-radius: 6px;
+  background: #faf8fd;
+  color: #4f3974;
+  text-align: center;
+}
+
+.hinge-theorem__route-question span {
+  font-size: 0.9rem;
+}
+
+.hinge-theorem__equation span {
+  font-size: 0.9rem;
+}
+
+.hinge-theorem__status {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(114, 82, 163, 0.35);
+  border-radius: 6px;
+  background: #faf8fd;
+  color: #4f3974;
+  line-height: 1.45;
+}
+
+.hinge-theorem__status--proof {
+  border-color: rgba(35, 128, 90, 0.38);
+  background: #f5fbf8;
+  color: #245a45;
+}
+
+.hinge-theorem-corollary {
+  margin: 16px 0;
+}
+
+.hinge-theorem-corollary__svg {
+  max-height: 300px;
+  background: #fff;
+}
+
+.hinge-theorem-corollary__arm,
+.hinge-theorem-corollary__base,
+.hinge-theorem-corollary__angle {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hinge-theorem-corollary__arm {
+  stroke-width: 3;
+}
+
+.hinge-theorem-corollary__arm--first {
+  stroke: #1f5fbf;
+}
+
+.hinge-theorem-corollary__arm--second {
+  stroke: #c25b2a;
+}
+
+.hinge-theorem-corollary__base {
+  stroke: #7252a3;
+  stroke-width: 3;
+}
+
+.hinge-theorem-corollary__base--longer {
+  stroke-width: 5;
+}
+
+.hinge-theorem-corollary__angle {
+  stroke: #7252a3;
+  stroke-width: 3;
+}
+
+.hinge-theorem-corollary__angle--larger {
+  stroke-width: 5;
+}
+
+.hinge-theorem-corollary__point {
+  fill: #222;
+}
+
+.hinge-theorem-corollary__label,
+.hinge-theorem-corollary__comparison {
+  fill: #222;
+  font-family: inherit;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-linejoin: round;
+  stroke-width: 4px;
+  text-anchor: middle;
+}
+
+.hinge-theorem-corollary__label {
+  font-size: 14px;
+}
+
+.hinge-theorem-corollary__comparison {
+  fill: #59407f;
+  font-size: 16px;
+}
+
+}

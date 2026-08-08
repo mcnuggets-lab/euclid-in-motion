@@ -1,0 +1,44 @@
+@layer theorem {
+.triangle-apex-controls {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.triangle-apex-controls__control {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.triangle-apex-controls__control > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.triangle-apex-controls__control > span > span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.triangle-apex-controls__control input {
+  width: 100%;
+}
+
+.triangle-apex-controls__control input:focus-visible {
+  outline: 2px solid rgba(31, 95, 191, 0.72);
+  outline-offset: 2px;
+}
+
+@container (max-width: 620px) {
+  .triangle-apex-controls {
+    grid-template-columns: 1fr;
+  }
+}
+}

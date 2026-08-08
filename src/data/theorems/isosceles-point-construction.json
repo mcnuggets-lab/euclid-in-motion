@@ -1,0 +1,57 @@
+{
+  "id": "isosceles-point-construction",
+  "title": "Construct an Isosceles Point",
+  "family": "Triangle Constructions",
+  "statement": "For any segment \\(AB\\), there is a point \\(P\\) off line \\(AB\\) such that \\(AP \\cong BP\\). Therefore triangle \\(APB\\) is isosceles.",
+  "theoremLatex": "\\text{For every }\\overline{AB},\\ \\text{there is some }P\\text{ off line }AB\\text{ satisfies }AP \\cong BP",
+  "summary": "Every segment can be the base of an isosceles triangle: construct a point off its line that is equally distant from both endpoints.",
+  "proofIdea": "Copy the base segment once to create a radius made of two copies of the base. Two circles with that common radius have explicit inside and outside witnesses, so circle-circle continuity gives intersections. Each intersection is the same radius from both endpoints, producing an isosceles triangle.",
+  "dependsOn": [
+    "incidence",
+    "order",
+    "congruence",
+    "continuity"
+  ],
+  "definitionIds": [
+    "betweenness",
+    "circle",
+    "congruent",
+    "inside-outside-circle",
+    "intersection",
+    "isosceles-point",
+    "isosceles-triangle",
+    "line",
+    "ray",
+    "segment",
+    "segment-comparison",
+    "triangle"
+  ],
+  "explorationPrompt": "Change the base length and follow the two equal-radius circles. Each intersection remains the same distance from A and B, even though the proof needs continuity to guarantee that those intersections exist.",
+  "proofSteps": [
+    {
+      "title": "Copy the base segment once",
+      "detail": "Extend segment AB past B to C and copy AB onto BC, so AB ≅ BC. Segment AC is therefore made of two copies of AB."
+    },
+    {
+      "title": "Draw two circles with that radius",
+      "detail": "Draw the circle centered at A through C and the circle centered at B with radius AC. Both circles use the same radius, made of two copies of the original base segment."
+    },
+    {
+      "title": "Give continuity an inside and an outside witness",
+      "detail": "Point C lies on the first circle and is inside the circle centered at B, because BC is one copy of AB while AC is two copies. On the ray from A opposite B, copy AC to D. Then D lies on the first circle and BD is three copies of AB, so D is outside the circle centered at B."
+    },
+    {
+      "title": "Apply circle-circle continuity",
+      "detail": "The first circle has a point C inside the second circle and a point D outside it. Circle-circle continuity therefore gives two distinct intersection points P and Q."
+    },
+    {
+      "title": "Read an isosceles point from an intersection",
+      "detail": "For either intersection P, AP and BP are both congruent to the common circle radius AC, so AP ≅ BP. If P lay on line AB, one of the three possible betweenness orders would contradict segment addition for those two equal radius lengths; hence P is off line AB and triangle APB is isosceles."
+    }
+  ],
+  "relatedResults": [
+    "midpoint construction",
+    "circle-circle continuity",
+    "isosceles triangles"
+  ]
+}

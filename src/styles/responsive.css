@@ -1,0 +1,349 @@
+@container (min-width: 900px) {
+  .theorem-statement {
+    grid-template-columns: minmax(0, 2fr) minmax(220px, 0.8fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  .theorem-statement__dependencies {
+    padding-top: 0;
+    padding-left: 16px;
+    border-top: 0;
+    border-left: 1px solid var(--panel-border);
+  }
+
+  .axiom-page__layout,
+  .guide-page__layout,
+  .theorem-page__layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: start;
+  }
+
+  .axiom-page__primary,
+  .axiom-page__secondary,
+  .guide-page__primary,
+  .guide-page__secondary,
+  .theorem-page__primary,
+  .theorem-page__secondary {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+  }
+
+  .guide-page__layout--wide-activity .guide-page__secondary,
+  .guide-page__layout--wide-activity .guide-page__primary {
+    grid-column: 1 / -1;
+  }
+
+  .guide-page__layout--wide-activity .guide-page__primary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .guide-page__layout--wide-activity .guide-section {
+    grid-column: 1 / -1;
+  }
+
+  .guide-page__layout--wide-activity .guide-section p {
+    max-width: 82ch;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@container lesson-interactive (max-width: 620px) {
+  .transversal-guide__modes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .transversal-guide__angle-buttons {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .transversal-guide__arrangement {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .angle-addition__controls,
+  .angle-bisector__controls,
+  .exterior-angle-inequality__controls,
+  .midpoint-existence__controls,
+  .crossbar__controls,
+  .segment-angle-comparison__controls {
+    grid-template-columns: 1fr;
+  }
+
+  .triangle-angle-sum__summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .triangle-side-angle-order__controls,
+  .triangle-side-angle-order__ranking,
+  .triangle-inequality__controls,
+  .hinge-theorem__controls,
+  .sss-congruence__controls,
+  .sss-congruence__cases {
+    grid-template-columns: 1fr;
+  }
+
+  .angle-bisector__control>span,
+  .alternate-converse__control>span,
+  .exterior-angle-inequality__control>span,
+  .midpoint-existence__control>span,
+  .isosceles-point-construction__control>span,
+  .angle-addition__control span,
+  .crossbar__control span,
+  .segment-angle-comparison__control>span {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 880px) {
+
+  .workspace,
+  .workspace--browse-open {
+    grid-template-areas:
+      "sidebar"
+      "content";
+    grid-template-columns: 1fr;
+  }
+
+  .browse-toggle-slot {
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 16px;
+  }
+
+  .panel__header {
+    padding: 16px 16px 0;
+  }
+
+  .theorem-figure__summary,
+  .linear-pair-summary,
+  .guide-controls,
+  .angle-addition__summary,
+  .angle-addition__controls,
+  .angle-addition__subtraction-row,
+  .angle-bisector__summary,
+  .angle-bisector__controls,
+  .alternate-converse__summary,
+  .alternate-interior-angles__summary,
+  .corresponding-angles__summary,
+  .same-side-interior__summary,
+  .triangle-angle-sum__summary,
+  .triangle-side-angle-order__ranking,
+  .triangle-side-angle-order__controls,
+  .triangle-side-angle-order__cases,
+  .triangle-inequality__inequalities,
+  .triangle-inequality__controls,
+  .triangle-inequality__results,
+  .hinge-theorem__controls,
+  .sss-congruence__summary,
+  .sss-congruence__controls,
+  .sss-congruence__cases,
+  .asa-congruence__summary,
+  .aas-congruence__summary,
+  .triangle-apex-controls,
+  .rhs-congruence__summary,
+  .rhs-congruence__controls,
+  .alternate-converse__actions,
+  .exterior-angle-inequality__summary,
+  .exterior-angle-inequality__controls,
+  .midpoint-existence__summary,
+  .midpoint-existence__controls,
+  .isosceles-point-construction__summary,
+  .isosceles-base-angles__proof-grid,
+  .crossbar__badge-row,
+  .crossbar__summary,
+  .crossbar__controls,
+  .crossbar__route-list,
+  .segment-angle-comparison__controls {
+    grid-template-columns: 1fr;
+  }
+
+  .angle-addition__equation-row,
+  .angle-addition__interval-heading,
+  .angle-addition__badge,
+  .angle-bisector__control>span,
+  .alternate-converse__control>span,
+  .corresponding-angles__control>span,
+  .same-side-interior__control>span,
+  .exterior-angle-inequality__control>span,
+  .midpoint-existence__control>span,
+  .isosceles-point-construction__control>span,
+  .isosceles-base-angles__badge,
+  .angle-addition__control span,
+  .crossbar__control span,
+  .segment-angle-comparison__control>span {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .triangle-angle-sum__controls label>span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .triangle-side-angle-order__control>span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .triangle-inequality__control>span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sss-congruence__control>span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .triangle-apex-controls__control>span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .rhs-congruence__control>span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .hinge-theorem__control>span {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .angle-addition__subtraction-row {
+    gap: 8px;
+  }
+
+  .theorem-discovery__footer {
+    justify-content: center;
+  }
+
+  .page-sequence-navigation__links {
+    grid-template-columns: 1fr;
+  }
+
+  .page-sequence-navigation__links > [aria-hidden="true"] {
+    display: none;
+  }
+
+  .page-sequence-navigation__link--next {
+    text-align: left;
+  }
+
+  .page-sequence-navigation__link--collection {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .angle-addition__panel,
+  .angle-addition__protractor,
+  .angle-addition__difference-arc,
+  .angle-addition__handle,
+  .angle-bisector__protractor,
+  .angle-bisector__handle,
+  .alternate-converse__angle,
+  .alternate-converse__handle,
+  .alternate-interior-angles__auxiliary-line,
+  .alternate-interior-angles__angle,
+  .alternate-interior-angles__point,
+  .alternate-interior-angles__point-focus,
+  .alternate-interior-angles__line-label--auxiliary,
+  .alternate-interior-angles__handle,
+  .corresponding-angles__angle,
+  .corresponding-angles__point,
+  .corresponding-angles__point-focus,
+  .corresponding-angles__handle,
+  .same-side-interior__angle,
+  .same-side-interior__point,
+  .same-side-interior__point-focus,
+  .same-side-interior__handle,
+  .triangle-angle-sum__angle,
+  .triangle-angle-sum__handle,
+  .triangle-side-angle-order__side,
+  .triangle-side-angle-order__angle,
+  .triangle-side-angle-order__handle,
+  .triangle-inequality__side,
+  .triangle-inequality__constructed,
+  .triangle-inequality__comparison-longer,
+  .triangle-inequality__angle,
+  .triangle-inequality__handle,
+  .sss-congruence__side,
+  .sss-congruence__shared-base,
+  .sss-congruence__connector,
+  .sss-congruence__copied-angle,
+  .sss-congruence__base-angle,
+  .sss-congruence__included-angle,
+  .sss-congruence__handle,
+  .sss-congruence__triangle-fill,
+  .asa-congruence__triangle,
+  .asa-congruence__angle,
+  .asa-congruence__ray,
+  .asa-congruence__baseline,
+  .asa-congruence__intersection-line,
+  .asa-congruence__handle,
+  .asa-congruence__intersection-ring,
+  .aas-congruence__triangle,
+  .aas-congruence__angle,
+  .aas-congruence__handle,
+  .rhs-congruence__triangle,
+  .rhs-congruence__side,
+  .rhs-congruence__construction,
+  .rhs-congruence__construction-arc,
+  .rhs-congruence__result-segment,
+  .rhs-congruence__angle,
+  .rhs-congruence__right-angle,
+  .hinge-theorem__arm,
+  .hinge-theorem__third-side,
+  .hinge-theorem__copied,
+  .hinge-theorem__route-plan,
+  .hinge-theorem__bisector,
+  .hinge-theorem__small-match,
+  .hinge-theorem__angle,
+  .hinge-theorem__handle,
+  .exterior-angle-inequality__angle-arc,
+  .exterior-angle-inequality__handle,
+  .midpoint-existence__side,
+  .midpoint-existence__base,
+  .midpoint-existence__bisector,
+  .midpoint-existence__angle-arc,
+  .midpoint-existence__handle,
+  .isosceles-point-construction__handle,
+  .isosceles-base-angles__side,
+  .isosceles-base-angles__angle-arc,
+  .isosceles-base-angles__apex-arc,
+  .isosceles-base-angles__proof-card,
+  .crossbar__panel,
+  .crossbar__point,
+  .segment-angle-comparison__panel,
+  .segment-angle-comparison__angle-sector {
+    transition: none;
+  }
+}

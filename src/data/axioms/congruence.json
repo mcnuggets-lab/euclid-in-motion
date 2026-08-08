@@ -1,0 +1,16 @@
+{
+  "category": "geometry",
+  "id": "congruence",
+  "title": "Congruence Axioms",
+  "definitionIds": ["congruent", "segment", "point", "ray", "angle", "included-angle", "triangle", "line", "half-plane", "betweenness"],
+  "summary": "Congruence axioms govern the comparison and transport of segments and angles, and SAS links those comparisons inside triangles.",
+  "statements": [
+    "Segment congruence is reflexive, symmetric, and transitive: every segment is congruent to itself; AB ≅ CD implies CD ≅ AB; and AB ≅ CD together with CD ≅ EF implies AB ≅ EF.",
+    "Given a segment AB and a ray from C, there is exactly one point D on that ray such that CD ≅ AB.",
+    "Segment congruence respects addition: if B lies between A and C, B′ lies between A′ and C′, AB ≅ A′B′, and BC ≅ B′C′, then AC ≅ A′C′.",
+    "Angle congruence is reflexive, symmetric, and transitive.",
+    "Given a nonstraight angle ∠ABC, a ray B′C′, and a chosen half-plane bounded by line B′C′, there is exactly one ray B′A′ in that half-plane such that ∠A′B′C′ ≅ ∠ABC.",
+    "SAS Congruence Axiom: if AB ≅ A′B′, AC ≅ A′C′, and the included angles ∠BAC ≅ ∠B′A′C′, then triangles ABC and A′B′C′ are congruent; in particular, their remaining corresponding sides and angles are congruent."
+  ],
+  "whatItEnables": "You can construct unique copies of segments and angles, add congruent segment parts, and use SAS without appealing to motion or visual superposition."
+}

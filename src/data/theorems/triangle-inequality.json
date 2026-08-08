@@ -1,0 +1,67 @@
+{
+  "id": "triangle-inequality",
+  "title": "Triangle Inequality Theorem",
+  "family": "Triangle Properties",
+  "statement": "In any triangle, the lengths of any two sides add to more than the length of the remaining side.\n\nFor triangle \\(ABC\\), all three strict inequalities hold.",
+  "theoremLatex": "\\begin{gathered}AB+AC>BC,\\\\ AB+BC>AC,\\\\ AC+BC>AB\\end{gathered}",
+  "summary": "In every triangle, the sum of the lengths of any two sides is greater than the length of the third side.",
+  "proofIdea": "Extend BA through A to a point D and copy AC onto AD. Then BD is BA + AC. Triangle ACD is isosceles, so its base angles at C and D are congruent. Angle BCD contains angle ACD plus a positive angle, making angle BCD larger than angle BDC. Triangle Side–Angle Order then gives BD > BC, so BA + AC > BC. Relabeling the vertices gives the other two inequalities.",
+  "dependsOn": [
+    "order",
+    "congruence",
+    "angle-addition",
+    "isosceles-base-angles",
+    "triangle-side-angle-order"
+  ],
+  "definitionIds": [
+    "angle",
+    "angle-comparison",
+    "base-angles",
+    "betweenness",
+    "congruent",
+    "isosceles-triangle",
+    "opposite-rays",
+    "ray",
+    "segment",
+    "segment-comparison",
+    "triangle",
+    "triangle-interior-angle"
+  ],
+  "explorationPrompt": "Move vertex A and compare each direct side with the two-side route through the remaining vertex. Every two-side route stays longer; the guided construction proves why.",
+  "proofSteps": [
+    {
+      "title": "Extend and copy",
+      "detail": "Extend BA through A to a point D, so B–A–D occur in that order. Copy AC onto ray AD, giving AD ≅ AC, and join C to D. Segment addition and substitution give BD = BA + AD = BA + AC."
+    },
+    {
+      "title": "Use the isosceles triangle",
+      "detail": "Since AD ≅ AC, triangle ACD is isosceles. The Isosceles Base-Angles Theorem gives ∠ACD ≅ ∠CDA. Because B, A, and D are collinear with A between B and D, rays DA and DB are the same ray, so ∠CDA is the same angle as ∠BDC."
+    },
+    {
+      "title": "Compare the angles",
+      "detail": "Ray CA lies inside ∠BCD. Angle Addition gives ∠BCD = ∠BCA + ∠ACD. Angle ∠BCA has positive size, so ∠BCD > ∠ACD. Together with ∠ACD ≅ ∠BDC, this gives ∠BCD > ∠BDC."
+    },
+    {
+      "title": "Compare the opposite sides",
+      "detail": "In triangle BCD, the larger angle ∠BCD lies opposite BD, while ∠BDC lies opposite BC. Triangle Side–Angle Order gives BD > BC. Since BD = BA + AC, substitution gives BA + AC > BC. Segments BA and AB are the same side, so this is AB + AC > BC."
+    },
+    {
+      "title": "Relabel the triangle",
+      "detail": "The choice of BC as the remaining side was arbitrary. Applying the same argument after cycling the vertex names gives AB + BC > AC and AC + BC > AB. Thus the sum of any two side lengths is greater than the third side."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.20 and the shortest-path principle",
+    "paragraphs": [
+      "Euclid's Proposition I.20 proves that any two sides of a triangle are together greater than the remaining side. Its extension-and-isosceles construction is the argument used in this lesson.",
+      "Repeated triangle inequalities express a broad shortest-path principle: a broken route cannot beat the direct distance. An analogous non-strict inequality is part of what defines distance in a metric space and governs length in normed vector spaces.",
+      "The inequality is strict for triangle ABC because its three vertices are not collinear. Equality can occur only at the straight-line boundary, when the intermediate point lies on a direct shortest route; that boundary is not a triangle."
+    ]
+  },
+  "relatedResults": [
+    "triangle side–angle order theorem",
+    "isosceles base-angles theorem",
+    "hinge theorem",
+    "shortest-path triangle inequality"
+  ]
+}

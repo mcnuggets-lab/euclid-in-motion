@@ -1,0 +1,59 @@
+{
+  "id": "aas-congruence",
+  "title": "AAS Congruence Theorem",
+  "family": "Triangle Congruence",
+  "statement": "If \\(\\angle BAC \\cong \\angle EDF\\), \\(\\angle ABC \\cong \\angle DEF\\), and \\(BC \\cong EF\\), then \\(\\triangle ABC \\cong \\triangle DEF\\) with correspondence \\(A \\leftrightarrow D\\), \\(B \\leftrightarrow E\\), and \\(C \\leftrightarrow F\\).",
+  "theoremLatex": "\\begin{gathered}\\text{If }\\angle BAC\\cong\\angle EDF,\\ \\angle ABC\\cong\\angle DEF,\\ BC\\cong EF,\\\\ \\text{then }\\triangle ABC\\cong\\triangle DEF.\\end{gathered}",
+  "summary": "Two congruent corresponding angle pairs and a congruent non-included side force the triangles to be congruent.",
+  "proofIdea": "The two given angle pairs leave only one possible size for the third angle in each triangle. The Triangle Angle Sum Theorem therefore makes the third angles congruent. The given side now lies between one original angle pair and the newly established third-angle pair, so the ASA Congruence Theorem applies.",
+  "readingGuideIds": [
+    "triangle-correspondence"
+  ],
+  "dependsOn": [
+    "asa-congruence",
+    "triangle-angle-sum"
+  ],
+  "definitionIds": [
+    "angle",
+    "angle-measure",
+    "congruent",
+    "included-angle",
+    "segment",
+    "triangle",
+    "triangle-correspondence",
+    "triangle-interior-angle"
+  ],
+  "explorationPrompt": "Drag A above the fixed base BC to change the two AAS input angles. The second triangle is reconstructed by first deriving its missing angle from the 180° total, then intersecting the copied given-angle ray at E with the derived-angle ray at F. The reconstruction illustrates AAS rigidity; the guided argument proves why AAS reduces to ASA.",
+  "proofSteps": [
+    {
+      "title": "Name the AAS data",
+      "detail": "Suppose \\(\\angle BAC \\cong \\angle EDF\\), \\(\\angle ABC \\cong \\angle DEF\\), and \\(BC \\cong EF\\). The given side is not the side between the two given angles. The goal is to prove \\(\\triangle ABC \\cong \\triangle DEF\\) with correspondence A ↔ D, B ↔ E, and C ↔ F."
+    },
+    {
+      "title": "Recover the third angle",
+      "detail": "The interior angles of each triangle total 180°. The two given congruent angle pairs have matching angle sizes, so subtracting those matching sizes from the two 180° totals leaves equal sizes for \\(\\angle BCA\\) and \\(\\angle EFD\\). Thus \\(\\angle BCA \\cong \\angle EFD\\) by the Third Angle result from the Triangle Angle Sum Theorem."
+    },
+    {
+      "title": "Reframe the data as ASA",
+      "detail": "Now use the original pair \\(\\angle ABC \\cong \\angle DEF\\), the given side pair \\(BC \\cong EF\\), and the derived pair \\(\\angle BCA \\cong \\angle EFD\\). Sides BC and EF lie between these two angle pairs, so these three facts are ASA data."
+    },
+    {
+      "title": "Apply ASA and finish",
+      "detail": "The ASA Congruence Theorem applied to \\(\\angle ABC \\cong \\angle DEF\\), \\(BC \\cong EF\\), and \\(\\angle BCA \\cong \\angle EFD\\) gives \\(\\triangle ABC \\cong \\triangle DEF\\). The original angle pair at A and D was used to establish the third-angle pair; it is not an additional ASA premise."
+    }
+  ],
+  "historicalContext": {
+    "title": "Euclid I.26 and the non-included-side case",
+    "paragraphs": [
+      "Euclid's Proposition I.26 treats both modern two-angle congruence cases. AAS is the case in which the known side is not between the two initially known angles.",
+      "AAS follows quickly once Triangle Angle Sum and ASA are available: the two given angle pairs determine the third pair, turning the non-included side into an included side for a new choice of angle pairs.",
+      "Unlike the earlier ASA proof, this route uses the 180° triangle-angle total and therefore ultimately relies on the parallel postulate."
+    ]
+  },
+  "relatedResults": [
+    "Triangle Angle Sum Theorem",
+    "Third Angle Theorem",
+    "ASA Congruence Theorem",
+    "RHS Congruence Theorem"
+  ]
+}
