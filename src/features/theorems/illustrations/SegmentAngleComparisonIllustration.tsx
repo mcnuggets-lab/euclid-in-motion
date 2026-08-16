@@ -8,6 +8,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type SegmentAngleComparisonIllustrationProps = {
@@ -195,14 +196,6 @@ export function SegmentAngleComparisonIllustration({
     return () => window.clearTimeout(timeout);
   }, [figureStatus]);
 
-  function beginDrag(
-    target: Exclude<DragTarget, null>,
-    event: PointerEvent<SVGCircleElement>,
-  ) {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setDragTarget(target);
-  }
-
   function updateDrag(event: PointerEvent<SVGSVGElement>) {
     if (!dragTarget) {
       return;
@@ -242,50 +235,50 @@ export function SegmentAngleComparisonIllustration({
           <span className="segment-angle-comparison__relation">{segmentStatus}</span>
         </div>
 
-        <svg
-          aria-labelledby={`${svgId}-segment-title ${svgId}-segment-description`}
-          className="theorem-figure__svg segment-angle-comparison__svg"
+        <SvgCanvas
+          descriptionId={`${svgId}-segment-description`}
+          description={`Segment AB is copied from C to E on ray CD. ${segmentStatus}.`}
+          titleId={`${svgId}-segment-title`}
+          title="Segment comparison by copying AB onto ray CD"
+          className="segment-angle-comparison__svg"
           onPointerCancel={() => setDragTarget(null)}
           onPointerMove={updateDrag}
           onPointerUp={() => setDragTarget(null)}
-          role="img"
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         >
-          <title id={`${svgId}-segment-title`}>Segment comparison by copying AB onto ray CD</title>
-          <desc id={`${svgId}-segment-description`}>
-            Segment AB is copied from C to E on ray CD. {segmentStatus}.
-          </desc>
           <line className="segment-angle-comparison__segment" x1={segmentStart} x2={segmentPointB.x} y1="68" y2="68" />
-          <circle className="segment-angle-comparison__fixed-point" cx={segmentStart} cy="68" r="4.5" />
-          <circle className="segment-angle-comparison__handle-target" cx={segmentPointB.x} cy="68" onPointerDown={(event) => beginDrag("segment", event)} r="20" />
-          <circle className="segment-angle-comparison__draggable-point" cx={segmentPointB.x} cy="68" r="6" />
-          <text className="segment-angle-comparison__point-label" x={segmentStart - 10} y="56">A</text>
-          <text className="segment-angle-comparison__point-label" x={segmentPointB.x + 10} y="56">B</text>
+          <StaticPoint className="segment-angle-comparison__fixed-point" point={{ x: segmentStart, y: 68 }} label="A" labelOffset={{ x: -10, y: -12 }} />
+          <DraggablePoint
+            hitRadius={20}
+            label="B"
+            labelOffset={{ x: 10, y: -12 }}
+            onDrag={(p) => setSegmentLength(clamp(Math.round(p.x - segmentStart), segmentLengthMin, segmentLengthMax))}
+            onDragEnd={() => setDragTarget(null)}
+            onDragStart={() => setDragTarget("segment")}
+            point={{ x: segmentPointB.x, y: 68 }}
+            radius={6}
+            className="segment-angle-comparison__draggable-point"
+            showLabel={true}
+          />
           <text className="segment-angle-comparison__figure-note" x="160" y="98">Drag B to change AB</text>
 
           <line className="segment-angle-comparison__ray" x1={segmentStart} x2="302" y1="142" y2="142" />
           <line className="segment-angle-comparison__ray-extension" x1={segmentEnd} x2="302" y1="142" y2="142" />
-          <circle className="segment-angle-comparison__fixed-point" cx={segmentStart} cy="142" r="4.5" />
-          <circle className="segment-angle-comparison__comparison-point" cx={segmentEnd} cy="142" r="5.5" />
-          <circle className="segment-angle-comparison__copy-point" cx={copyPoint.x} cy={copyPoint.y} r="5.5" />
-          <text className="segment-angle-comparison__point-label" x={segmentStart - 10} y="162">C</text>
-          <text className="segment-angle-comparison__point-label" x={segmentEnd} y="162">D</text>
-          <text className="segment-angle-comparison__point-label" x={copyPoint.x} y="130">E</text>
+          <StaticPoint className="segment-angle-comparison__fixed-point" point={{ x: segmentStart, y: 142 }} label="C" labelOffset={{ x: -10, y: 20 }} />
+          <StaticPoint className="segment-angle-comparison__comparison-point" point={{ x: segmentEnd, y: 142 }} label="D" labelOffset={{ x: 0, y: 20 }} radius={5.5} />
+          <StaticPoint className="segment-angle-comparison__copy-point" point={copyPoint} label="E" labelOffset={{ x: 0, y: -12 }} radius={5.5} />
           <text className="segment-angle-comparison__figure-note" x="160" y="193">CE ≅ AB</text>
 
           {showTransport ? (
             <g className="segment-angle-comparison__transport">
               <line x1="80" x2="258" y1="211" y2="211" />
               <line x1="80" x2="154" y1="211" y2="211" />
-              <circle cx="80" cy="211" r="3.5" />
-              <circle cx="154" cy="211" r="3.5" />
-              <circle cx="258" cy="211" r="3.5" />
-              <text x="80" y="207">C′</text>
-              <text x="154" y="207">E′</text>
-              <text x="258" y="207">D′</text>
+              <StaticPoint point={{ x: 80, y: 211 }} label="C′" labelOffset={{ x: 0, y: -4 }} radius={3.5} />
+              <StaticPoint point={{ x: 154, y: 211 }} label="E′" labelOffset={{ x: 0, y: -4 }} radius={3.5} />
+              <StaticPoint point={{ x: 258, y: 211 }} label="D′" labelOffset={{ x: 0, y: -4 }} radius={3.5} />
             </g>
           ) : null}
-        </svg>
+        </SvgCanvas>
 
         <label className="segment-angle-comparison__control" htmlFor="segment-angle-comparison-segment">
           <span><strong>Change segment AB</strong><span>{segmentControlLabel(segmentLength)}</span></span>
@@ -316,19 +309,17 @@ export function SegmentAngleComparisonIllustration({
           <span className="segment-angle-comparison__relation">{angleStatus}</span>
         </div>
 
-        <svg
-          aria-labelledby={`${svgId}-angle-title ${svgId}-angle-description`}
-          className="theorem-figure__svg segment-angle-comparison__svg"
+        <SvgCanvas
+          descriptionId={`${svgId}-angle-description`}
+          description={`Angle AOB is ${degreeLabel(firstAngle)} and angle COD is ${degreeLabel(secondAngle)}. ${angleStatus}.`}
+          titleId={`${svgId}-angle-title`}
+          title="Angle comparison on two Protractor scales"
+          className="segment-angle-comparison__svg"
           onPointerCancel={() => setDragTarget(null)}
           onPointerMove={updateDrag}
           onPointerUp={() => setDragTarget(null)}
-          role="img"
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
         >
-          <title id={`${svgId}-angle-title`}>Angle comparison on two Protractor scales</title>
-          <desc id={`${svgId}-angle-description`}>
-            Angle AOB is {degreeLabel(firstAngle)} and angle COD is {degreeLabel(secondAngle)}. {angleStatus}.
-          </desc>
           <path className="segment-angle-comparison__protractor" d={arcPath(firstAngleCenter, angleRadius, 0, 180)} />
           <path className="segment-angle-comparison__protractor" d={arcPath(secondAngleCenter, angleRadius, 0, 180)} />
           <path className="segment-angle-comparison__angle-sector segment-angle-comparison__angle-sector--accent" d={sectorPath(firstAngleCenter, angleMarkRadius, firstAngle)} />
@@ -348,12 +339,36 @@ export function SegmentAngleComparisonIllustration({
           <line className="segment-angle-comparison__angle-ray segment-angle-comparison__angle-ray--accent" x1={firstAngleCenter.x} x2={firstAngleEnd.x} y1={firstAngleCenter.y} y2={firstAngleEnd.y} />
           <line className="segment-angle-comparison__angle-ray" x1={secondAngleCenter.x} x2={secondAngleCenter.x + angleRadius} y1={secondAngleCenter.y} y2={secondAngleCenter.y} />
           <line className="segment-angle-comparison__angle-ray segment-angle-comparison__angle-ray--secondary" x1={secondAngleCenter.x} x2={secondAngleEnd.x} y1={secondAngleCenter.y} y2={secondAngleEnd.y} />
-          <circle className="segment-angle-comparison__fixed-point" cx={firstAngleCenter.x} cy={firstAngleCenter.y} r="4.5" />
-          <circle className="segment-angle-comparison__fixed-point" cx={secondAngleCenter.x} cy={secondAngleCenter.y} r="4.5" />
-          <circle className="segment-angle-comparison__handle-target" cx={firstAngleEnd.x} cy={firstAngleEnd.y} onPointerDown={(event) => beginDrag("first-angle", event)} r="20" />
-          <circle className="segment-angle-comparison__handle-target" cx={secondAngleEnd.x} cy={secondAngleEnd.y} onPointerDown={(event) => beginDrag("second-angle", event)} r="20" />
-          <circle className="segment-angle-comparison__draggable-point" cx={firstAngleEnd.x} cy={firstAngleEnd.y} r="5.5" />
-          <circle className="segment-angle-comparison__draggable-point segment-angle-comparison__draggable-point--secondary" cx={secondAngleEnd.x} cy={secondAngleEnd.y} r="5.5" />
+          <StaticPoint className="segment-angle-comparison__fixed-point" point={firstAngleCenter} showLabel={false} />
+          <StaticPoint className="segment-angle-comparison__fixed-point" point={secondAngleCenter} showLabel={false} />
+          <DraggablePoint
+            hitRadius={20}
+            onDrag={(p) => {
+              const radians = Math.atan2(firstAngleCenter.y - p.y, p.x - firstAngleCenter.x);
+              const degrees = (radians * 180) / Math.PI;
+              setFirstAngle(clamp(Math.round(degrees), angleMin, angleMax));
+            }}
+            onDragEnd={() => setDragTarget(null)}
+            onDragStart={() => setDragTarget("first-angle")}
+            point={firstAngleEnd}
+            radius={5.5}
+            className="segment-angle-comparison__draggable-point"
+            showLabel={false}
+          />
+          <DraggablePoint
+            hitRadius={20}
+            onDrag={(p) => {
+              const radians = Math.atan2(secondAngleCenter.y - p.y, p.x - secondAngleCenter.x);
+              const degrees = (radians * 180) / Math.PI;
+              setSecondAngle(clamp(Math.round(degrees), angleMin, angleMax));
+            }}
+            onDragEnd={() => setDragTarget(null)}
+            onDragStart={() => setDragTarget("second-angle")}
+            point={secondAngleEnd}
+            radius={5.5}
+            className="segment-angle-comparison__draggable-point segment-angle-comparison__draggable-point--secondary"
+            showLabel={false}
+          />
           <text className="segment-angle-comparison__scale-label" x={firstAngleCenter.x} y="203">0°</text>
           <text className="segment-angle-comparison__scale-label" x={secondAngleCenter.x} y="203">0°</text>
           <text className="segment-angle-comparison__angle-label" x={firstAngleCenter.x} y="36">∠AOB = {degreeLabel(firstAngle)}</text>
@@ -361,7 +376,7 @@ export function SegmentAngleComparisonIllustration({
           {currentStep.focus === "substitution" ? (
             <text className="segment-angle-comparison__figure-note" x="160" y="58">Congruent angles keep the same degree value.</text>
           ) : null}
-        </svg>
+        </SvgCanvas>
 
         <div className="segment-angle-comparison__controls">
           <label className="segment-angle-comparison__control" htmlFor="segment-angle-comparison-first-angle">

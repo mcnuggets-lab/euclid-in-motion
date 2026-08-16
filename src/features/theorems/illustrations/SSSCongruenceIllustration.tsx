@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/sss-congruence.css";
 
 import {
@@ -17,6 +17,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type SSSCongruenceIllustrationProps = {
@@ -257,10 +258,6 @@ function heightLabel(height: number) {
   return "middle height";
 }
 
-function pointLabelPosition(point: Point, dx: number, dy: number) {
-  return { x: point.x + dx, y: point.y + dy };
-}
-
 export function SSSCongruenceIllustration({
   activeStep,
   onDiscoveryChange,
@@ -327,15 +324,6 @@ export function SSSCongruenceIllustration({
     setHeight(
       Math.round(clamp(freeBaseY - point.y, minimumHeight, maximumHeight)),
     );
-  };
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    if (!isExploring) {
-      return;
-    }
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
   };
 
   const freeABLabel = outsideSegmentLabel(freePointA, freePointB, freePointC, 14);
@@ -479,26 +467,10 @@ export function SSSCongruenceIllustration({
           </>
         ) : null}
 
-        <circle className="sss-congruence__point" cx={pointA.x} cy={pointA.y} r="4.5" />
-        <circle className="sss-congruence__point" cx={pointB.x} cy={pointB.y} r="4.5" />
-        <circle className="sss-congruence__point" cx={pointC.x} cy={pointC.y} r="4.5" />
-        <circle className="sss-congruence__point sss-congruence__point--constructed" cx={pointG.x} cy={pointG.y} r="4.5" />
-
-        {(() => {
-          const labelA = pointLabelPosition(pointA, 0, -12);
-          const labelB = pointLabelPosition(pointB, -2, 18);
-          const labelC = pointLabelPosition(pointC, 4, 18);
-          const labelG = pointLabelPosition(pointG, 0, 20);
-
-          return (
-            <>
-              <text className="sss-congruence__point-label" x={labelA.x} y={labelA.y}>A</text>
-              <text className="sss-congruence__point-label" x={labelB.x} y={labelB.y}>B</text>
-              <text className="sss-congruence__point-label" x={labelC.x} y={labelC.y}>C</text>
-              <text className="sss-congruence__point-label sss-congruence__point-label--constructed" x={labelG.x} y={labelG.y}>G</text>
-            </>
-          );
-        })()}
+        <StaticPoint className="sss-congruence__point" point={pointA} label="A" labelOffset={{ x: 0, y: -12 }} radius={4.5} />
+        <StaticPoint className="sss-congruence__point" point={pointB} label="B" labelOffset={{ x: -2, y: 18 }} radius={4.5} />
+        <StaticPoint className="sss-congruence__point" point={pointC} label="C" labelOffset={{ x: 4, y: 18 }} radius={4.5} />
+        <StaticPoint className="sss-congruence__point sss-congruence__point--constructed" point={pointG} label="G" labelOffset={{ x: 0, y: 20 }} radius={4.5} />
 
         {showFinalHighlight ? (
           <>
@@ -506,17 +478,18 @@ export function SSSCongruenceIllustration({
             <text className="sss-congruence__triangle-name" x={158} y={174}>△GBC</text>
           </>
         ) : null}
-
       </>
     );
   };
 
   return (
     <div className="theorem-figure sss-congruence">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg sss-congruence__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "SSS Congruence exploration" : `SSS Congruence: ${currentStep.title}`}
+        className="sss-congruence__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -529,16 +502,8 @@ export function SSSCongruenceIllustration({
           }
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>
-          {isExploring
-            ? "SSS Congruence exploration"
-            : `SSS Congruence: ${currentStep.title}`}
-        </title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {isExploring ? (
           <>
             <text className="sss-congruence__panel-name" x="85" y="20">
@@ -563,25 +528,25 @@ export function SSSCongruenceIllustration({
             {segmentTicks(freePointB, freePointC, 3, "free-bc", green)}
             {segmentTicks(freePointE, freePointF, 3, "free-ef", green)}
 
-            {[freePointA, freePointB, freePointC, freePointD, freePointE, freePointF].map((point, index) => (
-              <circle
+            {[
+              { point: freePointB, label: "B", offset: { x: -3, y: 18 } },
+              { point: freePointC, label: "C", offset: { x: 4, y: 18 } },
+              { point: freePointD, label: "D", offset: { x: 0, y: -12 }, isConstructed: true },
+              { point: freePointE, label: "E", offset: { x: -3, y: 18 } },
+              { point: freePointF, label: "F", offset: { x: 4, y: 18 } },
+            ].map(({ point, label, offset, isConstructed }, index) => (
+              <StaticPoint
                 className={classNames(
                   "sss-congruence__point",
-                  index === 3 && "sss-congruence__point--constructed",
+                  isConstructed && "sss-congruence__point--constructed",
                 )}
-                cx={point.x}
-                cy={point.y}
+                point={point}
+                label={label}
+                labelOffset={offset}
                 key={`free-point-${index}`}
-                r="4.5"
+                radius={4.5}
               />
             ))}
-
-            <text className="sss-congruence__point-label" x={freePointA.x} y={freePointA.y - 12}>A</text>
-            <text className="sss-congruence__point-label" x={freePointB.x - 3} y={freePointB.y + 18}>B</text>
-            <text className="sss-congruence__point-label" x={freePointC.x + 4} y={freePointC.y + 18}>C</text>
-            <text className="sss-congruence__point-label sss-congruence__point-label--constructed" x={freePointD.x} y={freePointD.y - 12}>D</text>
-            <text className="sss-congruence__point-label" x={freePointE.x - 3} y={freePointE.y + 18}>E</text>
-            <text className="sss-congruence__point-label" x={freePointF.x + 4} y={freePointF.y + 18}>F</text>
 
             <text className="sss-congruence__measurement sss-congruence__measurement--first" x={freeABLabel.x} y={freeABLabel.y}>
               {formatLength(freeAB)}
@@ -593,8 +558,18 @@ export function SSSCongruenceIllustration({
               {formatLength(distance(freePointB, freePointC))}
             </text>
 
-            <circle className="sss-congruence__handle-target" cx={freePointA.x} cy={freePointA.y} onPointerDown={beginDrag} r={handleRadius} />
-            <circle className={classNames("sss-congruence__handle", isDragging && "sss-congruence__handle--active")} cx={freePointA.x} cy={freePointA.y} r="7" />
+            <DraggablePoint
+              hitRadius={handleRadius}
+              label="A"
+              labelOffset={{ x: 0, y: -12 }}
+              onDrag={(p) => updateApex(p)}
+              onDragEnd={() => setIsDragging(false)}
+              onDragStart={() => setIsDragging(true)}
+              point={freePointA}
+              radius={7}
+              className={classNames("sss-congruence__handle", isDragging && "sss-congruence__handle--active")}
+              showLabel={true}
+            />
           </>
         ) : null}
 
@@ -618,22 +593,23 @@ export function SSSCongruenceIllustration({
             {segmentTicks(stepOnePointB, stepOnePointC, 3, "step1-bc", green)}
             {segmentTicks(stepOnePointE, stepOnePointF, 3, "step1-ef", green)}
 
-            {[stepOnePointA, stepOnePointB, stepOnePointC, stepOnePointD, stepOnePointE, stepOnePointF].map((point, index) => (
-              <circle
+            {[
+              { point: stepOnePointA, label: "A", offset: { x: 0, y: 20 } },
+              { point: stepOnePointB, label: "B", offset: { x: -2, y: -12 } },
+              { point: stepOnePointC, label: "C", offset: { x: 4, y: -12 } },
+              { point: stepOnePointD, label: "D", offset: { x: 0, y: 20 } },
+              { point: stepOnePointE, label: "E", offset: { x: -2, y: -12 } },
+              { point: stepOnePointF, label: "F", offset: { x: 6, y: -12 } },
+            ].map(({ point, label, offset }, index) => (
+              <StaticPoint
                 className="sss-congruence__point"
-                cx={point.x}
-                cy={point.y}
+                point={point}
+                label={label}
+                labelOffset={offset}
                 key={`step1-point-${index}`}
-                r="4.5"
+                radius={4.5}
               />
             ))}
-
-            <text className="sss-congruence__point-label" x={stepOnePointA.x} y={stepOnePointA.y + 20}>A</text>
-            <text className="sss-congruence__point-label" x={stepOnePointB.x - 2} y={stepOnePointB.y - 12}>B</text>
-            <text className="sss-congruence__point-label" x={stepOnePointC.x + 4} y={stepOnePointC.y - 12}>C</text>
-            <text className="sss-congruence__point-label" x={stepOnePointD.x} y={stepOnePointD.y + 20}>D</text>
-            <text className="sss-congruence__point-label" x={stepOnePointE.x - 2} y={stepOnePointE.y - 12}>E</text>
-            <text className="sss-congruence__point-label" x={stepOnePointF.x + 6} y={stepOnePointF.y - 12}>F</text>
 
             <text className="sss-congruence__triangle-name" x="86" y="206">△ABC</text>
             <text className="sss-congruence__triangle-name" x="224" y="206">△DEF</text>
@@ -660,25 +636,26 @@ export function SSSCongruenceIllustration({
             {segmentTicks(stepTwoPointE, stepTwoPointF, 3, "step2-ef", green)}
             {segmentTicks(stepTwoPointB, stepTwoPointC, 3, "step2-bc", green)}
 
-            {[stepTwoPointD, stepTwoPointE, stepTwoPointF, stepTwoPointB, stepTwoPointC, stepTwoPointG].map((point, index) => (
-              <circle
+            {[
+              { point: stepTwoPointD, label: "D", offset: { x: -2, y: 20 } },
+              { point: stepTwoPointE, label: "E", offset: { x: -4, y: -12 } },
+              { point: stepTwoPointF, label: "F", offset: { x: 6, y: -12 } },
+              { point: stepTwoPointB, label: "B", offset: { x: -2, y: -12 } },
+              { point: stepTwoPointC, label: "C", offset: { x: 6, y: -12 } },
+              { point: stepTwoPointG, label: "G", offset: { x: -4, y: 20 }, isConstructed: true },
+            ].map(({ point, label, offset, isConstructed }, index) => (
+              <StaticPoint
                 className={classNames(
                   "sss-congruence__point",
-                  index === 5 && "sss-congruence__point--constructed",
+                  isConstructed && "sss-congruence__point--constructed",
                 )}
-                cx={point.x}
-                cy={point.y}
+                point={point}
+                label={label}
+                labelOffset={offset}
                 key={`step2-point-${index}`}
-                r="4.5"
+                radius={4.5}
               />
             ))}
-
-            <text className="sss-congruence__point-label" x={stepTwoPointD.x - 2} y={stepTwoPointD.y + 20}>D</text>
-            <text className="sss-congruence__point-label" x={stepTwoPointE.x - 4} y={stepTwoPointE.y - 12}>E</text>
-            <text className="sss-congruence__point-label" x={stepTwoPointF.x + 6} y={stepTwoPointF.y - 12}>F</text>
-            <text className="sss-congruence__point-label" x={stepTwoPointB.x - 2} y={stepTwoPointB.y - 12}>B</text>
-            <text className="sss-congruence__point-label" x={stepTwoPointC.x + 6} y={stepTwoPointC.y - 12}>C</text>
-            <text className="sss-congruence__point-label sss-congruence__point-label--constructed" x={stepTwoPointG.x - 4} y={stepTwoPointG.y + 20}>G</text>
 
             <text className="sss-congruence__triangle-name" x="92" y="206">△DEF</text>
             <text className="sss-congruence__triangle-name" x="234" y="206">△GBC</text>
@@ -686,7 +663,7 @@ export function SSSCongruenceIllustration({
         ) : null}
 
         {!isExploring && proofStep >= 2 ? renderGuidedCommonBase() : null}
-      </svg>
+      </SvgCanvas>
 
       {isExploring ? (
         <div className="theorem-figure__summary sss-congruence__summary">

@@ -12,6 +12,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 
@@ -211,12 +212,30 @@ function TriangleDrawing({
           ∠{names.left}{names.apex}{names.right}
         </text>
       ) : null}
-      <circle className="isosceles-base-angles__point" cx={left.x} cy={left.y} r="4.5" style={{ fill: vertexColors.left }} />
-      <circle className="isosceles-base-angles__point" cx={right.x} cy={right.y} r="4.5" style={{ fill: vertexColors.right }} />
-      <circle className="isosceles-base-angles__point" cx={apex.x} cy={apex.y} r="5.5" style={{ fill: vertexColors.apex }} />
-      <text className="theorem-figure__label" x={apex.x + 10} y={apex.y - 5}>{names.apex}</text>
-      <text className="theorem-figure__label" x={left.x - 8} y={left.y + 18}>{names.left}</text>
-      <text className="theorem-figure__label" x={right.x + 8} y={right.y + 18}>{names.right}</text>
+      <StaticPoint
+        className="isosceles-base-angles__point"
+        point={left}
+        fill={vertexColors.left}
+        radius={4.5}
+        label={names.left}
+        labelOffset={{ x: -8, y: 18 }}
+      />
+      <StaticPoint
+        className="isosceles-base-angles__point"
+        point={right}
+        fill={vertexColors.right}
+        radius={4.5}
+        label={names.right}
+        labelOffset={{ x: 8, y: 18 }}
+      />
+      <StaticPoint
+        className="isosceles-base-angles__point"
+        point={apex}
+        fill={vertexColors.apex}
+        radius={5.5}
+        label={names.apex}
+        labelOffset={{ x: 10, y: -5 }}
+      />
     </g>
   );
 }
@@ -305,10 +324,12 @@ export function IsoscelesBaseAnglesIllustration({
         <span>Move A while the equal-leg condition stays true.</span>
       </div>
 
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg isosceles-base-angles__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "Isosceles base angles interactive figure" : `Isosceles base angles: ${currentStep.title}`}
+        className="isosceles-base-angles__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -324,12 +345,8 @@ export function IsoscelesBaseAnglesIllustration({
           setHeight(clamp(baseLeft.y - point.y, minimumHeight, maximumHeight));
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Isosceles base angles interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {showPair ? (
           <>
             <TriangleDrawing
@@ -378,28 +395,22 @@ export function IsoscelesBaseAnglesIllustration({
               right={baseRight}
               showDegreeLabels
             />
-            <circle
-              className="isosceles-base-angles__handle-target"
-              cx={apex.x}
-              cy={apex.y}
-              onPointerDown={(event) => {
-                event.currentTarget.setPointerCapture(event.pointerId);
-                setIsDragging(true);
-              }}
-              r={handleRadius}
-            />
-            <circle
+            <DraggablePoint
+              hitRadius={handleRadius}
+              onDrag={(p) => setHeight(clamp(baseLeft.y - p.y, minimumHeight, maximumHeight))}
+              onDragEnd={() => setIsDragging(false)}
+              onDragStart={() => setIsDragging(true)}
+              point={apex}
+              radius={8}
               className={classNames(
                 "isosceles-base-angles__drag-handle",
                 isDragging && "isosceles-base-angles__drag-handle--active",
               )}
-              cx={apex.x}
-              cy={apex.y}
-              r="8"
+              showLabel={false}
             />
           </>
         )}
-      </svg>
+      </SvgCanvas>
 
       <div className="theorem-figure__summary isosceles-base-angles__summary">
         <div className="theorem-measure theorem-measure--accent">

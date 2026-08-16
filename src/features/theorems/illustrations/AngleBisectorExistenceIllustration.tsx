@@ -154,11 +154,6 @@ export function AngleBisectorExistenceIllustration({
     });
   }, [currentStep.insight, currentStep.prompt, currentStep.title, onDiscoveryChange]);
 
-  const beginDrag = (target: Exclude<DragTarget, null>) => (event: React.PointerEvent<SVGCircleElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setDragTarget(target);
-  };
-
   return (
     <div className="theorem-figure angle-bisector">
       <SvgCanvas

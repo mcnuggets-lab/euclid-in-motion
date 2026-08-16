@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/asa-congruence.css";
 
 import { DraggablePoint, StaticPoint, SvgCanvas } from "@/features/geometry/components";
@@ -371,13 +371,6 @@ export function ASACongruenceIllustration({
     const nextApex = constrainApexToBounds(point, sourcePointB.y, apexBounds);
     setApexX(nextApex.x);
     setHeight(nextApex.height);
-  };
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    if (!isExploring) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
   };
 
   const figureDescription = isExploring

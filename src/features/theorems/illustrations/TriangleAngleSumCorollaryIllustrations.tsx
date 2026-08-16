@@ -3,6 +3,7 @@ import {
   polarPointRadians as polarPoint,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint } from "@/features/geometry/components";
 import "./styles/triangle-angle-sum.css";
 
 function normalizeRadians(value: number) {
@@ -33,21 +34,12 @@ function angleArcPath(
 
 function PointMarker({ label, point }: { label: string; point: Point }) {
   return (
-    <>
-      <circle
-        className="triangle-angle-sum-corollary__point"
-        cx={point.x}
-        cy={point.y}
-        r="4.5"
-      />
-      <text
-        className="triangle-angle-sum-corollary__point-label"
-        x={point.x}
-        y={point.y + (label === "A" || label === "D" ? -13 : 20)}
-      >
-        {label}
-      </text>
-    </>
+    <StaticPoint
+      className="triangle-angle-sum-corollary__point"
+      point={point}
+      label={label}
+      labelOffset={{ x: 0, y: label === "A" || label === "D" ? -13 : 20 }}
+    />
   );
 }
 
@@ -59,21 +51,14 @@ export function TriangleExteriorAngleSumCorollaryIllustration() {
 
   return (
     <figure className="triangle-angle-sum-corollary">
-      <svg
-        aria-labelledby="triangle-exterior-sum-title triangle-exterior-sum-description"
-        className="theorem-figure__svg triangle-angle-sum-corollary__svg"
-        role="img"
+      <SvgCanvas
+        descriptionId="triangle-exterior-sum-description"
+        description="Triangle ABC has side BC extended through C to D. Blue angle BAC and orange angle ABC are the remote interior angles. Purple angle ACD is the exterior angle equal to their sum."
+        titleId="triangle-exterior-sum-title"
+        title="Exterior angle and its two remote interior angles"
+        className="triangle-angle-sum-corollary__svg"
         viewBox="0 0 640 300"
       >
-        <title id="triangle-exterior-sum-title">
-          Exterior angle and its two remote interior angles
-        </title>
-        <desc id="triangle-exterior-sum-description">
-          Triangle ABC has side BC extended through C to D. Blue angle BAC and
-          orange angle ABC are the remote interior angles. Purple angle ACD is
-          the exterior angle equal to their sum.
-        </desc>
-
         <path
           className="triangle-angle-sum-corollary__triangle"
           d={`M ${pointA.x} ${pointA.y} L ${pointB.x} ${pointB.y} L ${pointC.x} ${pointC.y} Z`}
@@ -103,7 +88,7 @@ export function TriangleExteriorAngleSumCorollaryIllustration() {
         <PointMarker label="B" point={pointB} />
         <PointMarker label="C" point={pointC} />
         <PointMarker label="D" point={pointD} />
-      </svg>
+      </SvgCanvas>
     </figure>
   );
 }
@@ -118,21 +103,14 @@ export function TriangleThirdAngleCorollaryIllustration() {
 
   return (
     <figure className="triangle-angle-sum-corollary">
-      <svg
-        aria-labelledby="triangle-third-angle-title triangle-third-angle-description"
-        className="theorem-figure__svg triangle-angle-sum-corollary__svg"
-        role="img"
+      <SvgCanvas
+        descriptionId="triangle-third-angle-description"
+        description="Triangles ABC and DEF have matching blue angles at A and D and matching orange angles at B and E. Their remaining purple angles at C and F are congruent by the Third Angle Theorem."
+        titleId="triangle-third-angle-title"
+        title="Two triangles with two congruent angle pairs"
+        className="triangle-angle-sum-corollary__svg"
         viewBox="0 0 640 300"
       >
-        <title id="triangle-third-angle-title">
-          Two triangles with two congruent angle pairs
-        </title>
-        <desc id="triangle-third-angle-description">
-          Triangles ABC and DEF have matching blue angles at A and D and
-          matching orange angles at B and E. Their remaining purple angles at C
-          and F are congruent by the Third Angle Theorem.
-        </desc>
-
         <path
           className="triangle-angle-sum-corollary__triangle"
           d={`M ${pointA.x} ${pointA.y} L ${pointB.x} ${pointB.y} L ${pointC.x} ${pointC.y} Z`}
@@ -155,7 +133,7 @@ export function TriangleThirdAngleCorollaryIllustration() {
         <PointMarker label="D" point={pointD} />
         <PointMarker label="E" point={pointE} />
         <PointMarker label="F" point={pointF} />
-      </svg>
+      </SvgCanvas>
     </figure>
   );
 }

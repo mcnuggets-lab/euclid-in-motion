@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/isosceles-point-construction.css";
 
 import {
@@ -10,6 +10,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 
@@ -154,17 +155,14 @@ export function IsoscelesPointConstructionIllustration({
     });
   }, [currentStep.insight, currentStep.prompt, currentStep.title, onDiscoveryChange]);
 
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-  };
-
   return (
     <div className="theorem-figure isosceles-point-construction">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg isosceles-point-construction__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "Isosceles point construction interactive figure" : `Isosceles point construction: ${currentStep.title}`}
+        className="isosceles-point-construction__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -187,12 +185,8 @@ export function IsoscelesPointConstructionIllustration({
           );
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Isosceles point construction interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {showCircles ? (
           <>
             <circle className="isosceles-point-construction__circle isosceles-point-construction__circle--a" cx={pointA.x} cy={pointA.y} r={displayRadius} />
@@ -246,52 +240,81 @@ export function IsoscelesPointConstructionIllustration({
         ) : null}
 
         {showResult ? (
-          <>
-            <circle className="isosceles-point-construction__intersection isosceles-point-construction__intersection--chosen" cx={pointP.x} cy={pointP.y} r="5" />
-            <text className="isosceles-point-construction__label isosceles-point-construction__label--chosen" x={pointP.x + 11} y={pointP.y + 15}>P</text>
-          </>
+          <StaticPoint
+            className="isosceles-point-construction__intersection isosceles-point-construction__intersection--chosen"
+            point={pointP}
+            label="P"
+            labelOffset={{ x: 11, y: 15 }}
+            radius={5}
+          />
         ) : showIntersections ? (
           <>
-            <circle className="isosceles-point-construction__intersection isosceles-point-construction__intersection--chosen" cx={pointP.x} cy={pointP.y} r="5" />
-            <circle className="isosceles-point-construction__intersection" cx={pointQ.x} cy={pointQ.y} r="4.5" />
-            <text className="isosceles-point-construction__label isosceles-point-construction__label--chosen" x={pointP.x + 11} y={pointP.y + 15}>P</text>
-            <text className="isosceles-point-construction__label" x={pointQ.x + 11} y={pointQ.y - 10}>Q</text>
+            <StaticPoint
+              className="isosceles-point-construction__intersection isosceles-point-construction__intersection--chosen"
+              point={pointP}
+              label="P"
+              labelOffset={{ x: 11, y: 15 }}
+              radius={5}
+            />
+            <StaticPoint
+              className="isosceles-point-construction__intersection"
+              point={pointQ}
+              label="Q"
+              labelOffset={{ x: 11, y: -10 }}
+              radius={4.5}
+            />
           </>
         ) : null}
 
-        <circle className="isosceles-point-construction__point" cx={pointA.x} cy={pointA.y} r="5" />
-        <circle className="isosceles-point-construction__point" cx={pointB.x} cy={pointB.y} r="5" />
-        <text className="theorem-figure__label" x={pointA.x} y={pointA.y + 20}>A</text>
-        <text className="theorem-figure__label" x={pointB.x} y={pointB.y + 20}>B</text>
-        {showCopy ? <text className="theorem-figure__label" x={pointC.x} y={pointC.y + 20}>C</text> : null}
+        <StaticPoint className="isosceles-point-construction__point" point={pointA} label="A" labelOffset={{ x: 0, y: 20 }} />
+
+        {showCopy ? (
+          <StaticPoint
+            className={showWitnesses ? "isosceles-point-construction__witness isosceles-point-construction__witness--inside" : "isosceles-point-construction__point"}
+            point={pointC}
+            label="C"
+            labelOffset={{ x: 0, y: 20 }}
+          />
+        ) : null}
+
         {showWitnesses ? (
           <>
-            <circle className="isosceles-point-construction__witness isosceles-point-construction__witness--inside" cx={pointC.x} cy={pointC.y} r="4.5" />
-            <circle className="isosceles-point-construction__witness isosceles-point-construction__witness--outside" cx={pointD.x} cy={pointD.y} r="4.5" />
-            <text className="theorem-figure__label" x={pointD.x} y={pointD.y + 20}>D</text>
+            <StaticPoint
+              className="isosceles-point-construction__witness isosceles-point-construction__witness--outside"
+              point={pointD}
+              label="D"
+              labelOffset={{ x: 0, y: 20 }}
+            />
             <text className="isosceles-point-construction__witness-label isosceles-point-construction__witness-label--outside" x={pointD.x + 8} y={pointD.y - 11}>outside circle B</text>
             <text className="isosceles-point-construction__witness-label isosceles-point-construction__witness-label--inside" x={pointC.x} y={pointC.y - 11}>inside circle B</text>
           </>
         ) : null}
-        {showCopy && !showWitnesses ? <circle className="isosceles-point-construction__point" cx={pointC.x} cy={pointC.y} r="4.5" /> : null}
 
-        <circle
-          className="isosceles-point-construction__handle-target"
-          cx={pointB.x}
-          cy={pointB.y}
-          onPointerDown={beginDrag}
-          r={handleRadius}
-        />
-        <circle
+        <DraggablePoint
+          hitRadius={handleRadius}
+          label="B"
+          labelOffset={{ x: 0, y: 20 }}
+          onDrag={(p) => {
+            const nextBaseLength = isExploring
+              ? ((p.x - svgWidth / 2) * 2) / displayScale
+              : (p.x - pointA.x) / displayScale;
+            setBaseLength(
+              Math.round(
+                clamp(nextBaseLength, minimumBaseLength, maximumBaseLength),
+              ),
+            );
+          }}
+          onDragEnd={() => setIsDragging(false)}
+          onDragStart={() => setIsDragging(true)}
+          point={pointB}
+          radius={7}
           className={classNames(
             "isosceles-point-construction__handle",
             isDragging && "isosceles-point-construction__handle--active",
           )}
-          cx={pointB.x}
-          cy={pointB.y}
-          r="7"
+          showLabel={true}
         />
-      </svg>
+      </SvgCanvas>
 
       <div className="isosceles-point-construction__summary theorem-figure__summary">
         {showResult ? (

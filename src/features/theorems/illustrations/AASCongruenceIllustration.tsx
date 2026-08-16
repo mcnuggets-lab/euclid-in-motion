@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/aas-congruence.css";
 
 import {
@@ -18,6 +18,7 @@ import {
   svgHeight,
   svgWidth,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 import { TriangleApexControls } from "@/features/theorems/illustrations/TriangleApexControls";
 
@@ -304,13 +305,6 @@ export function AASCongruenceIllustration({
     const nextApex = constrainApexToBounds(point, baseY, apexBounds);
     setApexX(nextApex.x);
     setHeight(nextApex.height);
-  };
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    if (!isExploring) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
   };
 
   const figureDescription = isExploring
