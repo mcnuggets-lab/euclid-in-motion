@@ -1,6 +1,7 @@
 import { useEffect, useId, useState } from "react";
 import "./styles/angle-bisector.css";
 
+import { DraggablePoint, StaticPoint, SvgCanvas } from "@/features/geometry/components";
 import {
   classNames,
   clamp,
@@ -160,10 +161,12 @@ export function AngleBisectorExistenceIllustration({
 
   return (
     <div className="theorem-figure angle-bisector">
-      <svg
+      <SvgCanvas
         aria-describedby={descriptionId}
         aria-labelledby={titleId}
         className="theorem-figure__svg angle-bisector__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
         onPointerCancel={() => setDragTarget(null)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -193,11 +196,10 @@ export function AngleBisectorExistenceIllustration({
           );
         }}
         onPointerUp={() => setDragTarget(null)}
-        role="img"
+        title="Angle bisector existence interactive figure"
+        titleId={titleId}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Angle bisector existence interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
 
         <path
           className={classNames(
@@ -309,61 +311,42 @@ export function AngleBisectorExistenceIllustration({
           </>
         ) : null}
 
-        <circle className="angle-bisector__vertex" cx={center.x} cy={center.y} r="5" />
-        <text className="theorem-figure__label" x={center.x - 10} y={center.y + 17}>B</text>
-        <text className="theorem-figure__label" x={center.x + rayLength + 24} y={center.y - 10}>A</text>
-        <text className="theorem-figure__label" x={boundaryEnd.x + 10} y={boundaryEnd.y - 9}>C</text>
+        <StaticPoint className="angle-bisector__vertex" label="B" labelOffset={{ x: -10, y: 17 }} point={center} radius={5} />
+        <StaticPoint label="A" labelOffset={{ x: 24, y: -10 }} point={{ x: center.x + rayLength, y: center.y }} showLabel={true} radius={0} />
+        <StaticPoint label="C" labelOffset={{ x: 10, y: -9 }} point={boundaryEnd} showLabel={true} radius={0} />
         {showConstructedBisector ? (
-          <text className="angle-bisector__ray-label angle-bisector__ray-label--bisector" x={bisectorEnd.x - 10} y={bisectorEnd.y + 14}>D</text>
+          <StaticPoint className="angle-bisector__ray-label angle-bisector__ray-label--bisector" label="D" labelOffset={{ x: -10, y: 14 }} point={bisectorEnd} radius={0} />
         ) : null}
         {showComparison ? (
-          <text className="angle-bisector__ray-label angle-bisector__ray-label--comparison" x={candidateEnd.x + 9} y={candidateEnd.y - 7}>E</text>
+          <StaticPoint className="angle-bisector__ray-label angle-bisector__ray-label--comparison" label="E" labelOffset={{ x: 9, y: -7 }} point={candidateEnd} radius={0} />
         ) : null}
         {isExploring ? (
-          <text className="angle-bisector__ray-label angle-bisector__ray-label--bisector" x={candidateEnd.x + 9} y={candidateEnd.y - 7}>D</text>
+          <StaticPoint className="angle-bisector__ray-label angle-bisector__ray-label--bisector" label="D" labelOffset={{ x: 9, y: -7 }} point={candidateEnd} radius={0} />
         ) : null}
 
-        <circle
-          className="angle-bisector__handle-target"
-          cx={boundaryEnd.x}
-          cy={boundaryEnd.y}
-          onPointerDown={beginDrag("boundary")}
-          r={handleRadius}
-        />
-        <circle
-          className={classNames(
-            "angle-bisector__handle",
-            "angle-bisector__handle--boundary",
-            dragTarget === "boundary" && "angle-bisector__handle--active",
-          )}
-          cx={boundaryEnd.x}
-          cy={boundaryEnd.y}
-          r="7"
+        <DraggablePoint
+          hitRadius={handleRadius}
+          label="Boundary"
+          onDrag={() => {}}
+          onDragEnd={() => setDragTarget(null)}
+          onDragStart={() => setDragTarget("boundary")}
+          point={boundaryEnd}
+          radius={7}
+          showLabel={false}
         />
         {showCandidate ? (
-          <>
-            <circle
-              className="angle-bisector__handle-target"
-              cx={candidateEnd.x}
-              cy={candidateEnd.y}
-              onPointerDown={beginDrag("divider")}
-              r={handleRadius}
-            />
-            <circle
-              className={classNames(
-                "angle-bisector__handle",
-                isExploring
-                  ? "angle-bisector__handle--candidate"
-                  : "angle-bisector__handle--comparison",
-                dragTarget === "divider" && "angle-bisector__handle--active",
-              )}
-              cx={candidateEnd.x}
-              cy={candidateEnd.y}
-              r="7"
-            />
-          </>
+          <DraggablePoint
+            hitRadius={handleRadius}
+            label="Divider"
+            onDrag={() => {}}
+            onDragEnd={() => setDragTarget(null)}
+            onDragStart={() => setDragTarget("divider")}
+            point={candidateEnd}
+            radius={7}
+            showLabel={false}
+          />
         ) : null}
-      </svg>
+      </SvgCanvas>
 
       <div className="angle-bisector__summary theorem-figure__summary">
         <div className="theorem-measure">

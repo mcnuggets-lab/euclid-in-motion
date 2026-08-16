@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { StaticPoint, SvgCanvas } from "@/features/geometry/components";
+
 
 type Point = {
   x: number;
@@ -374,7 +376,7 @@ export function TransversalAnglePairsIllustration() {
         Lines l and m are crossed by transversal t at P and Q, forming angles 1
         through 8. Use the numbered buttons after the diagram to choose angles.
       </p>
-      <svg
+      <SvgCanvas
         aria-hidden="true"
         className="guide-figure transversal-guide__figure"
         viewBox={`0 0 ${viewWidth} ${viewHeight}`}
@@ -432,14 +434,24 @@ export function TransversalAnglePairsIllustration() {
           );
         })}
 
-        <circle className="transversal-guide__intersection" cx={arrangement.p.x} cy={arrangement.p.y} r="4" />
-        <circle className="transversal-guide__intersection" cx={arrangement.q.x} cy={arrangement.q.y} r="4" />
-        <text className="transversal-guide__point-label" x={pLabel.x} y={pLabel.y}>P</text>
-        <text className="transversal-guide__point-label" x={qLabel.x} y={qLabel.y}>Q</text>
+        <StaticPoint
+          className="transversal-guide__intersection"
+          label="P"
+          labelOffset={{ x: pLabel.x - arrangement.p.x, y: pLabel.y - arrangement.p.y + 10 }}
+          point={arrangement.p}
+          radius={4}
+        />
+        <StaticPoint
+          className="transversal-guide__intersection"
+          label="Q"
+          labelOffset={{ x: qLabel.x - arrangement.q.x, y: qLabel.y - arrangement.q.y + 10 }}
+          point={arrangement.q}
+          radius={4}
+        />
         <text className="transversal-guide__line-label" x={upperLineLabel.x} y={upperLineLabel.y - 9}>ℓ</text>
         <text className="transversal-guide__line-label" x={lowerLineLabel.x} y={lowerLineLabel.y - 9}>m</text>
         <text className="transversal-guide__line-label" x={transversalLabel.x + 10} y={transversalLabel.y}>t</text>
-      </svg>
+      </SvgCanvas>
 
       <div aria-label="Choose angles" className="transversal-guide__angle-buttons">
         {angleNumbers.map((angle) => (

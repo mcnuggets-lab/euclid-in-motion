@@ -325,10 +325,12 @@ export function AASCongruenceIllustration({
 
   return (
     <div className="theorem-figure aas-congruence">
-      <svg
+      <SvgCanvas
         aria-describedby={descriptionId}
         aria-labelledby={titleId}
         className="theorem-figure__svg aas-congruence__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) setIsDragging(false);
@@ -339,14 +341,10 @@ export function AASCongruenceIllustration({
           }
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
+        title={isExploring ? "AAS Congruence reconstruction" : `AAS Congruence: ${currentStep.title}`}
+        titleId={titleId}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>
-          {isExploring ? "AAS Congruence reconstruction" : `AAS Congruence: ${currentStep.title}`}
-        </title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {isExploring ? (
           <>
             <text className="aas-congruence__panel-label" x="82" y="18">Choose △ABC</text>
@@ -367,13 +365,21 @@ export function AASCongruenceIllustration({
             <FigurePoint label="D" point={targetPointD} />
             <FigurePoint label="E" point={targetPointE} />
             <FigurePoint label="F" point={targetPointF} />
-            <circle className="aas-congruence__handle-target" cx={sourcePointA.x} cy={sourcePointA.y} onPointerDown={beginDrag} r={handleRadius} />
-            <circle className={classNames("aas-congruence__handle", isDragging && "aas-congruence__handle--active")} cx={sourcePointA.x} cy={sourcePointA.y} r="7" />
+            <DraggablePoint
+              hitRadius={handleRadius}
+              label="A"
+              onDrag={(p) => updateApex(p)}
+              onDragEnd={() => setIsDragging(false)}
+              onDragStart={() => setIsDragging(true)}
+              point={sourcePointA}
+              radius={7}
+              showLabel={false}
+            />
           </>
         ) : (
           renderGuidedStep(proofStep)
         )}
-      </svg>
+      </SvgCanvas>
 
       {isExploring ? (
         <>

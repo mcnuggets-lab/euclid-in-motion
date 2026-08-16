@@ -1,3 +1,4 @@
+import { StaticPoint, SvgCanvas } from "@/features/geometry/components";
 import "./styles/alternate-interior-converse.css";
 
 
@@ -93,23 +94,18 @@ function ConverseCorollaryDiagram({ kind }: { kind: CorollaryDiagramKind }) {
 
   return (
     <figure className="alternate-converse-corollary">
-      <svg
-        aria-labelledby={`${idPrefix}-title ${idPrefix}-description`}
+      <SvgCanvas
+        aria-describedby={`${idPrefix}-description`}
+        aria-labelledby={`${idPrefix}-title`}
         className="theorem-figure__svg alternate-converse-corollary__svg"
-        role="img"
+        description="Lines ℓ and m are cut by transversal t at P and Q. The highlighted angles are the hypothesis. The lines have no parallel arrow marks because their parallelism is the conclusion of the corollary."
+        descriptionId={`${idPrefix}-description`}
+        title={isCorresponding
+          ? "Congruent corresponding angles formed by two lines and a transversal"
+          : "Supplementary same-side interior angles formed by two lines and a transversal"}
+        titleId={`${idPrefix}-title`}
         viewBox="0 0 640 320"
       >
-        <title id={`${idPrefix}-title`}>
-          {isCorresponding
-            ? "Congruent corresponding angles formed by two lines and a transversal"
-            : "Supplementary same-side interior angles formed by two lines and a transversal"}
-        </title>
-        <desc id={`${idPrefix}-description`}>
-          Lines ℓ and m are cut by transversal t at P and Q. The highlighted
-          angles are the hypothesis. The lines have no parallel arrow marks
-          because their parallelism is the conclusion of the corollary.
-        </desc>
-
         <line
           className="alternate-converse-corollary__line"
           x1={lineEndpoints.lStart.x}
@@ -145,38 +141,30 @@ function ConverseCorollaryDiagram({ kind }: { kind: CorollaryDiagramKind }) {
           d={secondAnglePath}
         />
 
-        {Object.entries({
-          A: points.a,
-          B: points.b,
-          C: points.c,
-          D: points.d,
-          E: points.e,
-          P: points.p,
-          Q: points.q,
-          R: points.r,
-        }).map(([label, point]) => (
-          <circle
+        {([
+          ["A", points.a, { x: 134 - points.a.x, y: 43 - points.a.y + 10 }],
+          ["B", points.b, { x: 491 - points.b.x, y: 253 - points.b.y + 10 }],
+          ["C", points.c, { x: 239 - points.c.x, y: 171 - points.c.y + 10 }],
+          ["D", points.d, { x: 423 - points.d.x, y: 308 - points.d.y + 10 }],
+          ["E", points.e, { x: 387 - points.e.x, y: 120 - points.e.y + 10 }],
+          ["P", points.p, { x: 247 - points.p.x, y: 82 - points.p.y + 10 }],
+          ["Q", points.q, { x: 378 - points.q.x, y: 207 - points.q.y + 10 }],
+          ["R", points.r, { x: 193 - points.r.x, y: 26 - points.r.y + 10 }],
+        ] as const).map(([label, point, offset]) => (
+          <StaticPoint
             className="alternate-converse-corollary__point"
-            cx={point.x}
-            cy={point.y}
             key={`point-${label}`}
-            r={label === "P" || label === "Q" ? 4 : 3}
+            label={label}
+            labelOffset={offset}
+            point={point}
+            radius={label === "P" || label === "Q" ? 4 : 3}
           />
         ))}
-
-        <text className="alternate-converse-corollary__point-label" x="134" y="43">A</text>
-        <text className="alternate-converse-corollary__point-label" x="491" y="253">B</text>
-        <text className="alternate-converse-corollary__point-label" x="239" y="171">C</text>
-        <text className="alternate-converse-corollary__point-label" x="423" y="308">D</text>
-        <text className="alternate-converse-corollary__point-label" x="387" y="120">E</text>
-        <text className="alternate-converse-corollary__point-label" x="247" y="82">P</text>
-        <text className="alternate-converse-corollary__point-label" x="378" y="207">Q</text>
-        <text className="alternate-converse-corollary__point-label" x="193" y="26">R</text>
 
         <text className="alternate-converse-corollary__line-label" x="606" y="184">ℓ</text>
         <text className="alternate-converse-corollary__line-label" x="606" y="276">m</text>
         <text className="alternate-converse-corollary__line-label" x="454" y="302">t</text>
-      </svg>
+      </SvgCanvas>
     </figure>
   );
 }

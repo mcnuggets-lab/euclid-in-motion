@@ -1,6 +1,7 @@
 import { useEffect, useId, useState, type PointerEvent } from "react";
 import "./styles/asa-congruence.css";
 
+import { DraggablePoint, StaticPoint, SvgCanvas } from "@/features/geometry/components";
 import {
   angleBetweenPoints,
   constrainApexToBounds,
@@ -151,24 +152,16 @@ function FigurePoint({
 }) {
   const labelAbove = point.y < 110 || point.y > 188;
   return (
-    <g>
-      <circle
-        className={classNames(
-          "asa-congruence__point",
-          tone && `asa-congruence__point--${tone}`,
-        )}
-        cx={point.x}
-        cy={point.y}
-        r="4.5"
-      />
-      <text
-        className="asa-congruence__point-label"
-        x={point.x}
-        y={point.y + (labelAbove ? -11 : 16)}
-      >
-        {label}
-      </text>
-    </g>
+    <StaticPoint
+      className={classNames(
+        "asa-congruence__point",
+        tone && `asa-congruence__point--${tone}`,
+      )}
+      label={label}
+      labelOffset={{ x: 0, y: labelAbove ? -11 : 16 }}
+      point={point}
+      radius={4.5}
+    />
   );
 }
 
@@ -401,10 +394,12 @@ export function ASACongruenceIllustration({
 
   return (
     <div className="theorem-figure asa-congruence">
-      <svg
+      <SvgCanvas
         aria-describedby={descriptionId}
         aria-labelledby={titleId}
         className="theorem-figure__svg asa-congruence__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) setIsDragging(false);
@@ -415,14 +410,10 @@ export function ASACongruenceIllustration({
           }
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
+        title={isExploring ? "ASA Congruence reconstruction" : `ASA Congruence: ${currentStep.title}`}
+        titleId={titleId}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>
-          {isExploring ? "ASA Congruence reconstruction" : `ASA Congruence: ${currentStep.title}`}
-        </title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {isExploring ? (
           <>
             <text className="asa-congruence__panel-label" x="82" y="18">Choose △ABC</text>
@@ -441,13 +432,21 @@ export function ASACongruenceIllustration({
             <FigurePoint label="D" point={pointD} tone="result" />
             <FigurePoint label="E" point={targetPointE} />
             <FigurePoint label="F" point={targetPointF} />
-            <circle className="asa-congruence__handle-target" cx={pointA.x} cy={pointA.y} onPointerDown={beginDrag} r={handleRadius} />
-            <circle className={classNames("asa-congruence__handle", isDragging && "asa-congruence__handle--active")} cx={pointA.x} cy={pointA.y} r="7" />
+            <DraggablePoint
+              hitRadius={handleRadius}
+              label="A"
+              onDrag={(p) => updateApex(p)}
+              onDragEnd={() => setIsDragging(false)}
+              onDragStart={() => setIsDragging(true)}
+              point={pointA}
+              radius={7}
+              showLabel={false}
+            />
           </>
         ) : (
           renderGuidedStep(proofStep)
         )}
-      </svg>
+      </SvgCanvas>
 
       {isExploring ? (
         <>

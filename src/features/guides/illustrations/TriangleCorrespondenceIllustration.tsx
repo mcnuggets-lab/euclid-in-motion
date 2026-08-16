@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { StaticPoint, Segment, SvgCanvas } from "@/features/geometry/components";
+
 import {
   midpoint,
   type Point,
@@ -169,10 +171,9 @@ export function TriangleCorrespondenceIllustration() {
         </p>
       </div>
 
-      <svg
+      <SvgCanvas
         aria-label={`Congruent scalene triangles ABC and DEF are exact copies. Triangle ABC has AB marked 1, BC marked 2, and CA marked 3. Triangle DEF has EF marked 1, FD marked 2, and DE marked 3. The second triangle is ${reflected ? "reflected and " : ""}rotated ${rotation} degrees.`}
         className="guide-figure"
-        role="img"
         viewBox="0 0 400 255"
       >
         <polygon
@@ -186,19 +187,15 @@ export function TriangleCorrespondenceIllustration() {
 
         {selectedSide && selectedSecondSide ? (
           <>
-            <line
+            <Segment
               className="guide-figure__selected-side"
-              x1={firstPoints[firstVertices[selectedSide[0]]].x}
-              x2={firstPoints[firstVertices[selectedSide[1]]].x}
-              y1={firstPoints[firstVertices[selectedSide[0]]].y}
-              y2={firstPoints[firstVertices[selectedSide[1]]].y}
+              end={firstPoints[firstVertices[selectedSide[1]]]}
+              start={firstPoints[firstVertices[selectedSide[0]]]}
             />
-            <line
+            <Segment
               className="guide-figure__selected-side"
-              x1={secondPoints[selectedSecondSide[0]].x}
-              x2={secondPoints[selectedSecondSide[1]].x}
-              y1={secondPoints[selectedSecondSide[0]].y}
-              y2={secondPoints[selectedSecondSide[1]].y}
+              end={secondPoints[selectedSecondSide[1]]}
+              start={secondPoints[selectedSecondSide[0]]}
             />
           </>
         ) : null}
@@ -220,16 +217,14 @@ export function TriangleCorrespondenceIllustration() {
                 r="11"
               />
             ) : null}
-            <circle
+            <StaticPoint
               className="guide-figure__vertex"
-              cx={point.x}
-              cy={point.y}
               fill={vertexColors[vertex as FirstVertex]}
-              r="7"
+              label={vertex}
+              labelOffset={{ x: 0, y: -13 }}
+              point={point}
+              radius={7}
             />
-            <text className="guide-figure__label" x={point.x} y={point.y - 13}>
-              {vertex}
-            </text>
           </g>
         ))}
         {Object.entries(secondPoints).map(([vertex, point]) => (
@@ -242,19 +237,17 @@ export function TriangleCorrespondenceIllustration() {
                 r="11"
               />
             ) : null}
-            <circle
+            <StaticPoint
               className="guide-figure__vertex"
-              cx={point.x}
-              cy={point.y}
               fill={vertexColors[vertex as SecondVertex]}
-              r="7"
+              label={vertex}
+              labelOffset={{ x: 0, y: -13 }}
+              point={point}
+              radius={7}
             />
-            <text className="guide-figure__label" x={point.x} y={point.y - 13}>
-              {vertex}
-            </text>
           </g>
         ))}
-      </svg>
+      </SvgCanvas>
 
       <fieldset className="guide-shape-controls">
         <legend>Change the shared scalene shape</legend>
