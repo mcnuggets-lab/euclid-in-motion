@@ -20,9 +20,108 @@ const rayParallelTolerance = 1e-8;
 const fullTurnDegrees = 360;
 const halfTurnDegrees = 180;
 
-function clamp(value: number, minimum: number, maximum: number) {
+export function clamp(value: number, minimum: number, maximum: number) {
   return Math.min(Math.max(value, minimum), maximum);
 }
+
+export function distance(first: Point, second: Point) {
+  return Math.hypot(second.x - first.x, second.y - first.y);
+}
+
+export function midpoint(first: Point, second: Point): Point {
+  return {
+    x: (first.x + second.x) / 2,
+    y: (first.y + second.y) / 2,
+  };
+}
+
+export function pointAlong(first: Point, second: Point, fraction: number): Point {
+  return {
+    x: first.x + (second.x - first.x) * fraction,
+    y: first.y + (second.y - first.y) * fraction,
+  };
+}
+
+export function angleFrom(vertex: Point, point: Point) {
+  return Math.atan2(point.y - vertex.y, point.x - vertex.x);
+}
+
+export function polarPointRadians(center: Point, radius: number, angle: number): Point {
+  return {
+    x: center.x + Math.cos(angle) * radius,
+    y: center.y + Math.sin(angle) * radius,
+  };
+}
+
+export function circleIntersections(
+  centerA: Point,
+  radiusA: number,
+  centerB: Point,
+  radiusB: number,
+) {
+  const dx = centerB.x - centerA.x;
+  const dy = centerB.y - centerA.y;
+  const dist = Math.hypot(dx, dy);
+
+  if (
+    dist > radiusA + radiusB ||
+    dist < Math.abs(radiusA - radiusB) ||
+    dist === 0
+  ) {
+    return [];
+  }
+
+  const a = (radiusA ** 2 - radiusB ** 2 + dist ** 2) / (2 * dist);
+  const hSquared = radiusA ** 2 - a ** 2;
+  const h = hSquared > 0 ? Math.sqrt(hSquared) : 0;
+  const xm = centerA.x + (a * dx) / dist;
+  const ym = centerA.y + (a * dy) / dist;
+  const rx = (-dy * h) / dist;
+  const ry = (dx * h) / dist;
+
+  return [
+    { x: xm + rx, y: ym + ry },
+    { x: xm - rx, y: ym - ry },
+  ];
+}
+
+export function lineEndpointsFromPoints(first: Point, second: Point, reach = 400) {
+  const dx = second.x - first.x;
+  const dy = second.y - first.y;
+  const length = Math.hypot(dx, dy) || 1;
+  const ux = dx / length;
+  const uy = dy / length;
+
+  return {
+    x1: first.x - ux * reach,
+    x2: first.x + ux * reach,
+    y1: first.y - uy * reach,
+    y2: first.y + uy * reach,
+  };
+}
+
+export function pointToLineDistance(point: Point, first: Point, second: Point) {
+  const numerator = Math.abs(
+    (second.y - first.y) * point.x -
+      (second.x - first.x) * point.y +
+      second.x * first.y -
+      second.y * first.x,
+  );
+  const denominator = Math.hypot(second.y - first.y, second.x - first.x) || 1;
+  return numerator / denominator;
+}
+
+export function formatDisplayNumber(value: number, fractionDigits = 0) {
+  if (!Number.isFinite(value)) {
+    return "—";
+  }
+
+  const digits = Math.min(10, Math.max(0, Math.trunc(fractionDigits)));
+  const zeroThreshold = 0.5 * 10 ** -digits;
+  const normalizedValue = Math.abs(value) < zeroThreshold ? 0 : value;
+  return normalizedValue.toFixed(digits);
+}
+
 
 function cross(first: Point, second: Point) {
   return first.x * second.y - first.y * second.x;

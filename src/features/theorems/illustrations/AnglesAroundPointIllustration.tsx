@@ -2,15 +2,16 @@ import { useEffect, useId, useState } from "react";
 import "./styles/supporting-figures.css";
 
 import {
-  dragHandle,
-  getSvgCoordinates,
-  pointLabel,
-  svgHeight,
-  svgWidth,
-  type Point,
+  AngleSector,
+  DraggablePoint,
+  RayLine,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
+import {
+  polarPointRadians as polarPoint,
 } from "@/features/geometry/illustrationUtils";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
-
 
 type AroundPointStep = TheoremDiscovery & {
   focusSectors: string[];
@@ -81,29 +82,9 @@ function avoidCoincidingRay(
   return available;
 }
 
-function polarPoint(radius: number, angleDegrees: number): Point {
-  const radians = (angleDegrees * Math.PI) / 180;
-  return {
-    x: center.x + Math.cos(radians) * radius,
-    y: center.y - Math.sin(radians) * radius,
-  };
-}
-
-function sectorPath(radius: number, startDegrees: number, endDegrees: number) {
-  const start = polarPoint(radius, startDegrees);
-  const end = polarPoint(radius, endDegrees);
-  const largeArc = endDegrees - startDegrees > 180 ? 1 : 0;
-  return [
-    `M ${center.x} ${center.y}`,
-    `L ${start.x} ${start.y}`,
-    `A ${radius} ${radius} 0 ${largeArc} 0 ${end.x} ${end.y}`,
-    "Z",
-  ].join(" ");
-}
-
 function arcPath(radius: number, startDegrees: number, endDegrees: number) {
-  const start = polarPoint(radius, startDegrees);
-  const end = polarPoint(radius, endDegrees);
+  const start = polarPoint(center, radius, (-startDegrees * Math.PI) / 180);
+  const end = polarPoint(center, radius, (-endDegrees * Math.PI) / 180);
   return `M ${start.x} ${start.y} A ${radius} ${radius} 0 0 0 ${end.x} ${end.y}`;
 }
 
@@ -124,7 +105,6 @@ export function AnglesAroundPointIllustration({
 }) {
   const sliderId = useId();
   const [rayAngles, setRayAngles] = useState(() => [...initialRayAngles[4]]);
-  const [dragTarget, setDragTarget] = useState<number | null>(null);
 
   const angleCount = rayAngles.length;
   const orderedRays: OrderedRay[] = rayAngles
@@ -134,6 +114,7 @@ export function AnglesAroundPointIllustration({
       sourceIndex,
     }))
     .sort((first, second) => first.angle - second.angle);
+
   const originalSectors: OriginalSector[] = orderedRays.map((ray, index) => {
     const nextRay = orderedRays[(index + 1) % angleCount];
     const end = nextRay.angle + (index === angleCount - 1 ? 360 : 0);
@@ -148,6 +129,7 @@ export function AnglesAroundPointIllustration({
       startLabel: ray.label,
     };
   });
+
   const coincidentRayIndex = orderedRays.findIndex((ray) => ray.angle === 180);
   const splitSectorIndex =
     coincidentRayIndex === -1
@@ -155,12 +137,8 @@ export function AnglesAroundPointIllustration({
       : -1;
   const splitSector =
     splitSectorIndex === -1 ? null : originalSectors[splitSectorIndex];
-  const upperPieceName = splitSector
-    ? angleName(splitSector.startLabel, "X")
-    : "";
-  const lowerPieceName = splitSector
-    ? angleName("X", splitSector.endLabel)
-    : "";
+  const upperPieceName = splitSector ? angleName(splitSector.startLabel, "X") : "";
+  const lowerPieceName = splitSector ? angleName("X", splitSector.endLabel) : "";
   const upperPieceMeasure = splitSector ? 180 - splitSector.start : 0;
   const lowerPieceMeasure = splitSector ? splitSector.end - 180 : 0;
   const fullTotal = originalSectors.reduce(
@@ -232,6 +210,7 @@ export function AnglesAroundPointIllustration({
       .join(", ")}. The total of all ${angleCount} angles is ${degreeLabel(fullTotal)}.`,
     title: "Explore the figure",
   };
+
   const proofSteps: AroundPointStep[] = [
     {
       focusSectors: allSectorKeys,
@@ -266,6 +245,7 @@ export function AnglesAroundPointIllustration({
       title: "Step 4: Recover the original full turn",
     },
   ];
+
   const isExploring = activeStep === null;
   const currentStep = isExploring ? explorationStep : proofSteps[activeStep];
 
@@ -278,76 +258,53 @@ export function AnglesAroundPointIllustration({
   }, [activeStep, onDiscoveryChange, rayAngles]);
 
   const angleLabels = originalSectors.map((sector, index) => ({
-    labelPoint: polarPoint(36, sector.start + sector.measure / 2),
-    namePoint: polarPoint(24, sector.start + sector.measure / 2),
+    labelPoint: polarPoint(
+      center,
+      36,
+      (-((sector.start + sector.measure / 2) % 360) * Math.PI) / 180,
+    ),
+    namePoint: polarPoint(
+      center,
+      24,
+      (-((sector.start + sector.measure / 2) % 360) * Math.PI) / 180,
+    ),
     number: index + 1,
   }));
+
   const upperPieceLabel = splitSector
-    ? polarPoint(38, (splitSector.start + 180) / 2)
+    ? polarPoint(center, 38, (-((splitSector.start + 180) / 2) * Math.PI) / 180)
     : null;
   const lowerPieceLabel = splitSector
-    ? polarPoint(38, (180 + splitSector.end) / 2)
+    ? polarPoint(center, 38, (-((180 + splitSector.end) / 2) * Math.PI) / 180)
     : null;
-  const handles = rayAngles.map((angle) => polarPoint(rayLength, angle));
+
+  const handles = rayAngles.map((angle) =>
+    polarPoint(center, rayLength, (-angle * Math.PI) / 180),
+  );
 
   return (
     <div className="theorem-figure">
-      <svg
+      <SvgCanvas
         aria-label={`Interactive figure with ${angleCount} angles around a point`}
         className="theorem-figure__svg"
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setDragTarget(null);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (dragTarget === null) {
-            return;
-          }
-
-          const point = getSvgCoordinates(event.currentTarget, event);
-          const pointerAngle = normalizeDegrees(
-            Math.round(
-              (Math.atan2(center.y - point.y, point.x - center.x) * 180) /
-                Math.PI,
-            ),
-          );
-          setRayAngles((angles) => {
-            const occupiedAngles = new Set(
-              angles.filter((_, index) => index !== dragTarget),
-            );
-            const nextAngle = avoidCoincidingRay(
-              pointerAngle,
-              angles[dragTarget],
-              occupiedAngles,
-            );
-            return angles.map((angle, index) =>
-              index === dragTarget ? nextAngle : angle,
-            );
-          });
-        }}
-        onPointerUp={() => setDragTarget(null)}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        {sectorPieces.map((sector) => (
-          <path
-            className={
-              [
-                "theorem-figure__sector",
-                isExploring
-                  ? ""
-                  : currentStep.focusSectors.includes(sector.key)
-                    ? "theorem-figure__sector--focused"
-                    : "theorem-figure__sector--muted",
-              ]
-                .filter(Boolean)
-                .join(" ")
-            }
-            d={sectorPath(48, sector.start, sector.end)}
-            fill={sector.fill}
-            key={sector.key}
-          />
-        ))}
+        {sectorPieces.map((sector) => {
+          const isFocused =
+            !isExploring && currentStep.focusSectors.includes(sector.key);
+          const state = isExploring ? "normal" : isFocused ? "focused" : "muted";
+
+          return (
+            <AngleSector
+              key={sector.key}
+              endAngle={(-sector.start * Math.PI) / 180}
+              fill={sector.fill}
+              radius={48}
+              startAngle={(-sector.end * Math.PI) / 180}
+              state={state}
+              vertex={center}
+            />
+          );
+        })}
 
         {angleLabels.map((angle, index) => (
           <g key={originalSectors[index].key}>
@@ -406,18 +363,15 @@ export function AnglesAroundPointIllustration({
           </g>
         ) : null}
 
-        <line stroke="#555" strokeWidth="2" x1={center.x} x2="276" y1={center.y} y2="110" />
+        <RayLine origin={center} through={{ x: 276, y: 110 }} type="ray" />
         {rayAngles.slice(1).map((_, index) => {
           const rayIndex = index + 1;
           return (
-            <line
+            <RayLine
               key={rayLabels[rayIndex]}
-              stroke="#555"
-              strokeWidth="2"
-              x1={center.x}
-              x2={handles[rayIndex].x}
-              y1={center.y}
-              y2={handles[rayIndex].y}
+              origin={center}
+              through={handles[rayIndex]}
+              type="ray"
             />
           );
         })}
@@ -431,35 +385,53 @@ export function AnglesAroundPointIllustration({
               y1={center.y}
               y2="110"
             />
-            <circle className="angles-around-point__auxiliary-point" cx="44" cy="110" r="5" />
-            <text className="axiom-figure__label" x="52" y="102">
-              X
-            </text>
+            <StaticPoint
+              label="X"
+              labelOffset={{ x: 8, y: -8 }}
+              point={{ x: 44, y: 110 }}
+              radius={5}
+              tone="constructed"
+            />
           </g>
         ) : null}
 
-        {pointLabel({ x: 276, y: 110 }, "A")}
+        <StaticPoint label="A" labelOffset={{ x: 8, y: -8 }} point={{ x: 276, y: 110 }} />
         {rayAngles.slice(1).map((_, index) => {
           const rayIndex = index + 1;
           return (
-            <g key={rayLabels[rayIndex]}>
-              {dragHandle(
-                handles[rayIndex],
-                rayLabels[rayIndex],
-                (event) => {
-                  event.currentTarget.setPointerCapture(event.pointerId);
-                  setDragTarget(rayIndex);
-                },
-                "accent",
-              )}
-            </g>
+            <DraggablePoint
+              key={rayLabels[rayIndex]}
+              ariaLabel={`Ray O${rayLabels[rayIndex]}`}
+              label={rayLabels[rayIndex]}
+              labelOffset={{ x: 10, y: -10 }}
+              onDrag={(point) => {
+                const pointerAngle = normalizeDegrees(
+                  Math.round(
+                    (Math.atan2(center.y - point.y, point.x - center.x) * 180) /
+                      Math.PI,
+                  ),
+                );
+                setRayAngles((angles) => {
+                  const occupiedAngles = new Set(
+                    angles.filter((_, idx) => idx !== rayIndex),
+                  );
+                  const nextAngle = avoidCoincidingRay(
+                    pointerAngle,
+                    angles[rayIndex],
+                    occupiedAngles,
+                  );
+                  return angles.map((angle, idx) =>
+                    idx === rayIndex ? nextAngle : angle,
+                  );
+                });
+              }}
+              point={handles[rayIndex]}
+              tone="accent"
+            />
           );
         })}
-        <circle cx={center.x} cy={center.y} fill="#1f5fbf" r="5" />
-        <text className="axiom-figure__label" x={center.x + 8} y={center.y - 8}>
-          O
-        </text>
-      </svg>
+        <StaticPoint label="O" labelOffset={{ x: 8, y: -8 }} point={center} tone="accent" />
+      </SvgCanvas>
 
       <div className="angles-around-point__controls">
         <label htmlFor={sliderId}>
@@ -474,7 +446,6 @@ export function AnglesAroundPointIllustration({
           onChange={(event) => {
             const nextCount = Number(event.target.value);
             setRayAngles([...initialRayAngles[nextCount]]);
-            setDragTarget(null);
           }}
           step="1"
           type="range"

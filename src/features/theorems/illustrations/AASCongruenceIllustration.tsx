@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/aas-congruence.css";
 
 import {
@@ -18,6 +18,7 @@ import {
   svgHeight,
   svgWidth,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 import { TriangleApexControls } from "@/features/theorems/illustrations/TriangleApexControls";
 
@@ -306,13 +307,6 @@ export function AASCongruenceIllustration({
     setHeight(nextApex.height);
   };
 
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    if (!isExploring) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
-
   const figureDescription = isExploring
     ? "AAS free exploration. Triangle ABC has draggable upper point A above fixed base BC. Angles at A and B and non-included side BC are copied to the second triangle. The missing angle at F is derived from the 180 degree total, and its ray meets the copied angle ray from E at D in the shown chosen half-plane. The opposite half-plane would give the congruent mirror image."
     : proofStep === 0
@@ -325,10 +319,12 @@ export function AASCongruenceIllustration({
 
   return (
     <div className="theorem-figure aas-congruence">
-      <svg
+      <SvgCanvas
         aria-describedby={descriptionId}
         aria-labelledby={titleId}
         className="theorem-figure__svg aas-congruence__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) setIsDragging(false);
@@ -339,14 +335,10 @@ export function AASCongruenceIllustration({
           }
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
+        title={isExploring ? "AAS Congruence reconstruction" : `AAS Congruence: ${currentStep.title}`}
+        titleId={titleId}
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>
-          {isExploring ? "AAS Congruence reconstruction" : `AAS Congruence: ${currentStep.title}`}
-        </title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {isExploring ? (
           <>
             <text className="aas-congruence__panel-label" x="82" y="18">Choose △ABC</text>
@@ -367,13 +359,21 @@ export function AASCongruenceIllustration({
             <FigurePoint label="D" point={targetPointD} />
             <FigurePoint label="E" point={targetPointE} />
             <FigurePoint label="F" point={targetPointF} />
-            <circle className="aas-congruence__handle-target" cx={sourcePointA.x} cy={sourcePointA.y} onPointerDown={beginDrag} r={handleRadius} />
-            <circle className={classNames("aas-congruence__handle", isDragging && "aas-congruence__handle--active")} cx={sourcePointA.x} cy={sourcePointA.y} r="7" />
+            <DraggablePoint
+              hitRadius={handleRadius}
+              label="A"
+              onDrag={(p) => updateApex(p)}
+              onDragEnd={() => setIsDragging(false)}
+              onDragStart={() => setIsDragging(true)}
+              point={sourcePointA}
+              radius={7}
+              showLabel={false}
+            />
           </>
         ) : (
           renderGuidedStep(proofStep)
         )}
-      </svg>
+      </SvgCanvas>
 
       {isExploring ? (
         <>

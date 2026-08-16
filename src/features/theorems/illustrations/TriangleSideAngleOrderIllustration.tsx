@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/triangle-side-angle-order.css";
 
 import {
@@ -16,6 +16,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type TriangleSideAngleOrderIllustrationProps = {
@@ -312,15 +313,6 @@ export function TriangleSideAngleOrderIllustration({
     );
   };
 
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    if (!isExploring) {
-      return;
-    }
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
-
   const showIsosceles = !isExploring && proofStep >= 1;
   const showExterior = !isExploring && proofStep >= 2;
   const showChain = !isExploring && proofStep >= 3;
@@ -331,10 +323,12 @@ export function TriangleSideAngleOrderIllustration({
 
   return (
     <div className="theorem-figure triangle-side-angle-order">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg triangle-side-angle-order__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "Triangle side and opposite-angle order interactive" : `Triangle side and opposite-angle order: ${currentStep.title}`}
+        className="triangle-side-angle-order__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -347,12 +341,8 @@ export function TriangleSideAngleOrderIllustration({
           }
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Triangle side and opposite-angle order interactive</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         <line
           className="triangle-side-angle-order__side triangle-side-angle-order__side--ab"
           x1={pointA.x}
@@ -396,8 +386,7 @@ export function TriangleSideAngleOrderIllustration({
               y1={proofPointC.y}
               y2={proofPointD.y}
             />
-            <circle className="triangle-side-angle-order__point triangle-side-angle-order__point--constructed" cx={proofPointD.x} cy={proofPointD.y} r="4" />
-            <text className="triangle-side-angle-order__point-label triangle-side-angle-order__point-label--constructed" x={proofPointD.x + 9} y={proofPointD.y - 8}>D</text>
+            <StaticPoint className="triangle-side-angle-order__point triangle-side-angle-order__point--constructed" point={proofPointD} label="D" labelOffset={{ x: 9, y: -8 }} radius={4} />
             {hatchMark(midpoint(proofPointA, proofPointC), { x: proofPointC.x - proofPointA.x, y: proofPointC.y - proofPointA.y }, 5, "ac-tick", "#c25b2a")}
             {hatchMark(midpoint(proofPointA, proofPointD), { x: proofPointD.x - proofPointA.x, y: proofPointD.y - proofPointA.y }, 5, "ad-tick", "#c25b2a")}
             {showIsosceles ? (
@@ -421,26 +410,26 @@ export function TriangleSideAngleOrderIllustration({
           </>
         ) : null}
 
-        <circle className="triangle-side-angle-order__point" cx={pointA.x} cy={pointA.y} r="4.5" />
-        <circle className="triangle-side-angle-order__point" cx={pointB.x} cy={pointB.y} r="4.5" />
-        <circle className="triangle-side-angle-order__point" cx={pointC.x} cy={pointC.y} r="4.5" />
-        <text
-          className="triangle-side-angle-order__point-label"
-          x={pointA.x}
-          y={pointA.y - 11}
-        >
-          A
-        </text>
-        <text className="triangle-side-angle-order__point-label" x={pointB.x - 10} y={pointB.y + 17}>B</text>
-        <text className="triangle-side-angle-order__point-label" x={pointC.x + 10} y={pointC.y + 17}>C</text>
+        <StaticPoint className="triangle-side-angle-order__point" point={pointB} label="B" labelOffset={{ x: -10, y: 17 }} />
+        <StaticPoint className="triangle-side-angle-order__point" point={pointC} label="C" labelOffset={{ x: 10, y: 17 }} />
 
         {isExploring ? (
-          <>
-            <circle className="triangle-side-angle-order__handle-target" cx={pointA.x} cy={pointA.y} onPointerDown={beginDrag} r={handleRadius} />
-            <circle className={classNames("triangle-side-angle-order__handle", isDragging && "triangle-side-angle-order__handle--active")} cx={pointA.x} cy={pointA.y} r="7" />
-          </>
-        ) : null}
-      </svg>
+          <DraggablePoint
+            hitRadius={handleRadius}
+            label="A"
+            labelOffset={{ x: 0, y: -11 }}
+            onDrag={(p) => updateApex(p)}
+            onDragEnd={() => setIsDragging(false)}
+            onDragStart={() => setIsDragging(true)}
+            point={pointA}
+            radius={7}
+            className={classNames("triangle-side-angle-order__handle", isDragging && "triangle-side-angle-order__handle--active")}
+            showLabel={true}
+          />
+        ) : (
+          <StaticPoint className="triangle-side-angle-order__point" point={pointA} label="A" labelOffset={{ x: 0, y: -11 }} />
+        )}
+      </SvgCanvas>
 
       {isExploring ? (
         <div className="triangle-side-angle-order__ranking">

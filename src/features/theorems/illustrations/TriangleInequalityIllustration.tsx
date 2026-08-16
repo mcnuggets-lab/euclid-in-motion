@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/triangle-inequality.css";
 
 import {
@@ -15,6 +15,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type TriangleInequalityIllustrationProps = {
@@ -271,15 +272,6 @@ export function TriangleInequalityIllustration({
     );
   };
 
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    if (!isExploring) {
-      return;
-    }
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
-
   const showConstruction = !isExploring && proofStep < 4;
   const showIsosceles = showConstruction && proofStep >= 1;
   const showAngleComparison = showConstruction && proofStep >= 2;
@@ -291,10 +283,12 @@ export function TriangleInequalityIllustration({
 
   return (
     <div className="theorem-figure triangle-inequality">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg triangle-inequality__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "Triangle inequality interactive" : `Triangle inequality: ${currentStep.title}`}
+        className="triangle-inequality__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -307,12 +301,8 @@ export function TriangleInequalityIllustration({
           }
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Triangle inequality interactive</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         <line
           className={classNames(
             "triangle-inequality__side triangle-inequality__side--ab",
@@ -401,8 +391,7 @@ export function TriangleInequalityIllustration({
                 y2={proofPointD.y}
               />
             ) : null}
-            <circle className="triangle-inequality__point triangle-inequality__point--constructed" cx={proofPointD.x} cy={proofPointD.y} r="4.5" />
-            <text className="triangle-inequality__point-label triangle-inequality__point-label--constructed" x={proofPointD.x + 10} y={proofPointD.y - 8}>D</text>
+            <StaticPoint className="triangle-inequality__point triangle-inequality__point--constructed" point={proofPointD} label="D" labelOffset={{ x: 10, y: -8 }} radius={4.5} />
           </>
         ) : null}
 
@@ -414,20 +403,26 @@ export function TriangleInequalityIllustration({
           </>
         ) : null}
 
-        <circle className="triangle-inequality__point" cx={pointA.x} cy={pointA.y} r="4.5" />
-        <circle className="triangle-inequality__point" cx={pointB.x} cy={pointB.y} r="4.5" />
-        <circle className="triangle-inequality__point" cx={pointC.x} cy={pointC.y} r="4.5" />
-        <text className="triangle-inequality__point-label" x={pointA.x} y={pointA.y - 11}>A</text>
-        <text className="triangle-inequality__point-label" x={pointB.x - 10} y={pointB.y + 17}>B</text>
-        <text className="triangle-inequality__point-label" x={pointC.x + 10} y={pointC.y + 17}>C</text>
+        <StaticPoint className="triangle-inequality__point" point={pointB} label="B" labelOffset={{ x: -10, y: 17 }} />
+        <StaticPoint className="triangle-inequality__point" point={pointC} label="C" labelOffset={{ x: 10, y: 17 }} />
 
         {isExploring ? (
-          <>
-            <circle className="triangle-inequality__handle-target" cx={pointA.x} cy={pointA.y} onPointerDown={beginDrag} r={handleRadius} />
-            <circle className={classNames("triangle-inequality__handle", isDragging && "triangle-inequality__handle--active")} cx={pointA.x} cy={pointA.y} r="7" />
-          </>
-        ) : null}
-      </svg>
+          <DraggablePoint
+            hitRadius={handleRadius}
+            label="A"
+            labelOffset={{ x: 0, y: -11 }}
+            onDrag={(p) => updateApex(p)}
+            onDragEnd={() => setIsDragging(false)}
+            onDragStart={() => setIsDragging(true)}
+            point={pointA}
+            radius={7}
+            className={classNames("triangle-inequality__handle", isDragging && "triangle-inequality__handle--active")}
+            showLabel={true}
+          />
+        ) : (
+          <StaticPoint className="triangle-inequality__point" point={pointA} label="A" labelOffset={{ x: 0, y: -11 }} />
+        )}
+      </SvgCanvas>
 
       {isExploring ? (
         <div aria-label="Three triangle inequalities" className="triangle-inequality__inequalities" role="group">

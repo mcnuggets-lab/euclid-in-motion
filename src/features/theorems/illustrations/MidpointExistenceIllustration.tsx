@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/midpoint-existence.css";
 
 import {
@@ -13,6 +13,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type MidpointExistenceIllustrationProps = {
@@ -225,13 +226,6 @@ export function MidpointExistenceIllustration({
     });
   }, [currentStep.insight, currentStep.prompt, currentStep.title, onDiscoveryChange]);
 
-  const beginDrag =
-    (target: Exclude<DragTarget, null>) =>
-    (event: PointerEvent<SVGCircleElement>) => {
-      event.currentTarget.setPointerCapture(event.pointerId);
-      setDragTarget(target);
-    };
-
   const renderSummary = () => {
     if (isExploring || showConclusion) {
       return (
@@ -329,10 +323,12 @@ export function MidpointExistenceIllustration({
 
   return (
     <div className="theorem-figure midpoint-existence">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg midpoint-existence__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "Midpoint existence interactive figure" : `Midpoint existence: ${currentStep.title}`}
+        className="midpoint-existence__svg"
         onPointerCancel={() => setDragTarget(null)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -379,12 +375,8 @@ export function MidpointExistenceIllustration({
           }
         }}
         onPointerUp={() => setDragTarget(null)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Midpoint existence interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {isExploring ? (
           <>
             <line className="midpoint-existence__base" x1={pointA.x} x2={pointB.x} y1={pointA.y} y2={pointB.y} />
@@ -454,87 +446,107 @@ export function MidpointExistenceIllustration({
           </>
         )}
 
-        <circle className="midpoint-existence__point" cx={pointA.x} cy={pointA.y} r="4.5" />
-        <circle className="midpoint-existence__point" cx={pointB.x} cy={pointB.y} r="4.5" />
-        {!isExploring ? <circle className="midpoint-existence__point" cx={pointP.x} cy={pointP.y} r="4.5" /> : null}
-        {(isExploring || showM) ? (
-          <circle
+        <StaticPoint className="midpoint-existence__point" point={pointA} label="A" labelOffset={{ x: -11, y: 19 }} />
+
+        {isExploring ? (
+          <DraggablePoint
+            hitRadius={handleRadius}
+            label="M"
+            labelOffset={{ x: 0, y: -13 }}
+            onDrag={(p) => {
+              const nextPosition =
+                ((p.x - pointA.x) / displayedBaseLength) * 100;
+              setCandidatePosition(
+                Math.round(
+                  clamp(
+                    nextPosition,
+                    minimumCandidatePosition,
+                    maximumCandidatePosition,
+                  ),
+                ),
+              );
+            }}
+            onDragEnd={() => setDragTarget(null)}
+            onDragStart={() => setDragTarget("candidate")}
+            point={pointM}
+            radius={7}
+            className={classNames(
+              "midpoint-existence__handle",
+              "midpoint-existence__handle--candidate",
+              isMidpoint && "midpoint-existence__handle--result",
+              dragTarget === "candidate" && "midpoint-existence__handle--active",
+            )}
+            showLabel={true}
+          />
+        ) : showM ? (
+          <StaticPoint
             className={classNames(
               "midpoint-existence__point",
               "midpoint-existence__point--m",
-              (isMidpoint || showConclusion) && "midpoint-existence__point--result",
+              showConclusion && "midpoint-existence__point--result",
             )}
-            cx={pointM.x}
-            cy={pointM.y}
-            r="5"
+            point={pointM}
+            label="M"
+            labelOffset={{ x: 0, y: -13 }}
+            radius={5}
           />
         ) : null}
 
-        <text className="midpoint-existence__label" x={pointA.x - 11} y={pointA.y + 19}>A</text>
-        <text className="midpoint-existence__label" x={pointB.x + 11} y={pointB.y + 19}>B</text>
-        {!isExploring ? <text className="midpoint-existence__label" x={pointP.x} y={pointP.y - 11}>P</text> : null}
-        {(isExploring || showM) ? <text className="midpoint-existence__label midpoint-existence__label--m" x={pointM.x} y={pointM.y - 13}>M</text> : null}
-
-        <circle
-          className="midpoint-existence__handle-target"
-          cx={pointB.x}
-          cy={pointB.y}
-          onPointerDown={beginDrag("base")}
-          r={handleRadius}
-        />
-        <circle
+        <DraggablePoint
+          hitRadius={handleRadius}
+          label="B"
+          labelOffset={{ x: 11, y: 19 }}
+          onDrag={(p) => {
+            const nextBaseLength = isExploring
+              ? ((p.x - svgWidth / 2) * 2) / explorationScale
+              : (p.x - svgWidth / 2) * 2;
+            setBaseLength(
+              Math.round(
+                clamp(nextBaseLength, minimumBaseLength, maximumBaseLength),
+              ),
+            );
+          }}
+          onDragEnd={() => setDragTarget(null)}
+          onDragStart={() => setDragTarget("base")}
+          point={pointB}
+          radius={7}
           className={classNames(
             "midpoint-existence__handle",
             "midpoint-existence__handle--base",
             dragTarget === "base" && "midpoint-existence__handle--active",
           )}
-          cx={pointB.x}
-          cy={pointB.y}
-          r="7"
+          showLabel={true}
         />
-        {isExploring ? (
-          <>
-            <circle
-              className="midpoint-existence__handle-target"
-              cx={pointM.x}
-              cy={pointM.y}
-              onPointerDown={beginDrag("candidate")}
-              r={handleRadius}
-            />
-            <circle
-              className={classNames(
-                "midpoint-existence__handle",
-                "midpoint-existence__handle--candidate",
-                isMidpoint && "midpoint-existence__handle--result",
-                dragTarget === "candidate" && "midpoint-existence__handle--active",
-              )}
-              cx={pointM.x}
-              cy={pointM.y}
-              r="7"
-            />
-          </>
-        ) : (
-          <>
-            <circle
-              className="midpoint-existence__handle-target"
-              cx={pointP.x}
-              cy={pointP.y}
-              onPointerDown={beginDrag("apex")}
-              r={handleRadius}
-            />
-            <circle
-              className={classNames(
-                "midpoint-existence__handle",
-                "midpoint-existence__handle--apex",
-                dragTarget === "apex" && "midpoint-existence__handle--active",
-              )}
-              cx={pointP.x}
-              cy={pointP.y}
-              r="7"
-            />
-          </>
-        )}
-      </svg>
+
+        {!isExploring ? (
+          <DraggablePoint
+            hitRadius={handleRadius}
+            label="P"
+            labelOffset={{ x: 0, y: -11 }}
+            onDrag={(p) => {
+              setApexHeight(
+                Math.round(
+                  clamp(
+                    proofBaseY - p.y,
+                    minimumApexHeight,
+                    maximumApexHeight,
+                  ),
+                ),
+              );
+            }}
+            onDragEnd={() => setDragTarget(null)}
+            onDragStart={() => setDragTarget("apex")}
+            point={pointP}
+            radius={7}
+            className={classNames(
+              "midpoint-existence__handle",
+              "midpoint-existence__handle--apex",
+              dragTarget === "apex" && "midpoint-existence__handle--active",
+            )}
+            showLabel={true}
+          />
+        ) : null}
+      </SvgCanvas>
 
       <div className="midpoint-existence__summary theorem-figure__summary">
         {renderSummary()}

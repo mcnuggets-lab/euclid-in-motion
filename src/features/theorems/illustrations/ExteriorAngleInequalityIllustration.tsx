@@ -12,6 +12,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type ExteriorAngleInequalityIllustrationProps = {
@@ -438,10 +439,12 @@ export function ExteriorAngleInequalityIllustration({
 
   return (
     <div className="theorem-figure exterior-angle-inequality">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg exterior-angle-inequality__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "Exterior-angle inequality interactive figure" : `Exterior-angle inequality: ${currentStep.title}`}
+        className="exterior-angle-inequality__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -466,12 +469,8 @@ export function ExteriorAngleInequalityIllustration({
           );
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Exterior-angle inequality interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         <line className="exterior-angle-inequality__side" x1={pointA.x} x2={pointB.x} y1={pointA.y} y2={pointB.y} />
         <line className="exterior-angle-inequality__side" x1={pointA.x} x2={pointC.x} y1={pointA.y} y2={pointC.y} />
         <line className="exterior-angle-inequality__side" x1={pointB.x} x2={pointC.x} y1={pointB.y} y2={pointC.y} />
@@ -536,62 +535,50 @@ export function ExteriorAngleInequalityIllustration({
           </>
         ) : null}
 
-        <circle className="exterior-angle-inequality__point" cx={pointA.x} cy={pointA.y} r="4.5" />
-        <circle className="exterior-angle-inequality__point" cx={pointB.x} cy={pointB.y} r="4.5" />
-        <circle className="exterior-angle-inequality__point" cx={pointC.x} cy={pointC.y} r="4.5" />
-        <circle className="exterior-angle-inequality__point" cx={pointD.x} cy={pointD.y} r="4" />
-        {showSecondExterior ? <circle className="exterior-angle-inequality__point" cx={pointF.x} cy={pointF.y} r="4" /> : null}
+        <StaticPoint className="exterior-angle-inequality__point" point={pointB} label="B" labelOffset={{ x: -10, y: 18 }} />
+        <StaticPoint className="exterior-angle-inequality__point" point={pointC} label="C" labelOffset={{ x: -2, y: 19 }} />
+        <StaticPoint className="exterior-angle-inequality__point" point={pointD} label="D" labelOffset={{ x: 10, y: 17 }} radius={4} />
+        {showSecondExterior ? <StaticPoint className="exterior-angle-inequality__point" point={pointF} label="F" labelOffset={{ x: 10, y: 13 }} radius={4} /> : null}
         {showFirstConstruction ? (
           <>
-            <circle className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" cx={pointM.x} cy={pointM.y} r="4.5" />
-            <circle className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" cx={pointE.x} cy={pointE.y} r="4.5" />
+            <StaticPoint className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" point={pointM} label="M" labelOffset={{ x: 10, y: -7 }} />
+            <StaticPoint className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" point={pointE} label="E" labelOffset={{ x: 10, y: -8 }} />
           </>
         ) : null}
         {showSecondConstruction ? (
           <>
-            <circle className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" cx={pointN.x} cy={pointN.y} r="4.5" />
-            <circle className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" cx={pointH.x} cy={pointH.y} r="4.5" />
+            <StaticPoint className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" point={pointN} label="N" labelOffset={{ x: 0, y: 19 }} />
+            <StaticPoint className="exterior-angle-inequality__point exterior-angle-inequality__point--auxiliary" point={pointH} label="H" labelOffset={{ x: 10, y: 13 }} />
           </>
         ) : null}
 
-        <text className="exterior-angle-inequality__point-label" x={pointA.x} y={pointA.y - 11}>A</text>
-        <text className="exterior-angle-inequality__point-label" x={pointB.x - 10} y={pointB.y + 18}>B</text>
-        <text className="exterior-angle-inequality__point-label" x={pointC.x - 2} y={pointC.y + 19}>C</text>
-        <text className="exterior-angle-inequality__point-label" x={pointD.x + 10} y={pointD.y + 17}>D</text>
-        {showSecondExterior ? <text className="exterior-angle-inequality__point-label" x={pointF.x + 10} y={pointF.y + 13}>F</text> : null}
-        {showFirstConstruction ? (
-          <>
-            <text className="exterior-angle-inequality__point-label exterior-angle-inequality__point-label--auxiliary" x={pointM.x + 10} y={pointM.y - 7}>M</text>
-            <text className="exterior-angle-inequality__point-label exterior-angle-inequality__point-label--auxiliary" x={pointE.x + 10} y={pointE.y - 8}>E</text>
-          </>
-        ) : null}
-        {showSecondConstruction ? (
-          <>
-            <text className="exterior-angle-inequality__point-label exterior-angle-inequality__point-label--auxiliary" x={pointN.x} y={pointN.y + 19}>N</text>
-            <text className="exterior-angle-inequality__point-label exterior-angle-inequality__point-label--auxiliary" x={pointH.x + 10} y={pointH.y + 13}>H</text>
-          </>
-        ) : null}
-
-        <circle
-          className="exterior-angle-inequality__handle-target"
-          cx={pointA.x}
-          cy={pointA.y}
-          onPointerDown={(event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            setIsDragging(true);
+        <DraggablePoint
+          hitRadius={handleRadius}
+          label="A"
+          labelOffset={{ x: 0, y: -11 }}
+          onDrag={(p) => {
+            const centerX = (pointB.x + pointC.x) / 2;
+            const nextOffset = p.x - centerX;
+            const nextHeight = isExploring
+              ? (exploreBaseY - p.y) / explorationHeightScale
+              : proofBaseY - p.y;
+            setApexOffset(
+              Math.round(clamp(nextOffset, minimumApexOffset, maximumApexOffset)),
+            );
+            setApexHeight(
+              Math.round(clamp(nextHeight, minimumApexHeight, maximumApexHeight)),
+            );
           }}
-          r={handleRadius}
-        />
-        <circle
+          onDragEnd={() => setIsDragging(false)}
+          onDragStart={() => setIsDragging(true)}
+          point={pointA}
+          radius={7}
           className={classNames(
             "exterior-angle-inequality__handle",
             isDragging && "exterior-angle-inequality__handle--active",
           )}
-          cx={pointA.x}
-          cy={pointA.y}
-          r="7"
         />
-      </svg>
+      </SvgCanvas>
 
       <div className="exterior-angle-inequality__summary theorem-figure__summary">
         {renderSummary()}

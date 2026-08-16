@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 
 import {
-  clamp,
-  dragHandle,
-  getSvgCoordinates,
-  svgHeight,
-  svgWidth,
+  AngleSector,
+  DraggablePoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
+import {
+  constrainLineSeparation,
+  polarPointRadians as polarPoint,
   type Point,
-} from "@/features/geometry/illustrationUtils";
-import { constrainLineSeparation } from "@/features/geometry/geometryPrimitives";
+} from "@/features/geometry/geometryPrimitives";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type Ray = {
@@ -38,34 +39,9 @@ function normalizeAngle(angle: number) {
   return normalized;
 }
 
-function sectorPath(center: Point, radius: number, start: number, end: number) {
-  const startPoint = {
-    x: center.x + Math.cos(start) * radius,
-    y: center.y + Math.sin(start) * radius,
-  };
-  const endPoint = {
-    x: center.x + Math.cos(end) * radius,
-    y: center.y + Math.sin(end) * radius,
-  };
-  const largeArc = end - start > Math.PI ? 1 : 0;
-
-  return [
-    `M ${center.x} ${center.y}`,
-    `L ${startPoint.x} ${startPoint.y}`,
-    `A ${radius} ${radius} 0 ${largeArc} 1 ${endPoint.x} ${endPoint.y}`,
-    "Z",
-  ].join(" ");
-}
-
 function arcPath(center: Point, radius: number, start: number, end: number) {
-  const startPoint = {
-    x: center.x + Math.cos(start) * radius,
-    y: center.y + Math.sin(start) * radius,
-  };
-  const endPoint = {
-    x: center.x + Math.cos(end) * radius,
-    y: center.y + Math.sin(end) * radius,
-  };
+  const startPoint = polarPoint(center, radius, start);
+  const endPoint = polarPoint(center, radius, end);
   const largeArc = end - start > Math.PI ? 1 : 0;
 
   return [
@@ -107,22 +83,13 @@ export function VerticalAnglesIllustration({
   const [center, setCenter] = useState<Point>({ x: 156, y: 112 });
   const [lineOneAngle, setLineOneAngle] = useState(18);
   const [lineTwoAngle, setLineTwoAngle] = useState(114);
-  const [dragTarget, setDragTarget] = useState<"center" | "line-one" | "line-two" | null>(
-    null,
-  );
 
   const lineOne = lineEndpoints(center, lineOneAngle);
   const lineTwo = lineEndpoints(center, lineTwoAngle);
   const lineOneRadians = (lineOneAngle * Math.PI) / 180;
   const lineTwoRadians = (lineTwoAngle * Math.PI) / 180;
-  const lineOneHandle = {
-    x: center.x + Math.cos(lineOneRadians) * 70,
-    y: center.y + Math.sin(lineOneRadians) * 70,
-  };
-  const lineTwoHandle = {
-    x: center.x + Math.cos(lineTwoRadians) * 70,
-    y: center.y + Math.sin(lineTwoRadians) * 70,
-  };
+  const lineOneHandle = polarPoint(center, 70, lineOneRadians);
+  const lineTwoHandle = polarPoint(center, 70, lineTwoRadians);
 
   const rays: Ray[] = [
     { angle: normalizeAngle(lineOneRadians), tone: "accent" },
@@ -136,23 +103,13 @@ export function VerticalAnglesIllustration({
     const nextAngle =
       index === rays.length - 1 ? rays[0].angle + Math.PI * 2 : rays[index + 1].angle;
     const size = nextAngle - ray.angle;
-    const midAngle = ray.angle + size / 2;
     const tone: Ray["tone"] = index % 2 === 0 ? "accent" : "secondary";
 
     return {
       fill: tone === "accent" ? "rgba(31, 95, 191, 0.18)" : "rgba(194, 91, 42, 0.18)",
-      labelPoint: {
-        x: center.x + Math.cos(midAngle) * 34,
-        y: center.y + Math.sin(midAngle) * 34,
-      },
-      labelTextPoint: {
-        x: center.x + Math.cos(midAngle) * 24,
-        y: center.y + Math.sin(midAngle) * 24,
-      },
       number: index + 1,
       endAngle: nextAngle,
       measure: (size * 180) / Math.PI,
-      path: sectorPath(center, 44, ray.angle, nextAngle),
       startAngle: ray.angle,
       tone,
     };
@@ -233,22 +190,12 @@ export function VerticalAnglesIllustration({
     straightPairSectors.length === 2 && straightPairSectors[0] && straightPairSectors[1]
       ? {
           endAngle: straightPairSectors[1].endAngle,
-          labelPoint: {
-            x:
-              center.x +
-              Math.cos(
-                straightPairSectors[0].startAngle +
-                  (straightPairSectors[1].endAngle - straightPairSectors[0].startAngle) / 2,
-              ) *
-                70,
-            y:
-              center.y +
-              Math.sin(
-                straightPairSectors[0].startAngle +
-                  (straightPairSectors[1].endAngle - straightPairSectors[0].startAngle) / 2,
-              ) *
-                70,
-          },
+          labelPoint: polarPoint(
+            center,
+            70,
+            straightPairSectors[0].startAngle +
+              (straightPairSectors[1].endAngle - straightPairSectors[0].startAngle) / 2,
+          ),
           path: arcPath(
             center,
             62,
@@ -261,92 +208,35 @@ export function VerticalAnglesIllustration({
 
   return (
     <div className="theorem-figure">
-      <svg
-        aria-label="Vertical angles interactive figure"
-        className="theorem-figure__svg"
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setDragTarget(null);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (!dragTarget) {
-            return;
-          }
+      <SvgCanvas aria-label="Vertical angles interactive figure">
+        {sectors.map((sector) => {
+          const isSectorFocused =
+            !isExploring && currentStep.focusLabels.includes(sector.number);
+          const isSectorShared =
+            !isExploring && currentStep.sharedAngle === sector.number;
+          const sectorState = isExploring
+            ? "normal"
+            : isSectorShared
+              ? "shared"
+              : isSectorFocused
+                ? "focused"
+                : "muted";
 
-          const nextPoint = getSvgCoordinates(event.currentTarget, event);
-
-          if (dragTarget === "center") {
-            setCenter({
-              x: clamp(nextPoint.x, 86, 234),
-              y: clamp(nextPoint.y, 60, 164),
-            });
-            return;
-          }
-
-          if (dragTarget === "line-one") {
-            const nextAngle = (Math.atan2(nextPoint.y - center.y, nextPoint.x - center.x) * 180) / Math.PI;
-            setLineOneAngle(
-              constrainLineSeparation(
-                nextAngle,
-                lineOneAngle,
-                lineTwoAngle,
-                minimumLineSeparation,
-              ),
-            );
-            return;
-          }
-
-          const nextAngle = (Math.atan2(nextPoint.y - center.y, nextPoint.x - center.x) * 180) / Math.PI;
-          setLineTwoAngle(
-            constrainLineSeparation(
-              nextAngle,
-              lineTwoAngle,
-              lineOneAngle,
-              minimumLineSeparation,
-            ),
-          );
-        }}
-        onPointerUp={() => setDragTarget(null)}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      >
-        {sectors.map((sector, index) => (
-          <g key={`${sector.tone}-${index}`}>
-            <path
-              className={
-                [
-                  "theorem-figure__sector",
-                  isExploring
-                    ? ""
-                    : currentStep.focusLabels.includes(sector.number)
-                      ? "theorem-figure__sector--focused"
-                      : "theorem-figure__sector--muted",
-                  !isExploring && currentStep.sharedAngle === sector.number
-                    ? "theorem-figure__sector--shared"
-                    : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")
-              }
-              d={sector.path}
+          return (
+            <AngleSector
+              key={`${sector.tone}-${sector.number}`}
+              degreeLabel={degreeLabel(sector.measure)}
+              endAngle={sector.endAngle}
               fill={sector.fill}
+              indexLabel={sector.number}
+              radius={44}
+              startAngle={sector.startAngle}
+              state={sectorState}
+              tone={sector.tone}
+              vertex={center}
             />
-            <text
-              className="theorem-figure__label"
-              x={sector.labelPoint.x}
-              y={sector.labelPoint.y}
-            >
-              {degreeLabel(sector.measure)}
-            </text>
-            <text
-              className="theorem-figure__index"
-              x={sector.labelTextPoint.x}
-              y={sector.labelTextPoint.y}
-            >
-              {sector.number}
-            </text>
-          </g>
-        ))}
+          );
+        })}
 
         {straightPairArc ? (
           <g>
@@ -378,38 +268,71 @@ export function VerticalAnglesIllustration({
           y2={lineTwo.y2}
         />
 
-        {dragHandle(lineOneHandle, "L", (event) => {
-          event.currentTarget.setPointerCapture(event.pointerId);
-          setDragTarget("line-one");
-        })}
-        {dragHandle(
-          lineTwoHandle,
-          "M",
-          (event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            setDragTarget("line-two");
-          },
-          "secondary",
-        )}
-        {dragHandle(
-          center,
-          "O",
-          (event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            setDragTarget("center");
-          },
-          "accent",
-        )}
-      </svg>
+        <DraggablePoint
+          ariaLabel="Control line L"
+          label="L"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(nextPoint) => {
+            const nextAngle =
+              (Math.atan2(nextPoint.y - center.y, nextPoint.x - center.x) * 180) /
+              Math.PI;
+            setLineOneAngle(
+              constrainLineSeparation(
+                nextAngle,
+                lineOneAngle,
+                lineTwoAngle,
+                minimumLineSeparation,
+              ),
+            );
+          }}
+          point={lineOneHandle}
+          tone="accent"
+        />
+
+        <DraggablePoint
+          ariaLabel="Control line M"
+          label="M"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(nextPoint) => {
+            const nextAngle =
+              (Math.atan2(nextPoint.y - center.y, nextPoint.x - center.x) * 180) /
+              Math.PI;
+            setLineTwoAngle(
+              constrainLineSeparation(
+                nextAngle,
+                lineTwoAngle,
+                lineOneAngle,
+                minimumLineSeparation,
+              ),
+            );
+          }}
+          point={lineTwoHandle}
+          tone="secondary"
+        />
+
+        <DraggablePoint
+          ariaLabel="Intersection vertex O"
+          bounds={{ maxX: 234, maxY: 164, minX: 86, minY: 60 }}
+          label="O"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={setCenter}
+          point={center}
+          tone="accent"
+        />
+      </SvgCanvas>
 
       <div className="theorem-figure__summary">
         <div className="theorem-measure theorem-measure--accent">
           <strong>Blue opposite pair: ∠1 and ∠3</strong>
-          <span>{namedAngle(1, blueAngle)} and {namedAngle(3, angle3)}</span>
+          <span>
+            {namedAngle(1, blueAngle)} and {namedAngle(3, angle3)}
+          </span>
         </div>
         <div className="theorem-measure theorem-measure--secondary">
           <strong>Orange opposite pair: ∠2 and ∠4</strong>
-          <span>{namedAngle(2, orangeAngle)} and {namedAngle(4, angle4)}</span>
+          <span>
+            {namedAngle(2, orangeAngle)} and {namedAngle(4, angle4)}
+          </span>
         </div>
       </div>
 

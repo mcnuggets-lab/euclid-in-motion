@@ -1,12 +1,17 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/alternate-interior-converse.css";
 
+import {
+  DraggablePoint,
+  ParallelMarker,
+  RayLine,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
 import {
   angleFrom,
   classNames,
   clamp,
-  getSvgCoordinates,
-  lineEndpointsFromPoints,
   midpoint,
   polarPointRadians as polarPoint,
   svgHeight,
@@ -44,7 +49,6 @@ const minimumLineMAngle = -35;
 const maximumLineMAngle = 75;
 const initialLineMAngle = 8;
 const linePointDistance = 47;
-const handleRadius = 22;
 const frameInset = 13;
 const firstCaseIntersection = { x: 285, y: 120 };
 
@@ -203,19 +207,19 @@ function isInsideFrame(point: Point) {
 }
 
 function edgePoint(target: Point) {
-  const center = midpoint(pointP, pointQ);
-  const dx = target.x - center.x;
-  const dy = target.y - center.y;
+  const centerPoint = midpoint(pointP, pointQ);
+  const dx = target.x - centerPoint.x;
+  const dy = target.y - centerPoint.y;
   const candidates = [
-    dx > 0 ? (svgWidth - frameInset - center.x) / dx : undefined,
-    dx < 0 ? (frameInset - center.x) / dx : undefined,
-    dy > 0 ? (svgHeight - frameInset - center.y) / dy : undefined,
-    dy < 0 ? (frameInset - center.y) / dy : undefined,
+    dx > 0 ? (svgWidth - frameInset - centerPoint.x) / dx : undefined,
+    dx < 0 ? (frameInset - centerPoint.x) / dx : undefined,
+    dy > 0 ? (svgHeight - frameInset - centerPoint.y) / dy : undefined,
+    dy < 0 ? (frameInset - centerPoint.y) / dy : undefined,
   ].filter((value): value is number => value !== undefined && value > 0);
   const scale = Math.min(...candidates);
 
   return {
-    point: { x: center.x + dx * scale, y: center.y + dy * scale },
+    point: { x: centerPoint.x + dx * scale, y: centerPoint.y + dy * scale },
     rotation: radiansToDegrees(Math.atan2(dy, dx)),
   };
 }
@@ -229,21 +233,6 @@ function offscreenDirection(point: Point) {
   return point.y < 0 ? "above" : "below";
 }
 
-function parallelMark(center: Point, angle: number, key: string) {
-  const vector = direction(angle);
-  const normal = { x: -vector.y, y: vector.x };
-  const start = move(move(center, vector, -7), normal, 5);
-  const end = move(move(center, vector, -7), normal, -5);
-
-  return (
-    <path
-      className="alternate-converse__parallel-mark"
-      d={`M ${start.x} ${start.y} L ${center.x} ${center.y} L ${end.x} ${end.y}`}
-      key={key}
-    />
-  );
-}
-
 export function AlternateInteriorConverseIllustration({
   activeStep,
   onDiscoveryChange,
@@ -252,7 +241,6 @@ export function AlternateInteriorConverseIllustration({
   const descriptionId = useId();
   const rotationControlId = useId();
   const [lineMAngle, setLineMAngle] = useState(initialLineMAngle);
-  const [isDragging, setIsDragging] = useState(false);
   const [reflected, setReflected] = useState(false);
 
   const isExploring = activeStep === null;
@@ -268,14 +256,12 @@ export function AlternateInteriorConverseIllustration({
   const isParallel = geometry.intersection === null;
   const shouldReflect = isExploring && reflected;
   const display = (point: Point) => (shouldReflect ? reflectPoint(point) : point);
+
   const displayP = display(pointP);
   const displayQ = display(pointQ);
   const pointA = display(geometry.a);
   const pointB = display(geometry.b);
   const pointR = geometry.intersection ? display(geometry.intersection) : null;
-  const lineLEndpoints = lineEndpointsFromPoints(displayP, pointA);
-  const lineMEndpoints = lineEndpointsFromPoints(displayQ, pointB);
-  const transversalEndpoints = lineEndpointsFromPoints(displayP, displayQ);
   const firstAngleSize = angleSize(displayP, pointA, displayQ);
   const secondAngleSize = angleSize(displayQ, displayP, pointB);
   const angleDifference = firstAngleSize - secondAngleSize;
@@ -381,11 +367,6 @@ export function AlternateInteriorConverseIllustration({
       title: currentStep.title,
     });
   }, [currentStep.insight, currentStep.prompt, currentStep.title, onDiscoveryChange]);
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-  };
 
   const updateLineAngle = (pointer: Point) => {
     const canonicalPointer = reflected ? reflectPoint(pointer) : pointer;
@@ -526,28 +507,13 @@ export function AlternateInteriorConverseIllustration({
 
   return (
     <div className="theorem-figure alternate-converse">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg alternate-converse__svg"
-        onPointerCancel={() => setIsDragging(false)}
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setIsDragging(false);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (isExploring && isDragging) {
-            updateLineAngle(getSvgCoordinates(event.currentTarget, event));
-          }
-        }}
-        onPointerUp={() => setIsDragging(false)}
-        role="img"
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      <SvgCanvas
+        className="alternate-converse__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
+        title="Converse of the Alternate Interior Angles Theorem interactive figure"
+        titleId={titleId}
       >
-        <title id={titleId}>Converse of the Alternate Interior Angles Theorem interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {showTriangle && pointR ? (
           <path
             className="alternate-converse__triangle"
@@ -555,17 +521,14 @@ export function AlternateInteriorConverseIllustration({
           />
         ) : null}
 
-        <line className="alternate-converse__line" {...lineLEndpoints} />
-        <line className="alternate-converse__line" {...lineMEndpoints} />
-        <line
-          className="alternate-converse__line alternate-converse__line--transversal"
-          {...transversalEndpoints}
-        />
+        <RayLine origin={displayP} through={pointA} type="line" />
+        <RayLine origin={displayQ} through={pointB} type="line" />
+        <RayLine origin={displayP} through={displayQ} strokeWidth={2} type="line" />
 
         {isParallel ? (
           <>
-            {parallelMark(lineLMarkCenter, lineLDisplayAngle, "line-l")}
-            {parallelMark(lineMMarkCenter, lineMDisplayAngle, "line-m")}
+            <ParallelMarker point={lineLMarkCenter} count={1} />
+            <ParallelMarker point={lineMMarkCenter} count={1} />
           </>
         ) : null}
 
@@ -616,10 +579,12 @@ export function AlternateInteriorConverseIllustration({
         ) : null}
 
         {pointR && intersectionIsVisible ? (
-          <>
-            <circle className="alternate-converse__point alternate-converse__point--intersection" cx={pointR.x} cy={pointR.y} r="4.5" />
-            <text className="alternate-converse__point-label alternate-converse__point-label--intersection" x={pointR.x + (shouldReflect ? -10 : 10)} y={pointR.y - 9}>R</text>
-          </>
+          <StaticPoint
+            label="R"
+            labelOffset={{ x: shouldReflect ? -10 : 10, y: -9 }}
+            point={pointR}
+            tone="secondary"
+          />
         ) : null}
         {isExploring && intersectionEdge ? (
           <g
@@ -631,41 +596,27 @@ export function AlternateInteriorConverseIllustration({
           </g>
         ) : null}
 
-        <circle className="alternate-converse__point" cx={displayP.x} cy={displayP.y} r="4.5" />
-        <circle className="alternate-converse__point" cx={displayQ.x} cy={displayQ.y} r="4.5" />
-        <circle className="alternate-converse__point alternate-converse__point--named" cx={pointA.x} cy={pointA.y} r="3.6" />
-        <circle className="alternate-converse__point alternate-converse__point--named" cx={pointB.x} cy={pointB.y} r="3.6" />
+        <StaticPoint label="P" labelOffset={{ x: shouldReflect ? 11 : -11, y: -8 }} point={displayP} />
+        <StaticPoint label="Q" labelOffset={{ x: shouldReflect ? -11 : 11, y: 15 }} point={displayQ} />
+        <StaticPoint label="A" labelOffset={{ x: shouldReflect ? 10 : -10, y: -7 }} point={pointA} radius={3.6} />
 
-        <text className="alternate-converse__point-label" x={displayP.x + (shouldReflect ? 11 : -11)} y={displayP.y - 8}>P</text>
-        <text className="alternate-converse__point-label" x={displayQ.x + (shouldReflect ? -11 : 11)} y={displayQ.y + 15}>Q</text>
-        <text className="alternate-converse__point-label" x={pointA.x + (shouldReflect ? 10 : -10)} y={pointA.y - 7}>A</text>
-        <text className="alternate-converse__point-label" x={pointB.x + (shouldReflect ? -10 : 10)} y={pointB.y + 13}>B</text>
+        {isExploring ? (
+          <DraggablePoint
+            ariaLabel="Line m control handle B"
+            label="B"
+            labelOffset={{ x: shouldReflect ? -10 : 10, y: 13 }}
+            onDrag={updateLineAngle}
+            point={pointB}
+            tone="accent"
+          />
+        ) : (
+          <StaticPoint label="B" labelOffset={{ x: shouldReflect ? -10 : 10, y: 13 }} point={pointB} radius={3.6} />
+        )}
+
         <text className="alternate-converse__line-label" x={pointA.x + (shouldReflect ? 17 : -17)} y={pointA.y + 12}>ℓ</text>
         <text className="alternate-converse__line-label" x={pointB.x + (shouldReflect ? -17 : 17)} y={pointB.y - 10}>m</text>
         <text className="alternate-converse__line-label" x={displayP.x + 10} y="18">t</text>
-
-        {isExploring ? (
-          <>
-            <circle
-              aria-hidden="true"
-              className={classNames(
-                "alternate-converse__handle",
-                isDragging && "alternate-converse__handle--active",
-              )}
-              cx={pointB.x}
-              cy={pointB.y}
-              r="7"
-            />
-            <circle
-              className="alternate-converse__handle-target"
-              cx={pointB.x}
-              cy={pointB.y}
-              onPointerDown={beginDrag}
-              r={handleRadius}
-            />
-          </>
-        ) : null}
-      </svg>
+      </SvgCanvas>
 
       <div className="alternate-converse__summary">{renderSummary()}</div>
 

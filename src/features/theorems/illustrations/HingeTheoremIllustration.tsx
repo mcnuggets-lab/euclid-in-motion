@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/hinge-theorem.css";
 
 import {
@@ -15,6 +15,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type HingeTheoremIllustrationProps = {
@@ -377,21 +378,6 @@ export function HingeTheoremIllustration({
     setAngleDEF(Math.round(clamp(rawDegrees, minimumAngle, maximumAngle)));
   };
 
-  const beginDrag = (
-    target: DragTarget,
-    event: PointerEvent<SVGCircleElement>,
-  ) => {
-    if (!isExploring) {
-      return;
-    }
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setDragging(target);
-    updateAngle(
-      target,
-      getSvgCoordinates(event.currentTarget.ownerSVGElement!, event),
-    );
-  };
-
   const showOriginalPair = !isExploring && proofStep === 0;
   const showCommonHinge = !isExploring && proofStep >= 1;
   const showRoutePlan = showCommonHinge && proofStep === 2;
@@ -411,21 +397,29 @@ export function HingeTheoremIllustration({
         <path className="hinge-theorem__angle" d={leftAngleArc.path} />
         {segmentTicks(freePointA, freePointB, 1, "hinge-ab", "#1f5fbf")}
         {segmentTicks(freePointA, pointC, 2, "hinge-ac", "#c25b2a")}
-        <circle className="hinge-theorem__point" cx={freePointA.x} cy={freePointA.y} r="4" />
-        <circle className="hinge-theorem__point" cx={freePointB.x} cy={freePointB.y} r="4" />
-        <circle className="hinge-theorem__point" cx={pointC.x} cy={pointC.y} r="4" />
-        <text className="hinge-theorem__point-label" x={freePointA.x} y={freePointA.y + 17}>A</text>
-        <text className="hinge-theorem__point-label" x={freePointB.x - 2} y={freePointB.y + 17}>B</text>
-        <text className="hinge-theorem__point-label" x={pointC.x} y={pointC.y - 11}>C</text>
+        <StaticPoint className="hinge-theorem__point" point={freePointA} label="A" labelOffset={{ x: 0, y: 17 }} />
+        <StaticPoint className="hinge-theorem__point" point={freePointB} label="B" labelOffset={{ x: -2, y: 17 }} />
         <text className="hinge-theorem__triangle-name" x={freePointA.x} y="211">△ABC</text>
         {showMeasurements ? (
           <>
             <text className="hinge-theorem__angle-measure" x={leftAngleArc.label.x} y={leftAngleArc.label.y}>{angleABC}°</text>
             <text className="hinge-theorem__side-measure" x={leftSideLabel.x} y={leftSideLabel.y}>{formatLength(lengthBC)}</text>
-            <circle className="hinge-theorem__handle-target" cx={pointC.x} cy={pointC.y} onPointerDown={(event) => beginDrag("abc", event)} r={handleRadius} />
-            <circle className={classNames("hinge-theorem__handle", dragging === "abc" && "hinge-theorem__handle--active")} cx={pointC.x} cy={pointC.y} r="6.5" />
+            <DraggablePoint
+              hitRadius={handleRadius}
+              label="C"
+              labelOffset={{ x: 0, y: -11 }}
+              onDrag={(p) => updateAngle("abc", p)}
+              onDragEnd={() => setDragging(null)}
+              onDragStart={() => setDragging("abc")}
+              point={pointC}
+              radius={6.5}
+              className={classNames("hinge-theorem__handle", dragging === "abc" && "hinge-theorem__handle--active")}
+              showLabel={true}
+            />
           </>
-        ) : null}
+        ) : (
+          <StaticPoint className="hinge-theorem__point" point={pointC} label="C" labelOffset={{ x: 0, y: -11 }} />
+        )}
       </g>
       <g>
         <line className="hinge-theorem__arm hinge-theorem__arm--first" x1={freePointD.x} x2={freePointE.x} y1={freePointD.y} y2={freePointE.y} />
@@ -434,31 +428,41 @@ export function HingeTheoremIllustration({
         <path className="hinge-theorem__angle" d={rightAngleArc.path} />
         {segmentTicks(freePointD, freePointE, 1, "hinge-de", "#1f5fbf")}
         {segmentTicks(freePointD, pointF, 2, "hinge-df", "#c25b2a")}
-        <circle className="hinge-theorem__point" cx={freePointD.x} cy={freePointD.y} r="4" />
-        <circle className="hinge-theorem__point" cx={freePointE.x} cy={freePointE.y} r="4" />
-        <circle className="hinge-theorem__point" cx={pointF.x} cy={pointF.y} r="4" />
-        <text className="hinge-theorem__point-label" x={freePointD.x} y={freePointD.y + 17}>D</text>
-        <text className="hinge-theorem__point-label" x={freePointE.x + 2} y={freePointE.y + 17}>E</text>
-        <text className="hinge-theorem__point-label" x={pointF.x} y={pointF.y - 11}>F</text>
+        <StaticPoint className="hinge-theorem__point" point={freePointD} label="D" labelOffset={{ x: 0, y: 17 }} />
+        <StaticPoint className="hinge-theorem__point" point={freePointE} label="E" labelOffset={{ x: 2, y: 17 }} />
         <text className="hinge-theorem__triangle-name" x={freePointD.x} y="211">△DEF</text>
         {showMeasurements ? (
           <>
             <text className="hinge-theorem__angle-measure" x={rightAngleArc.label.x} y={rightAngleArc.label.y}>{angleDEF}°</text>
             <text className="hinge-theorem__side-measure" x={rightSideLabel.x} y={rightSideLabel.y}>{formatLength(lengthEF)}</text>
-            <circle className="hinge-theorem__handle-target" cx={pointF.x} cy={pointF.y} onPointerDown={(event) => beginDrag("def", event)} r={handleRadius} />
-            <circle className={classNames("hinge-theorem__handle", dragging === "def" && "hinge-theorem__handle--active")} cx={pointF.x} cy={pointF.y} r="6.5" />
+            <DraggablePoint
+              hitRadius={handleRadius}
+              label="F"
+              labelOffset={{ x: 0, y: -11 }}
+              onDrag={(p) => updateAngle("def", p)}
+              onDragEnd={() => setDragging(null)}
+              onDragStart={() => setDragging("def")}
+              point={pointF}
+              radius={6.5}
+              className={classNames("hinge-theorem__handle", dragging === "def" && "hinge-theorem__handle--active")}
+              showLabel={true}
+            />
           </>
-        ) : null}
+        ) : (
+          <StaticPoint className="hinge-theorem__point" point={pointF} label="F" labelOffset={{ x: 0, y: -11 }} />
+        )}
       </g>
     </>
   );
 
   return (
     <div className="theorem-figure hinge-theorem">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg hinge-theorem__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "Hinge Theorem interactive" : `Hinge Theorem: ${currentStep.title}`}
+        className="hinge-theorem__svg"
         onPointerCancel={() => setDragging(null)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -471,12 +475,8 @@ export function HingeTheoremIllustration({
           }
         }}
         onPointerUp={() => setDragging(null)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>Hinge Theorem interactive</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {isExploring || showOriginalPair ? renderComparisonPair(isExploring) : null}
 
         {showCommonHinge ? (
@@ -496,8 +496,7 @@ export function HingeTheoremIllustration({
               <>
                 <line className="hinge-theorem__route-plan" x1={proofPointB.x} x2={proofPointH.x} y1={proofPointB.y} y2={proofPointH.y} />
                 <line className="hinge-theorem__route-plan" x1={proofPointH.x} x2={proofPointG.x} y1={proofPointH.y} y2={proofPointG.y} />
-                <circle className="hinge-theorem__point hinge-theorem__point--planned" cx={proofPointH.x} cy={proofPointH.y} r="4.5" />
-                <text className="hinge-theorem__point-label hinge-theorem__point-label--planned" x={proofPointH.x + 10} y={proofPointH.y - 7}>H?</text>
+                <StaticPoint className="hinge-theorem__point hinge-theorem__point--planned" point={proofPointH} label="H?" labelOffset={{ x: 10, y: -7 }} radius={4.5} />
               </>
             ) : null}
 
@@ -506,8 +505,7 @@ export function HingeTheoremIllustration({
                 <line className="hinge-theorem__bisector" x1={proofPointA.x} x2={proofPointH.x} y1={proofPointA.y} y2={proofPointH.y} />
                 <path className="hinge-theorem__angle hinge-theorem__angle--half" d={proofHalfArcOne.path} />
                 <path className="hinge-theorem__angle hinge-theorem__angle--half" d={proofHalfArcTwo.path} />
-                <circle className="hinge-theorem__point hinge-theorem__point--constructed" cx={proofPointH.x} cy={proofPointH.y} r="4.5" />
-                <text className="hinge-theorem__point-label hinge-theorem__point-label--constructed" x={proofPointH.x + 9} y={proofPointH.y - 7}>H</text>
+                <StaticPoint className="hinge-theorem__point hinge-theorem__point--constructed" point={proofPointH} label="H" labelOffset={{ x: 9, y: -7 }} radius={4.5} />
               </>
             ) : null}
 
@@ -520,17 +518,13 @@ export function HingeTheoremIllustration({
               </>
             ) : null}
 
-            <circle className="hinge-theorem__point" cx={proofPointA.x} cy={proofPointA.y} r="4.5" />
-            <circle className="hinge-theorem__point" cx={proofPointB.x} cy={proofPointB.y} r="4.5" />
-            <circle className="hinge-theorem__point" cx={proofPointC.x} cy={proofPointC.y} r="4.5" />
-            <circle className="hinge-theorem__point hinge-theorem__point--copied" cx={proofPointG.x} cy={proofPointG.y} r="4.5" />
-            <text className="hinge-theorem__point-label" x={proofPointA.x - 2} y={proofPointA.y + 18}>A</text>
-            <text className="hinge-theorem__point-label" x={proofPointB.x + 3} y={proofPointB.y + 18}>B</text>
-            <text className="hinge-theorem__point-label" x={proofPointC.x - 9} y={proofPointC.y - 9}>C</text>
-            <text className="hinge-theorem__point-label hinge-theorem__point-label--copied" x={proofPointG.x + 10} y={proofPointG.y - 8}>G</text>
+            <StaticPoint className="hinge-theorem__point" point={proofPointA} label="A" labelOffset={{ x: -2, y: 18 }} />
+            <StaticPoint className="hinge-theorem__point" point={proofPointB} label="B" labelOffset={{ x: 3, y: 18 }} />
+            <StaticPoint className="hinge-theorem__point" point={proofPointC} label="C" labelOffset={{ x: -9, y: -9 }} />
+            <StaticPoint className="hinge-theorem__point hinge-theorem__point--copied" point={proofPointG} label="G" labelOffset={{ x: 10, y: -8 }} />
           </>
         ) : null}
-      </svg>
+      </SvgCanvas>
 
       {isExploring ? (
         <div className="hinge-theorem__controls">
@@ -595,20 +589,14 @@ export function HingeConverseCorollaryIllustration() {
 
   return (
     <figure className="hinge-theorem-corollary">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg hinge-theorem-corollary__svg"
-        role="img"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description="Triangles ABC and DEF have matching blue and orange arm pairs. The purple third side BC is longer than EF, and the included angle BAC is correspondingly larger than angle EDF."
+        titleId={titleId}
+        title="Converse Hinge Theorem comparison"
+        className="hinge-theorem-corollary__svg"
         viewBox="0 0 640 300"
       >
-        <title id={titleId}>Converse Hinge Theorem comparison</title>
-        <desc id={descriptionId}>
-          Triangles ABC and DEF have matching blue and orange arm pairs. The
-          purple third side BC is longer than EF, and the included angle BAC is
-          correspondingly larger than angle EDF.
-        </desc>
-
         <line className="hinge-theorem-corollary__arm hinge-theorem-corollary__arm--first" x1={pointA.x} x2={pointB.x} y1={pointA.y} y2={pointB.y} />
         <line className="hinge-theorem-corollary__arm hinge-theorem-corollary__arm--second" x1={pointA.x} x2={pointC.x} y1={pointA.y} y2={pointC.y} />
         <line className="hinge-theorem-corollary__base hinge-theorem-corollary__base--longer" x1={pointB.x} x2={pointC.x} y1={pointB.y} y2={pointC.y} />
@@ -632,14 +620,17 @@ export function HingeConverseCorollaryIllustration() {
           { dx: 5, dy: 22, label: "E", point: pointE },
           { dx: 0, dy: -14, label: "F", point: pointF },
         ].map(({ dx, dy, label, point }) => (
-          <g key={label}>
-            <circle className="hinge-theorem-corollary__point" cx={point.x} cy={point.y} r="4.5" />
-            <text className="hinge-theorem-corollary__label" x={point.x + dx} y={point.y + dy}>{label}</text>
-          </g>
+          <StaticPoint
+            className="hinge-theorem-corollary__point"
+            key={label}
+            point={point}
+            label={label}
+            labelOffset={{ x: dx, y: dy }}
+          />
         ))}
 
         <text className="hinge-theorem-corollary__comparison" x="320" y="293">BC &gt; EF</text>
-      </svg>
+      </SvgCanvas>
     </figure>
   );
 }

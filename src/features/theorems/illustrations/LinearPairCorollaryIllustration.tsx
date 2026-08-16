@@ -1,10 +1,7 @@
 import "./styles/supporting-figures.css";
 
-
-type Point = {
-  x: number;
-  y: number;
-};
+import { AngleSector, StaticPoint, SvgCanvas } from "@/features/geometry/components";
+import { polarPointRadians as polarPoint, type Point } from "@/features/geometry/illustrationUtils";
 
 type Ray = {
   angle: number;
@@ -24,33 +21,14 @@ const rays: Ray[] = [
 ];
 
 const angles = [
-  { difference: "b₁ − b₀ = 30°", fill: "rgba(31, 95, 191, 0.18)", name: "∠AOB₁" },
-  { difference: "b₂ − b₁ = 35°", fill: "rgba(194, 91, 42, 0.18)", name: "∠B₁OB₂" },
-  { difference: "b₃ − b₂ = 60°", fill: "rgba(31, 95, 191, 0.18)", name: "∠B₂OB₃" },
-  { difference: "b₄ − b₃ = 55°", fill: "rgba(194, 91, 42, 0.18)", name: "∠B₃OC" },
+  { difference: "b₁ − b₀ = 30°", fill: "rgba(31, 95, 191, 0.18)", name: "∠AOB₁", tone: "accent" as const },
+  { difference: "b₂ − b₁ = 35°", fill: "rgba(194, 91, 42, 0.18)", name: "∠B₁OB₂", tone: "secondary" as const },
+  { difference: "b₃ − b₂ = 60°", fill: "rgba(31, 95, 191, 0.18)", name: "∠B₂OB₃", tone: "accent" as const },
+  { difference: "b₄ − b₃ = 55°", fill: "rgba(194, 91, 42, 0.18)", name: "∠B₃OC", tone: "secondary" as const },
 ];
 
-function polarPoint(radius: number, angleDegrees: number): Point {
-  const radians = (angleDegrees * Math.PI) / 180;
-  return {
-    x: center.x + Math.cos(radians) * radius,
-    y: center.y - Math.sin(radians) * radius,
-  };
-}
-
-function sectorPath(radius: number, startDegrees: number, endDegrees: number) {
-  const start = polarPoint(radius, startDegrees);
-  const end = polarPoint(radius, endDegrees);
-  return [
-    `M ${center.x} ${center.y}`,
-    `L ${start.x} ${start.y}`,
-    `A ${radius} ${radius} 0 0 0 ${end.x} ${end.y}`,
-    "Z",
-  ].join(" ");
-}
-
 function rayLabelPosition(ray: Ray, index: number): Point {
-  const point = polarPoint(246, ray.angle);
+  const point = polarPoint(center, 246, (-ray.angle * Math.PI) / 180);
   if (index === 0 || index === rays.length - 1) {
     return { x: point.x, y: point.y - 2 };
   }
@@ -60,31 +38,31 @@ function rayLabelPosition(ray: Ray, index: number): Point {
 export function LinearPairCorollaryIllustration() {
   return (
     <figure className="linear-pair-corollary">
-      <svg
-        aria-labelledby="linear-pair-corollary-title linear-pair-corollary-description"
+      <SvgCanvas
         className="theorem-figure__svg linear-pair-corollary__svg"
-        role="img"
+        description="Five unevenly spaced ordered rays have degree marks b zero through b four, starting from ray OA. Each of the four adjacent angles is labelled by the difference of its boundary-ray coordinates."
+        descriptionId="linear-pair-corollary-description"
+        title="Several adjacent angles partitioning a straight angle"
+        titleId="linear-pair-corollary-title"
         viewBox="0 0 640 390"
       >
-        <title id="linear-pair-corollary-title">
-          Several adjacent angles partitioning a straight angle
-        </title>
-        <desc id="linear-pair-corollary-description">
-          Five unevenly spaced ordered rays have degree marks b zero through b
-          four, starting from ray OA. Each of the four adjacent angles is labelled
-          by the difference of its boundary-ray coordinates.
-        </desc>
-
         {angles.map((angle, index) => {
-          const startAngle = rays[index].angle;
-          const endAngle = rays[index + 1].angle;
-          const labelPoint = polarPoint(112, (startAngle + endAngle) / 2);
+          const startDegrees = rays[index].angle;
+          const endDegrees = rays[index + 1].angle;
+          const labelPoint = polarPoint(
+            center,
+            112,
+            (-((startDegrees + endDegrees) / 2) * Math.PI) / 180,
+          );
           return (
             <g key={angle.name}>
-              <path
-                className="linear-pair-corollary__sector"
-                d={sectorPath(158, startAngle, endAngle)}
+              <AngleSector
+                endAngle={(-startDegrees * Math.PI) / 180}
                 fill={angle.fill}
+                radius={158}
+                startAngle={(-endDegrees * Math.PI) / 180}
+                tone={angle.tone}
+                vertex={center}
               />
               <text
                 className="linear-pair-corollary__angle-label"
@@ -106,7 +84,7 @@ export function LinearPairCorollaryIllustration() {
         />
 
         {rays.map((ray, index) => {
-          const endpoint = polarPoint(rayLength, ray.angle);
+          const endpoint = polarPoint(center, rayLength, (-ray.angle * Math.PI) / 180);
           const label = rayLabelPosition(ray, index);
           return (
             <g key={ray.coordinate}>
@@ -131,10 +109,7 @@ export function LinearPairCorollaryIllustration() {
           );
         })}
 
-        <circle cx={center.x} cy={center.y} fill="#1f5fbf" r="5" />
-        <text className="linear-pair-corollary__origin" x={center.x} y={center.y + 24}>
-          O
-        </text>
+        <StaticPoint label="O" labelOffset={{ x: 0, y: 24 }} point={center} tone="accent" />
 
         <g className="linear-pair-corollary__key">
           <rect height="50" rx="6" width="424" x="108" y="326" />
@@ -144,7 +119,7 @@ export function LinearPairCorollaryIllustration() {
             <tspan x="124" dy="18">starting from OA where b₀ = 0°.</tspan>
           </text>
         </g>
-      </svg>
+      </SvgCanvas>
 
       <figcaption>
         Each angle&apos;s size is the difference between the degree marks of its

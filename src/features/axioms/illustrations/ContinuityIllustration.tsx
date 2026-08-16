@@ -1,19 +1,16 @@
 import { useState } from "react";
 
 import {
-  clamp,
-  circleIntersections,
-  dragHandle,
-  getSvgCoordinates,
-  pointLabel,
-  svgHeight,
-  svgWidth,
-} from "@/features/geometry/illustrationUtils";
+  DraggablePoint,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
+import { circleIntersections, clamp } from "@/features/geometry/illustrationUtils";
 
 export function ContinuityIllustration() {
   const [separation, setSeparation] = useState(106);
   const [radiusB, setRadiusB] = useState(84);
-  const [dragTarget, setDragTarget] = useState<"p" | "radius" | null>(null);
+
   const centerA = { x: 118, y: 114 };
   const centerB = { x: 118 + separation, y: 114 };
   const radiusA = 92;
@@ -22,31 +19,7 @@ export function ContinuityIllustration() {
 
   return (
     <div className="axiom-figure">
-      <svg
-        aria-label="Continuity axiom illustration"
-        className="axiom-figure__svg"
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setDragTarget(null);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (!dragTarget) {
-            return;
-          }
-
-          const nextPoint = getSvgCoordinates(event.currentTarget, event);
-
-          if (dragTarget === "p") {
-            setSeparation(clamp(nextPoint.x - centerA.x, 40, 170));
-            return;
-          }
-
-          setRadiusB(clamp(nextPoint.x - centerB.x, 40, 110));
-        }}
-        onPointerUp={() => setDragTarget(null)}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      >
+      <SvgCanvas aria-label="Continuity axiom illustration" className="axiom-figure__svg">
         <circle
           cx={centerA.x}
           cy={centerA.y}
@@ -63,29 +36,37 @@ export function ContinuityIllustration() {
           stroke="#1f5fbf"
           strokeWidth="2"
         />
-        {pointLabel(centerA, "O")}
-        {dragHandle(centerB, "P", (event) => {
-          event.currentTarget.setPointerCapture(event.pointerId);
-          setDragTarget("p");
-        })}
-        {dragHandle(
-          radiusHandle,
-          "R",
-          (event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            setDragTarget("radius");
-          },
-          "secondary",
-        )}
+
+        <StaticPoint label="O" point={centerA} labelOffset={{ x: 8, y: -8 }} />
+        <DraggablePoint
+          ariaLabel="Circle center P"
+          bounds={{ minX: centerA.x + 40, maxX: centerA.x + 170 }}
+          label="P"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(nextPoint) => setSeparation(clamp(nextPoint.x - centerA.x, 40, 170))}
+          point={centerB}
+          tone="accent"
+        />
+
+        <DraggablePoint
+          ariaLabel="Circle radius handle R"
+          label="R"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(nextPoint) => setRadiusB(clamp(nextPoint.x - centerB.x, 40, 110))}
+          point={radiusHandle}
+          tone="secondary"
+        />
+
         {intersections.map((point, index) => (
-          <g key={`${point.x}-${point.y}`}>
-            <circle cx={point.x} cy={point.y} fill="#c25b2a" r="5" />
-            <text className="axiom-figure__label" x={point.x + 8} y={point.y - 8}>
-              {index === 0 ? "X" : "Y"}
-            </text>
-          </g>
+          <StaticPoint
+            key={`${point.x}-${point.y}`}
+            label={index === 0 ? "X" : "Y"}
+            labelOffset={{ x: 8, y: -8 }}
+            point={point}
+            tone="secondary"
+          />
         ))}
-      </svg>
+      </SvgCanvas>
 
       <p className="axiom-figure__note">
         {intersections.length === 2

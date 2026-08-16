@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/rhs-congruence.css";
 
 import {
@@ -12,6 +12,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 type RHSCongruenceIllustrationProps = {
@@ -234,16 +235,20 @@ function RightAngleMark({
   );
 }
 
-function FigurePoint({ label, point }: { label: string; point: Point }) {
+function getFigurePointOffset(point: Point) {
   const dx = point.x > 288 ? -12 : point.x < 72 ? 12 : 8;
   const dy = point.y < 78 ? -9 : 16;
+  return { x: dx, y: dy };
+}
+
+function FigurePoint({ label, point }: { label: string; point: Point }) {
   return (
-    <g>
-      <circle className="rhs-congruence__point" cx={point.x} cy={point.y} r="4.5" />
-      <text className="rhs-congruence__point-label" x={point.x + dx} y={point.y + dy}>
-        {label}
-      </text>
-    </g>
+    <StaticPoint
+      className="rhs-congruence__point"
+      point={point}
+      label={label}
+      labelOffset={getFigurePointOffset(point)}
+    />
   );
 }
 
@@ -259,21 +264,12 @@ function ComparisonPoint({
   point: Point;
 }) {
   return (
-    <g>
-      <circle
-        className="rhs-ssa-comparison__point"
-        cx={point.x}
-        cy={point.y}
-        r="4.5"
-      />
-      <text
-        className="rhs-ssa-comparison__point-label"
-        x={point.x + dx}
-        y={point.y + dy}
-      >
-        {label}
-      </text>
-    </g>
+    <StaticPoint
+      className="rhs-ssa-comparison__point"
+      point={point}
+      label={label}
+      labelOffset={{ x: dx, y: dy }}
+    />
   );
 }
 
@@ -325,20 +321,14 @@ export function RHSSSAAmbiguityIllustration() {
       <div className="rhs-ssa-comparison__panels">
         <div className="rhs-ssa-comparison__panel">
           <strong>General SSA: two triangles</strong>
-          <svg
-            aria-describedby={generalDescriptionId}
-            aria-labelledby={generalTitleId}
+          <SvgCanvas
+            descriptionId={generalDescriptionId}
+            description="The undetermined side AB is the horizontal base. A circle centered at C meets its ray at B one and B two, so the base can have two lengths while the two given sides and non-included angle stay the same."
+            titleId={generalTitleId}
+            title="General SSA can produce two triangles"
             className="rhs-ssa-comparison__svg"
-            role="img"
             viewBox="0 0 300 210"
           >
-            <title id={generalTitleId}>General SSA can produce two triangles</title>
-            <desc id={generalDescriptionId}>
-              The undetermined side AB is the horizontal base. A circle centered at C
-              meets its ray at B one and B two, so the base can have two lengths while
-              the two given sides and non-included angle stay the same.
-            </desc>
-
             <Side
               className="rhs-ssa-comparison__construction"
               from={ssaPointA}
@@ -411,7 +401,7 @@ export function RHSSSAAmbiguityIllustration() {
             <ComparisonPoint dx={-12} dy={-9} label="C" point={ssaPointC} />
             <ComparisonPoint dx={0} dy={20} label="B₁" point={ssaPointBNear} />
             <ComparisonPoint dx={0} dy={20} label="B₂" point={ssaPointBFar} />
-          </svg>
+          </SvgCanvas>
           <p className="rhs-ssa-comparison__caption">
             The horizontal base AB can end at B₁ or B₂, producing two noncongruent
             triangles from the same SSA data.
@@ -420,20 +410,14 @@ export function RHSSSAAmbiguityIllustration() {
 
         <div className="rhs-ssa-comparison__panel">
           <strong>RHS: one triangle</strong>
-          <svg
-            aria-describedby={rhsDescriptionId}
-            aria-labelledby={rhsTitleId}
+          <SvgCanvas
+            descriptionId={rhsDescriptionId}
+            description="A right triangle has fixed leg AB and hypotenuse AC. The perpendicular ray from B is the horizontal base. It meets the circle centered at A at exactly one point C in the chosen direction."
+            titleId={rhsTitleId}
+            title="RHS has one intersection on the chosen ray"
             className="rhs-ssa-comparison__svg"
-            role="img"
             viewBox="0 0 300 210"
           >
-            <title id={rhsTitleId}>RHS has one intersection on the chosen ray</title>
-            <desc id={rhsDescriptionId}>
-              A right triangle has fixed leg AB and hypotenuse AC. The perpendicular
-              ray from B is the horizontal base. It meets the circle centered at A at
-              exactly one point C in the chosen direction.
-            </desc>
-
             <Side
               className="rhs-ssa-comparison__construction"
               from={rhsNotePointB}
@@ -483,7 +467,7 @@ export function RHSSSAAmbiguityIllustration() {
             <ComparisonPoint dx={-12} dy={-9} label="A" point={rhsNotePointA} />
             <ComparisonPoint dx={-12} dy={20} label="B" point={rhsNotePointB} />
             <ComparisonPoint dx={11} dy={20} label="C" point={rhsNotePointC} />
-          </svg>
+          </SvgCanvas>
           <p className="rhs-ssa-comparison__caption">
             The horizontal base BC has one possible endpoint on the chosen
             perpendicular ray, so the triangle is fixed.
@@ -711,13 +695,6 @@ export function RHSCongruenceIllustration({
     );
   };
 
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    if (!isExploring) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
-
   const figureDescription = isExploring
     ? "RHS free exploration. The upper point A is draggable along the perpendicular ray from B. Two right triangles share the same leg and hypotenuse. A and D lie on perpendicular rays from B and E. C and F lie on horizontal rays where those rays meet matching hypotenuse arcs centered at A and D."
     : proofStep === 0
@@ -734,10 +711,12 @@ export function RHSCongruenceIllustration({
 
   return (
     <div className="theorem-figure rhs-congruence">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg rhs-congruence__svg"
+      <SvgCanvas
+        descriptionId={descriptionId}
+        description={figureDescription}
+        titleId={titleId}
+        title={isExploring ? "RHS Congruence reconstruction" : `RHS Congruence: ${currentStep.title}`}
+        className="rhs-congruence__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) setIsDragging(false);
@@ -748,16 +727,8 @@ export function RHSCongruenceIllustration({
           }
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
-        <title id={titleId}>
-          {isExploring
-            ? "RHS Congruence reconstruction"
-            : `RHS Congruence: ${currentStep.title}`}
-        </title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {isExploring ? (
           <>
             <text className="rhs-congruence__panel-label" x="86" y="20">
@@ -801,33 +772,31 @@ export function RHSCongruenceIllustration({
               The remaining leg is reconstructed, not given
             </text>
 
-            <FigurePoint label="A" point={freePointA} />
             <FigurePoint label="B" point={freePointB} />
             <FigurePoint label="C" point={freePointC} />
             <FigurePoint label="D" point={freePointD} />
             <FigurePoint label="E" point={freePointE} />
             <FigurePoint label="F" point={freePointF} />
-            <circle
-              className="rhs-congruence__handle-target"
-              cx={freePointA.x}
-              cy={freePointA.y}
-              onPointerDown={beginDrag}
-              r={handleRadius}
-            />
-            <circle
+            <DraggablePoint
+              hitRadius={handleRadius}
+              label="A"
+              labelOffset={getFigurePointOffset(freePointA)}
+              onDrag={updateApex}
+              onDragEnd={() => setIsDragging(false)}
+              onDragStart={() => setIsDragging(true)}
+              point={freePointA}
+              radius={7}
               className={classNames(
                 "rhs-congruence__handle",
                 isDragging && "rhs-congruence__handle--active",
               )}
-              cx={freePointA.x}
-              cy={freePointA.y}
-              r="7"
+              showLabel={true}
             />
           </>
         ) : (
           renderGuidedStep(proofStep)
         )}
-      </svg>
+      </SvgCanvas>
 
       {isExploring ? (
         <>

@@ -107,3 +107,44 @@
 .theorem-measure--secondary {
   border-color: rgba(194, 91, 42, 0.4);
 }
+
+/* Reusable Geometry Primitives */
+.theorem-figure__point-label {
+  fill: #444;
+  font-size: 13px;
+  font-family: inherit;
+  user-select: none;
+}
+
+.theorem-figure__angle-label {
+  font-size: 12px;
+  font-weight: 500;
+  fill: #444;
+  user-select: none;
+}
+
+.theorem-figure__point {
+  transition: r 120ms ease, fill 120ms ease;
+}
+
+.theorem-figure__point--accent {
+  fill: #1f5fbf;
+}
+
+.theorem-figure__point--secondary {
+  fill: #c25b2a;
+}
+
+.theorem-figure__point--constructed {
+  fill: #23805a;
+}
+
+.theorem-figure__point--muted {
+  fill: #999;
+}
+
+.axiom-figure__handle--active {
+  cursor: grabbing !important;
+  r: 9;
+}
+

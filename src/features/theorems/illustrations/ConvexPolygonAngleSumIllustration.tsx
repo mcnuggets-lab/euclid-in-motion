@@ -4,6 +4,7 @@ import {
   polarPointRadians,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 import "./styles/convex-polygon-angle-sum.css";
 
@@ -59,13 +60,13 @@ function triangleCentroid(first: Point, second: Point, third: Point) {
   };
 }
 
-function vertexLabelPoint(point: Point, drawingCenter = center, distance = 15) {
+function vertexLabelOffset(point: Point, drawingCenter = center, distance = 15) {
   const dx = point.x - drawingCenter.x;
   const dy = point.y - drawingCenter.y;
   const length = Math.hypot(dx, dy) || 1;
   return {
-    x: point.x + (dx / length) * distance,
-    y: point.y + (dy / length) * distance + 4,
+    x: (dx / length) * distance,
+    y: (dy / length) * distance + 4,
   };
 }
 
@@ -145,10 +146,9 @@ export function ConvexPolygonAngleSumIllustration({
 
   return (
     <div className="theorem-figure convex-polygon-angle-sum">
-      <svg
+      <SvgCanvas
         aria-label={`Convex ${sideCount}-gon divided into ${triangleCount} fan triangles`}
-        className="theorem-figure__svg convex-polygon-angle-sum__svg"
-        role="img"
+        className="convex-polygon-angle-sum__svg"
         viewBox="0 0 320 220"
       >
         {currentStep.showFan
@@ -197,30 +197,23 @@ export function ConvexPolygonAngleSumIllustration({
           : null}
 
         {points.map((point, index) => {
-          const label = vertexLabelPoint(point);
+          const offset = vertexLabelOffset(point);
           return (
-            <g key={`vertex-${index}`}>
-              <circle
-                className={
-                  currentStep.highlightAngles
-                    ? "convex-polygon-angle-sum__vertex convex-polygon-angle-sum__vertex--highlighted"
-                    : "convex-polygon-angle-sum__vertex"
-                }
-                cx={point.x}
-                cy={point.y}
-                r={currentStep.highlightAngles ? 6 : 4}
-              />
-              <text
-                className="convex-polygon-angle-sum__vertex-label"
-                x={label.x}
-                y={label.y}
-              >
-                V{subscriptDigits[index + 1]}
-              </text>
-            </g>
+            <StaticPoint
+              className={
+                currentStep.highlightAngles
+                  ? "convex-polygon-angle-sum__vertex convex-polygon-angle-sum__vertex--highlighted"
+                  : "convex-polygon-angle-sum__vertex"
+              }
+              key={`vertex-${index}`}
+              label={`V${subscriptDigits[index + 1]}`}
+              labelOffset={offset}
+              point={point}
+              radius={currentStep.highlightAngles ? 6 : 4}
+            />
           );
         })}
-      </svg>
+      </SvgCanvas>
 
       <div className="convex-polygon-angle-sum__controls">
         <label htmlFor={sideCountId}>
@@ -285,21 +278,14 @@ export function ConvexPolygonExteriorAngleSumCorollaryIllustration() {
 
   return (
     <figure className="convex-polygon-exterior-sum">
-      <svg
-        aria-labelledby="convex-polygon-exterior-title convex-polygon-exterior-description"
-        className="theorem-figure__svg convex-polygon-exterior-sum__svg"
-        role="img"
+      <SvgCanvas
+        className="convex-polygon-exterior-sum__svg"
+        description="A convex pentagon has one exterior angle at each vertex, chosen while moving clockwise around its boundary. Each angle is 72 degrees in this regular example, and the five angles total 360 degrees."
+        descriptionId="convex-polygon-exterior-description"
+        title="Consistently oriented exterior angles of a convex pentagon"
+        titleId="convex-polygon-exterior-title"
         viewBox="0 0 640 340"
       >
-        <title id="convex-polygon-exterior-title">
-          Consistently oriented exterior angles of a convex pentagon
-        </title>
-        <desc id="convex-polygon-exterior-description">
-          A convex pentagon has one exterior angle at each vertex, chosen while
-          moving clockwise around its boundary. Each angle is 72 degrees in this
-          regular example, and the five angles total 360 degrees.
-        </desc>
-
         <polygon
           className="convex-polygon-exterior-sum__polygon"
           points={pointsAttribute(points)}
@@ -342,12 +328,11 @@ export function ConvexPolygonExteriorAngleSumCorollaryIllustration() {
         })}
 
         {points.map((point, index) => (
-          <circle
+          <StaticPoint
             className="convex-polygon-exterior-sum__vertex"
-            cx={point.x}
-            cy={point.y}
             key={`point-${index}`}
-            r="4.5"
+            point={point}
+            showLabel={false}
           />
         ))}
 
@@ -355,7 +340,7 @@ export function ConvexPolygonExteriorAngleSumCorollaryIllustration() {
           <rect height="44" rx="6" width="212" x="214" y="280" />
           <text x="320" y="307">5 × 72° = 360°</text>
         </g>
-      </svg>
+      </SvgCanvas>
     </figure>
   );
 }

@@ -10,6 +10,7 @@ import {
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
+import { SvgCanvas, StaticPoint, DraggablePoint } from "@/features/geometry/components";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
 
 
@@ -49,10 +50,6 @@ function pointBetween(first: Point, second: Point, amount: number) {
     x: first.x + (second.x - first.x) * amount,
     y: first.y + (second.y - first.y) * amount,
   };
-}
-
-function offsetLabel(point: Point, dx: number, dy: number) {
-  return { x: point.x + dx, y: point.y + dy };
 }
 
 function barycentricCoordinates(point: Point, a: Point, b: Point, c: Point) {
@@ -409,10 +406,10 @@ export function CrossbarIllustration({
         </div>
       </div>
 
-      <svg
+      <SvgCanvas
         aria-describedby={descriptionId}
         aria-labelledby={titleId}
-        className="theorem-figure__svg crossbar__svg"
+        className="crossbar__svg"
         onPointerCancel={() => setIsDragging(false)}
         onPointerLeave={(event) => {
           if (event.buttons === 0) {
@@ -434,7 +431,6 @@ export function CrossbarIllustration({
           setTowardC(nextSliders.towardC);
         }}
         onPointerUp={() => setIsDragging(false)}
-        role="img"
         viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
         <title id={titleId}>Crossbar theorem interactive figure</title>
@@ -541,62 +537,44 @@ export function CrossbarIllustration({
           />
         ) : null}
 
-        <circle className={pointClass("fixed")} cx={vertexA.x} cy={vertexA.y} r="4.5" />
-        <circle className={pointClass("fixed")} cx={vertexB.x} cy={vertexB.y} r="4.5" />
-        <circle className={pointClass("fixed")} cx={vertexC.x} cy={vertexC.y} r="4.5" />
+        <StaticPoint className={pointClass("fixed")} point={vertexA} label="A" labelOffset={{ x: 10, y: 18 }} />
+        <StaticPoint className={pointClass("fixed")} point={vertexB} label="B" labelOffset={{ x: 10, y: -10 }} />
+        <StaticPoint className={pointClass("fixed")} point={vertexC} label="C" labelOffset={{ x: -16, y: -10 }} />
         {!isExploring ? (
-          <circle
+          <StaticPoint
             className={pointClass("fixed", currentStep.focus.extension)}
-            cx={pointQ.x}
-            cy={pointQ.y}
-            r="4.5"
+            point={pointQ}
+            label="Q"
+            labelOffset={{ x: -18, y: -8 }}
           />
         ) : null}
-        <circle
-          className="crossbar__handle-target"
-          cx={pointD.x}
-          cy={pointD.y}
-          onPointerDown={(event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            setIsDragging(true);
+        <DraggablePoint
+          hitRadius={handleRadius}
+          label="D"
+          labelOffset={{ x: 10, y: -12 }}
+          onDrag={(p) => {
+            const nextWeights = enforceInteriorWeights(
+              barycentricCoordinates(p, vertexA, vertexB, vertexC),
+              interiorMargin,
+            );
+            const nextSliders = slidersFromWeights(nextWeights);
+            setTowardB(nextSliders.towardB);
+            setTowardC(nextSliders.towardC);
           }}
-          r={handleRadius}
+          onDragEnd={() => setIsDragging(false)}
+          onDragStart={() => setIsDragging(true)}
+          point={pointD}
+          radius={7}
+          className={isDragging ? "crossbar__point--draggable crossbar__point--focused" : "crossbar__point--draggable"}
         />
-        <circle
-          className={pointClass("draggable", isDragging)}
-          cx={pointD.x}
-          cy={pointD.y}
-          pointerEvents="none"
-          r="7"
-        />
-        <circle
+        <StaticPoint
           className={pointClass("derived", currentStep.focus.conclusion)}
-          cx={pointE.x}
-          cy={pointE.y}
-          r="6"
+          point={pointE}
+          label="E"
+          labelOffset={{ x: 10, y: -8 }}
+          radius={6}
         />
-
-        <text className="crossbar__point-label" x={offsetLabel(vertexA, 10, 18).x} y={offsetLabel(vertexA, 10, 18).y}>
-          A
-        </text>
-        <text className="crossbar__point-label" x={offsetLabel(vertexB, 10, -10).x} y={offsetLabel(vertexB, 10, -10).y}>
-          B
-        </text>
-        <text className="crossbar__point-label" x={offsetLabel(vertexC, -16, -10).x} y={offsetLabel(vertexC, -16, -10).y}>
-          C
-        </text>
-        {!isExploring ? (
-          <text className="crossbar__point-label" x={offsetLabel(pointQ, -18, -8).x} y={offsetLabel(pointQ, -18, -8).y}>
-            Q
-          </text>
-        ) : null}
-        <text className="crossbar__point-label" x={offsetLabel(pointD, 10, -12).x} y={offsetLabel(pointD, 10, -12).y}>
-          D
-        </text>
-        <text className="crossbar__point-label" x={offsetLabel(pointE, 10, -8).x} y={offsetLabel(pointE, 10, -8).y}>
-          E
-        </text>
-      </svg>
+      </SvgCanvas>
 
       <div
         className={

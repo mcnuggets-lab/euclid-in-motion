@@ -1,18 +1,16 @@
 import { useState } from "react";
 
 import {
-  clamp,
-  dragHandle,
-  getSvgCoordinates,
-  pointLabel,
-  svgHeight,
-  svgWidth,
-} from "@/features/geometry/illustrationUtils";
-
+  DraggablePoint,
+  RayLine,
+  Segment,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
+import { clamp } from "@/features/geometry/illustrationUtils";
 
 export function OrderIllustration() {
   const [pointBX, setPointBX] = useState(160);
-  const [dragging, setDragging] = useState(false);
   const pointA = { x: 56, y: 112 };
   const pointB = { x: pointBX, y: 112 };
   const pointC = { x: 266, y: 112 };
@@ -20,55 +18,25 @@ export function OrderIllustration() {
 
   return (
     <div className="axiom-figure">
-      <svg
-        aria-label="Order axiom illustration"
-        className="axiom-figure__svg"
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setDragging(false);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (!dragging) {
-            return;
-          }
+      <SvgCanvas aria-label="Order axiom illustration" className="axiom-figure__svg">
+        <RayLine origin={{ x: 24, y: 112 }} reach={272} type="line" />
 
-          const nextPoint = getSvgCoordinates(event.currentTarget, event);
-          setPointBX(clamp(nextPoint.x, 34, 286));
-        }}
-        onPointerUp={() => setDragging(false)}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      >
-        <line
-          stroke="#555"
-          strokeWidth="2"
-          x1="24"
-          x2="296"
-          y1={pointA.y}
-          y2={pointA.y}
-        />
-        {pointLabel(pointA, "A")}
-        {dragHandle(
-          pointB,
-          "B",
-          (event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            setDragging(true);
-          },
-          "secondary",
-        )}
-        {pointLabel(pointC, "C")}
         {isBetween ? (
-          <line
-            stroke="#1f5fbf"
-            strokeWidth="3"
-            x1={pointA.x}
-            x2={pointC.x}
-            y1={pointA.y}
-            y2={pointA.y}
-          />
+          <Segment end={pointC} start={pointA} strokeWidth={3} tone="accent" />
         ) : null}
-      </svg>
+
+        <StaticPoint label="A" labelOffset={{ x: 8, y: -8 }} point={pointA} />
+        <DraggablePoint
+          ariaLabel="Point B"
+          bounds={{ minX: 34, maxX: 286 }}
+          label="B"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(nextPoint) => setPointBX(clamp(nextPoint.x, 34, 286))}
+          point={pointB}
+          tone="secondary"
+        />
+        <StaticPoint label="C" labelOffset={{ x: 8, y: -8 }} point={pointC} />
+      </SvgCanvas>
 
       <p className="axiom-figure__note">
         {isBetween
