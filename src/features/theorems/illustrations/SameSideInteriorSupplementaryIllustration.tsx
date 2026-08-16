@@ -1,16 +1,19 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/same-side-interior-supplementary.css";
 
+import {
+  DraggablePoint,
+  ParallelMarker,
+  RayLine,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
 import {
   angleFrom,
   classNames,
   clamp,
   formatDisplayNumber,
-  getSvgCoordinates,
-  lineEndpointsFromPoints,
   polarPointRadians as polarPoint,
-  svgHeight,
-  svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
@@ -38,7 +41,6 @@ const lineOffsetDistance = 88;
 const minimumQOffset = -72;
 const maximumQOffset = 72;
 const initialQOffset = 8;
-const handleRadius = 24;
 const measurementTolerance = 0.000001;
 const transversalExtensionDistance = 34;
 
@@ -125,23 +127,6 @@ function formatTotal(value: number) {
     : `${formatDisplayNumber(value, 1)}° / Check`;
 }
 
-function parallelMark(center: Point, angle: number, className: string, key: string) {
-  const vector = direction(angle);
-  const normal = { x: -vector.y, y: vector.x };
-  const firstStart = move(move(center, vector, -7), normal, 5);
-  const firstEnd = move(move(center, vector, -7), normal, -5);
-  const secondCenter = move(center, vector, 6);
-  const secondStart = move(secondCenter, normal, 5);
-  const secondEnd = move(secondCenter, normal, -5);
-
-  return (
-    <g className={className} key={key}>
-      <path d={`M ${firstStart.x} ${firstStart.y} L ${center.x} ${center.y} L ${firstEnd.x} ${firstEnd.y}`} />
-      <path d={`M ${secondStart.x} ${secondStart.y} L ${secondCenter.x} ${secondCenter.y} L ${secondEnd.x} ${secondEnd.y}`} />
-    </g>
-  );
-}
-
 const lineDirection = direction(lineAngle);
 const lineNormal = { x: -lineDirection.y, y: lineDirection.x };
 const basePointQ = move(pointP, lineNormal, lineOffsetDistance);
@@ -209,7 +194,6 @@ export function SameSideInteriorSupplementaryIllustration({
   const moveQControlId = useId();
   const [qOffset, setQOffset] = useState(initialQOffset);
   const [pairIndex, setPairIndex] = useState<SameSidePairIndex>(0);
-  const [isDragging, setIsDragging] = useState(false);
 
   const isExploring = activeStep === null;
   const proofStep = activeStep ?? 0;
@@ -234,9 +218,6 @@ export function SameSideInteriorSupplementaryIllustration({
     x: -transversalDirection.y,
     y: transversalDirection.x,
   };
-  const lineLEndpoints = lineEndpointsFromPoints(pointP, pointA);
-  const lineMEndpoints = lineEndpointsFromPoints(pointQ, pointB);
-  const transversalEndpoints = lineEndpointsFromPoints(pointP, pointQ);
   const firstAngleArc = minorArc(pointP, ...firstPoints, 18, 32);
   const firstAngleOuterArc = minorArc(pointP, ...firstPoints, 23, 38);
   const secondAngleArc = minorArc(pointQ, ...secondPoints, 18, 32);
@@ -335,21 +316,6 @@ export function SameSideInteriorSupplementaryIllustration({
     });
   }, [currentStep.insight, currentStep.prompt, currentStep.title, onDiscoveryChange]);
 
-  const updateQOffset = (pointer: Point) => {
-    const fromBase = {
-      x: pointer.x - basePointQ.x,
-      y: pointer.y - basePointQ.y,
-    };
-    const projectedOffset = dot(fromBase, lineDirection);
-    setQOffset(Math.round(clamp(projectedOffset, minimumQOffset, maximumQOffset)));
-  };
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateQOffset(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
-
   const renderSummary = () => {
     if (isExploring) {
       return (
@@ -447,51 +413,23 @@ export function SameSideInteriorSupplementaryIllustration({
 
   return (
     <div className="theorem-figure same-side-interior">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg same-side-interior__svg"
-        onPointerCancel={() => setIsDragging(false)}
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setIsDragging(false);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (isExploring && isDragging) {
-            updateQOffset(getSvgCoordinates(event.currentTarget, event));
-          }
-        }}
-        onPointerUp={() => setIsDragging(false)}
-        role="img"
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      >
-        <title id={titleId}>
-          {isExploring
+      <SvgCanvas
+        className="same-side-interior__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
+        title={
+          isExploring
             ? "Same-Side Interior Angles Theorem interactive figure"
-            : `Same-Side Interior Angles Theorem — ${currentStep.title}`}
-        </title>
-        <desc id={descriptionId}>{figureDescription}</desc>
+            : `Same-Side Interior Angles Theorem — ${currentStep.title}`
+        }
+        titleId={titleId}
+      >
+        <RayLine origin={pointP} through={pointA} type="line" />
+        <RayLine origin={pointQ} through={pointB} type="line" />
+        <RayLine origin={pointP} through={pointQ} strokeWidth={2} type="line" />
 
-        <line className="same-side-interior__line" {...lineLEndpoints} />
-        <line className="same-side-interior__line" {...lineMEndpoints} />
-        <line
-          className="same-side-interior__line same-side-interior__line--transversal"
-          {...transversalEndpoints}
-        />
-
-        {parallelMark(
-          givenLineMarkCenter,
-          lineAngle,
-          "same-side-interior__parallel-mark same-side-interior__parallel-mark--given",
-          "given-line-l",
-        )}
-        {parallelMark(
-          givenParallelMarkCenter,
-          lineAngle,
-          "same-side-interior__parallel-mark same-side-interior__parallel-mark--given",
-          "given-line-m",
-        )}
+        <ParallelMarker count={2} point={givenLineMarkCenter} />
+        <ParallelMarker count={2} point={givenParallelMarkCenter} />
 
         <path
           className={classNames(
@@ -535,30 +473,31 @@ export function SameSideInteriorSupplementaryIllustration({
           </>
         ) : null}
 
-        <circle className="same-side-interior__point" cx={pointP.x} cy={pointP.y} r="4.5" />
-        <circle
-          className={classNames(
-            "same-side-interior__point",
-            isExploring && "same-side-interior__point--draggable",
-          )}
-          cx={pointQ.x}
-          cy={pointQ.y}
-          r="4.5"
+        <StaticPoint label="P" labelOffset={{ x: -12, y: -8 }} point={pointP} />
+        <DraggablePoint
+          ariaLabel="Transversal point Q"
+          disabled={!isExploring}
+          label="Q"
+          labelOffset={{ x: 12, y: 15 }}
+          onDrag={(pointer) => {
+            const fromBase = {
+              x: pointer.x - basePointQ.x,
+              y: pointer.y - basePointQ.y,
+            };
+            const projectedOffset = dot(fromBase, lineDirection);
+            setQOffset(Math.round(clamp(projectedOffset, minimumQOffset, maximumQOffset)));
+          }}
+          point={pointQ}
+          tone="accent"
         />
-        {showPointA ? <circle className="same-side-interior__point same-side-interior__point--named" cx={pointA.x} cy={pointA.y} r="3.6" /> : null}
-        {showPointB ? <circle className="same-side-interior__point same-side-interior__point--named" cx={pointB.x} cy={pointB.y} r="3.6" /> : null}
-        {showPointC ? <circle className="same-side-interior__point same-side-interior__point--named" cx={pointC.x} cy={pointC.y} r="3.6" /> : null}
-        {showPointD ? <circle className="same-side-interior__point same-side-interior__point--bridge" cx={pointD.x} cy={pointD.y} r="3.6" /> : null}
-        {showPointE ? <circle className="same-side-interior__point same-side-interior__point--named" cx={pointE.x} cy={pointE.y} r="3.6" /> : null}
-        {showLinearPair ? <circle className="same-side-interior__point-focus" cx={pointQ.x} cy={pointQ.y} r="11" /> : null}
 
-        <text className="same-side-interior__point-label" x={pointP.x - 12} y={pointP.y - 8}>P</text>
-        <text className="same-side-interior__point-label" x={pointQ.x + 12} y={pointQ.y + 15}>Q</text>
-        {showPointA ? <text className="same-side-interior__point-label" x={pointA.x - 12} y={pointA.y - 8}>A</text> : null}
-        {showPointB ? <text className="same-side-interior__point-label" x={pointB.x + 10} y={pointB.y + 13}>B</text> : null}
-        {showPointC ? <text className="same-side-interior__point-label" x={pointC.x + 10} y={pointC.y + 17}>C</text> : null}
-        {showPointD ? <text className="same-side-interior__point-label same-side-interior__point-label--bridge" x={pointD.x + 12} y={pointD.y - 8}>D</text> : null}
-        {showPointE ? <text className="same-side-interior__point-label" x={pointE.x + 10} y={pointE.y - 8}>E</text> : null}
+        {showPointA ? <StaticPoint label="A" labelOffset={{ x: -12, y: -8 }} point={pointA} radius={3.6} /> : null}
+        {showPointB ? <StaticPoint label="B" labelOffset={{ x: 10, y: 13 }} point={pointB} radius={3.6} /> : null}
+        {showPointC ? <StaticPoint label="C" labelOffset={{ x: 10, y: 17 }} point={pointC} radius={3.6} /> : null}
+        {showPointD ? <StaticPoint label="D" labelOffset={{ x: 12, y: -8 }} point={pointD} radius={3.6} tone="constructed" /> : null}
+        {showPointE ? <StaticPoint label="E" labelOffset={{ x: 10, y: -8 }} point={pointE} radius={3.6} /> : null}
+
+        {showLinearPair ? <circle className="same-side-interior__point-focus" cx={pointQ.x} cy={pointQ.y} r="11" /> : null}
 
         <text className="same-side-interior__line-label" x={lineLLabelPoint.x - 8} y={lineLLabelPoint.y + 12}>ℓ</text>
         <text className="same-side-interior__line-label" x={lineMLabelPoint.x + 8} y={lineMLabelPoint.y - 10}>m</text>
@@ -608,30 +547,7 @@ export function SameSideInteriorSupplementaryIllustration({
             ∠DQC + ∠CQP = 180°; replace ∠DQC by ∠APQ
           </text>
         ) : null}
-
-        {isExploring ? (
-          <>
-            <circle
-              aria-hidden="true"
-              className={classNames(
-                "same-side-interior__handle",
-                isDragging && "same-side-interior__handle--active",
-              )}
-              cx={pointQ.x}
-              cy={pointQ.y}
-              r="8"
-            />
-            <circle
-              aria-hidden="true"
-              className="same-side-interior__handle-target"
-              cx={pointQ.x}
-              cy={pointQ.y}
-              onPointerDown={beginDrag}
-              r={handleRadius}
-            />
-          </>
-        ) : null}
-      </svg>
+      </SvgCanvas>
 
       <div className="same-side-interior__summary">{renderSummary()}</div>
 

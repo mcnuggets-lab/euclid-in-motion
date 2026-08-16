@@ -1,14 +1,12 @@
 import { useState } from "react";
 
 import {
-  hatchMark,
-  midpoint,
-  pointLabel,
-  svgHeight,
-  svgWidth,
-  type Point,
-} from "@/features/geometry/illustrationUtils";
-
+  AngleArc,
+  CongruenceMarks,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
+import { type Point } from "@/features/geometry/illustrationUtils";
 
 function degreeLabel(value: number) {
   return `${Math.round(value)}°`;
@@ -20,62 +18,6 @@ function pointFromAngle(origin: Point, degrees: number, length: number): Point {
     x: origin.x + Math.cos(radians) * length,
     y: origin.y - Math.sin(radians) * length,
   };
-}
-
-function segmentDirection(first: Point, second: Point): Point {
-  return {
-    x: second.x - first.x,
-    y: second.y - first.y,
-  };
-}
-
-function offsetAlongSegment(
-  point: Point,
-  direction: Point,
-  distance: number,
-): Point {
-  const length = Math.hypot(direction.x, direction.y) || 1;
-  return {
-    x: point.x + (direction.x / length) * distance,
-    y: point.y + (direction.y / length) * distance,
-  };
-}
-
-function doubleHatch(
-  center: Point,
-  direction: Point,
-  keyPrefix: string,
-  stroke: string,
-) {
-  return (
-    <>
-      {hatchMark(
-        offsetAlongSegment(center, direction, -6),
-        direction,
-        7,
-        `${keyPrefix}-first`,
-        stroke,
-      )}
-      {hatchMark(
-        offsetAlongSegment(center, direction, 6),
-        direction,
-        7,
-        `${keyPrefix}-second`,
-        stroke,
-      )}
-    </>
-  );
-}
-
-function angleArcPath(
-  vertex: Point,
-  startDegrees: number,
-  endDegrees: number,
-  radius: number,
-) {
-  const start = pointFromAngle(vertex, startDegrees, radius);
-  const end = pointFromAngle(vertex, endDegrees, radius);
-  return `M ${start.x} ${start.y} A ${radius} ${radius} 0 0 0 ${end.x} ${end.y}`;
 }
 
 export function SASIllustration() {
@@ -95,23 +37,11 @@ export function SASIllustration() {
     sideLength,
   );
 
-  const baseDirection = segmentDirection(firstVertex, firstBaseEnd);
-  const sideDirection = segmentDirection(firstVertex, firstSideEnd);
-  const copyBaseDirection = segmentDirection(secondVertex, secondBaseEnd);
-  const copySideDirection = segmentDirection(secondVertex, secondSideEnd);
-  const firstAngleLabel = pointFromAngle(firstVertex, includedAngle / 2, 34);
-  const secondAngleLabel = pointFromAngle(
-    secondVertex,
-    copyRotation + includedAngle / 2,
-    34,
-  );
-
   return (
     <div className="axiom-figure">
-      <svg
+      <SvgCanvas
         aria-label="SAS congruence postulate illustration"
         className="axiom-figure__svg"
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
       >
         <polygon
           fill="rgba(85, 85, 85, 0.08)"
@@ -126,66 +56,48 @@ export function SASIllustration() {
           strokeWidth="2"
         />
 
-        <path
-          d={angleArcPath(firstVertex, 0, includedAngle, 24)}
-          fill="none"
-          stroke="#c25b2a"
-          strokeWidth="2"
+        <AngleArc
+          endAngle={(-includedAngle * Math.PI) / 180}
+          label={degreeLabel(includedAngle)}
+          labelRadius={34}
+          radius={24}
+          startAngle={0}
+          tone="secondary"
+          vertex={firstVertex}
         />
-        <path
-          d={angleArcPath(
-            secondVertex,
-            copyRotation,
-            copyRotation + includedAngle,
-            24,
-          )}
-          fill="none"
-          stroke="#c25b2a"
-          strokeWidth="2"
+        <AngleArc
+          endAngle={((-copyRotation - includedAngle) * Math.PI) / 180}
+          label={degreeLabel(includedAngle)}
+          labelRadius={34}
+          radius={24}
+          startAngle={(-copyRotation * Math.PI) / 180}
+          tone="secondary"
+          vertex={secondVertex}
         />
 
-        {hatchMark(midpoint(firstVertex, firstBaseEnd), baseDirection, 7, "ab-mark")}
-        {hatchMark(
-          midpoint(secondVertex, secondBaseEnd),
-          copyBaseDirection,
-          7,
-          "a-prime-b-prime-mark",
-        )}
-        {doubleHatch(
-          midpoint(firstVertex, firstSideEnd),
-          sideDirection,
-          "ac-mark",
-          "#1f5fbf",
-        )}
-        {doubleHatch(
-          midpoint(secondVertex, secondSideEnd),
-          copySideDirection,
-          "a-prime-c-prime-mark",
-          "#1f5fbf",
-        )}
+        <CongruenceMarks count={1} end={firstBaseEnd} start={firstVertex} stroke="#555" />
+        <CongruenceMarks
+          count={1}
+          end={secondBaseEnd}
+          start={secondVertex}
+          stroke="#555"
+        />
+        <CongruenceMarks count={2} end={firstSideEnd} start={firstVertex} stroke="#1f5fbf" />
+        <CongruenceMarks
+          count={2}
+          end={secondSideEnd}
+          start={secondVertex}
+          stroke="#1f5fbf"
+        />
 
-        <text
-          className="axiom-figure__label"
-          x={firstAngleLabel.x - 14}
-          y={firstAngleLabel.y}
-        >
-          {degreeLabel(includedAngle)}
-        </text>
-        <text
-          className="axiom-figure__label"
-          x={secondAngleLabel.x - 14}
-          y={secondAngleLabel.y}
-        >
-          {degreeLabel(includedAngle)}
-        </text>
+        <StaticPoint label="A" labelOffset={{ x: -8, y: 8 }} point={firstVertex} />
+        <StaticPoint label="B" labelOffset={{ x: 8, y: 8 }} point={firstBaseEnd} />
+        <StaticPoint label="C" labelOffset={{ x: 0, y: -8 }} point={firstSideEnd} />
 
-        {pointLabel(firstVertex, "A")}
-        {pointLabel(firstBaseEnd, "B")}
-        {pointLabel(firstSideEnd, "C")}
-        {pointLabel(secondVertex, "A′")}
-        {pointLabel(secondBaseEnd, "B′")}
-        {pointLabel(secondSideEnd, "C′")}
-      </svg>
+        <StaticPoint label="A′" labelOffset={{ x: -8, y: 8 }} point={secondVertex} />
+        <StaticPoint label="B′" labelOffset={{ x: 8, y: 8 }} point={secondBaseEnd} />
+        <StaticPoint label="C′" labelOffset={{ x: 0, y: -8 }} point={secondSideEnd} />
+      </SvgCanvas>
 
       <div className="axiom-figure__controls">
         <label>
@@ -240,16 +152,18 @@ export function SASIllustration() {
           <span>AC ≅ A′C′</span>
         </div>
         <div className="axiom-measure">
-          <strong>Given angle pair</strong>
-          <span>∠BAC ≅ ∠B′A′C′</span>
+          <strong>Given included angle</strong>
+          <span>∠A ≅ ∠A′</span>
+        </div>
+        <div className="axiom-measure">
+          <strong>Postulate conclusion</strong>
+          <span>△ABC ≅ △A′B′C′</span>
         </div>
       </div>
 
       <p className="axiom-figure__note">
-        This figure illustrates that matching two sides and the included angle
-        fixes a triangle's shape up to relocation. In this axiomatic treatment,
-        SAS is assumed as a postulate; the picture illustrates it but does not
-        prove it.
+        Matching two sides and the included angle uniquely determines the entire triangle,
+        regardless of position or rotation.
       </p>
     </div>
   );

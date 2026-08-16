@@ -1,15 +1,12 @@
 import { useState } from "react";
 
 import {
-  clamp,
-  dragHandle,
-  getSvgCoordinates,
-  lineEndpointsFromPoints,
-  pointLabel,
-  svgHeight,
-  svgWidth,
-  type Point,
-} from "@/features/geometry/illustrationUtils";
+  DraggablePoint,
+  RayLine,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
+import { type Point } from "@/features/geometry/illustrationUtils";
 import { projectPointOntoLine } from "@/features/geometry/geometryPrimitives";
 
 const snapDistance = 8;
@@ -19,83 +16,52 @@ export function IncidenceIllustration() {
   const [pointB, setPointB] = useState<Point>({ x: 242, y: 148 });
   const [pointC, setPointC] = useState<Point>({ x: 120, y: 170 });
   const [isPointCSnapped, setIsPointCSnapped] = useState(false);
-  const [dragTarget, setDragTarget] = useState<"b" | "c" | null>(null);
-  const line = lineEndpointsFromPoints(pointA, pointB);
 
   return (
     <div className="axiom-figure">
-      <svg
-        aria-label="Incidence axiom illustration"
-        className="axiom-figure__svg"
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setDragTarget(null);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (!dragTarget) {
-            return;
-          }
+      <SvgCanvas aria-label="Incidence axiom illustration" className="axiom-figure__svg">
+        <RayLine origin={pointA} through={pointB} type="line" />
 
-          const nextPoint = getSvgCoordinates(event.currentTarget, event);
-
-          if (dragTarget === "b") {
-            const nextPointB = {
-              x: clamp(nextPoint.x, 110, 290),
-              y: clamp(nextPoint.y, 36, 188),
-            };
+        <StaticPoint label="A" labelOffset={{ x: 8, y: -8 }} point={pointA} />
+        <DraggablePoint
+          ariaLabel="Line defining point B"
+          bounds={{ minX: 110, maxX: 290, minY: 36, maxY: 188 }}
+          label="B"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(nextPointB) => {
             setPointB(nextPointB);
             if (isPointCSnapped) {
               setPointC(projectPointOntoLine(pointC, pointA, nextPointB));
             }
-            return;
-          }
-
-          const nextPointC = {
-            x: clamp(nextPoint.x, 34, 286),
-            y: clamp(nextPoint.y, 34, 188),
-          };
-          const snappedPointC = projectPointOntoLine(nextPointC, pointA, pointB);
-          const distanceToLine = Math.hypot(
-            nextPointC.x - snappedPointC.x,
-            nextPointC.y - snappedPointC.y,
-          );
-
-          if (distanceToLine <= snapDistance) {
-            setPointC(snappedPointC);
-            setIsPointCSnapped(true);
-            return;
-          }
-
-          setPointC(nextPointC);
-          setIsPointCSnapped(false);
-        }}
-        onPointerUp={() => setDragTarget(null)}
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      >
-        <line
-          stroke="#555"
-          strokeWidth="2"
-          x1={line.x1}
-          x2={line.x2}
-          y1={line.y1}
-          y2={line.y2}
+          }}
+          point={pointB}
+          tone="accent"
         />
-        {pointLabel(pointA, "A")}
-        {dragHandle(pointB, "B", (event) => {
-          event.currentTarget.setPointerCapture(event.pointerId);
-          setDragTarget("b");
-        })}
-        {dragHandle(
-          pointC,
-          "C",
-          (event) => {
-            event.currentTarget.setPointerCapture(event.pointerId);
-            setDragTarget("c");
-          },
-          "secondary",
-        )}
-      </svg>
+
+        <DraggablePoint
+          ariaLabel="Query point C"
+          bounds={{ minX: 34, maxX: 286, minY: 34, maxY: 188 }}
+          label="C"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(nextPointC) => {
+            const snappedPointC = projectPointOntoLine(nextPointC, pointA, pointB);
+            const distanceToLine = Math.hypot(
+              nextPointC.x - snappedPointC.x,
+              nextPointC.y - snappedPointC.y,
+            );
+
+            if (distanceToLine <= snapDistance) {
+              setPointC(snappedPointC);
+              setIsPointCSnapped(true);
+            } else {
+              setPointC(nextPointC);
+              setIsPointCSnapped(false);
+            }
+          }}
+          point={pointC}
+          tone="secondary"
+        />
+      </SvgCanvas>
 
       <p className="axiom-figure__note">
         {isPointCSnapped

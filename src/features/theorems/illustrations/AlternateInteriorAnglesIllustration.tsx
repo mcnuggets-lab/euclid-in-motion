@@ -1,16 +1,19 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/alternate-interior-angles.css";
 
+import {
+  DraggablePoint,
+  ParallelMarker,
+  RayLine,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
 import {
   angleFrom,
   classNames,
   clamp,
   formatDisplayNumber,
-  getSvgCoordinates,
-  lineEndpointsFromPoints,
   polarPointRadians as polarPoint,
-  svgHeight,
-  svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
@@ -39,7 +42,6 @@ const lineOffsetDistance = 88;
 const minimumQOffset = -72;
 const maximumQOffset = 72;
 const initialQOffset = 8;
-const handleRadius = 24;
 const measurementTolerance = 0.000001;
 
 function degreesToRadians(value: number) {
@@ -118,23 +120,6 @@ function formatDifference(value: number) {
     : `${formatDisplayNumber(value, 2)}° / Check`;
 }
 
-function parallelMark(center: Point, angle: number, className: string, key: string) {
-  const vector = direction(angle);
-  const normal = { x: -vector.y, y: vector.x };
-  const firstStart = move(move(center, vector, -7), normal, 5);
-  const firstEnd = move(move(center, vector, -7), normal, -5);
-  const secondCenter = move(center, vector, 6);
-  const secondStart = move(secondCenter, normal, 5);
-  const secondEnd = move(secondCenter, normal, -5);
-
-  return (
-    <g className={className} key={key}>
-      <path d={`M ${firstStart.x} ${firstStart.y} L ${center.x} ${center.y} L ${firstEnd.x} ${firstEnd.y}`} />
-      <path d={`M ${secondStart.x} ${secondStart.y} L ${secondCenter.x} ${secondCenter.y} L ${secondEnd.x} ${secondEnd.y}`} />
-    </g>
-  );
-}
-
 const lineDirection = direction(lineAngle);
 const lineNormal = { x: -lineDirection.y, y: lineDirection.x };
 const basePointQ = move(pointP, lineNormal, lineOffsetDistance);
@@ -188,7 +173,6 @@ export function AlternateInteriorAnglesIllustration({
   const moveQControlId = useId();
   const [qOffset, setQOffset] = useState(initialQOffset);
   const [pairIndex, setPairIndex] = useState<AlternatePairIndex>(0);
-  const [isDragging, setIsDragging] = useState(false);
 
   const isExploring = activeStep === null;
   const proofStep = activeStep ?? 0;
@@ -200,7 +184,6 @@ export function AlternateInteriorAnglesIllustration({
     firstName,
     firstPoints,
     pointB,
-    pointC,
     pointQ,
     secondAngle,
     secondName,
@@ -208,10 +191,7 @@ export function AlternateInteriorAnglesIllustration({
   } = measureAlternateInteriorPair(currentQOffset, currentPairIndex);
   const angleDifference = Math.abs(firstAngle - secondAngle);
   const anglesMatch = angleDifference <= measurementTolerance;
-  const lineLEndpoints = lineEndpointsFromPoints(pointP, pointA);
-  const lineMEndpoints = lineEndpointsFromPoints(pointQ, pointB);
-  const transversalEndpoints = lineEndpointsFromPoints(pointP, pointQ);
-  const auxiliaryLineEndpoints = lineEndpointsFromPoints(pointP, pointX);
+
   const firstAngleArc = minorArc(pointP, ...firstPoints, 18, 32);
   const firstAngleOuterArc = minorArc(pointP, ...firstPoints, 23, 38);
   const secondAngleArc = minorArc(pointQ, ...secondPoints, 18, 32);
@@ -314,21 +294,6 @@ export function AlternateInteriorAnglesIllustration({
       title: currentStep.title,
     });
   }, [currentStep.insight, currentStep.prompt, currentStep.title, onDiscoveryChange]);
-
-  const updateQOffset = (pointer: Point) => {
-    const fromBase = {
-      x: pointer.x - basePointQ.x,
-      y: pointer.y - basePointQ.y,
-    };
-    const projectedOffset = dot(fromBase, lineDirection);
-    setQOffset(Math.round(clamp(projectedOffset, minimumQOffset, maximumQOffset)));
-  };
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateQOffset(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
 
   const renderSummary = () => {
     if (isExploring) {
@@ -446,72 +411,38 @@ export function AlternateInteriorAnglesIllustration({
 
   return (
     <div className="theorem-figure alternate-interior-angles">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg alternate-interior-angles__svg"
-        onPointerCancel={() => setIsDragging(false)}
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setIsDragging(false);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (isExploring && isDragging) {
-            updateQOffset(getSvgCoordinates(event.currentTarget, event));
-          }
-        }}
-        onPointerUp={() => setIsDragging(false)}
-        role="img"
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      <SvgCanvas
+        className="alternate-interior-angles__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
+        title="Alternate Interior Angles Theorem interactive figure"
+        titleId={titleId}
       >
-        <title id={titleId}>Alternate Interior Angles Theorem interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
+        <RayLine origin={pointP} through={pointA} type="line" />
+        <RayLine origin={pointQ} through={pointB} type="line" />
+        <RayLine origin={pointP} through={pointQ} strokeWidth={2} type="line" />
 
-        <line className="alternate-interior-angles__line" {...lineLEndpoints} />
-        <line className="alternate-interior-angles__line" {...lineMEndpoints} />
-        <line
-          className="alternate-interior-angles__line alternate-interior-angles__line--transversal"
-          {...transversalEndpoints}
-        />
         {showAuxiliaryLine ? (
-          <line
+          <RayLine
             className={classNames(
               "alternate-interior-angles__auxiliary-line",
               showConclusion && "alternate-interior-angles__auxiliary-line--faded",
             )}
-            {...auxiliaryLineEndpoints}
+            origin={pointP}
+            through={pointX}
+            type="line"
           />
         ) : null}
 
-        {parallelMark(
-          givenLineMarkCenter,
-          lineAngle,
-          "alternate-interior-angles__parallel-mark alternate-interior-angles__parallel-mark--given",
-          "given-line-l",
-        )}
-        {parallelMark(
-          givenParallelMarkCenter,
-          lineAngle,
-          "alternate-interior-angles__parallel-mark alternate-interior-angles__parallel-mark--given",
-          "given-line-m",
-        )}
-        {showDerivedParallel
-          ? [
-              parallelMark(
-                derivedLineMarkCenter,
-                lineAngle,
-                "alternate-interior-angles__parallel-mark alternate-interior-angles__parallel-mark--derived",
-                "derived-line-n",
-              ),
-              parallelMark(
-                derivedParallelMarkCenter,
-                lineAngle,
-                "alternate-interior-angles__parallel-mark alternate-interior-angles__parallel-mark--derived",
-                "derived-line-m",
-              ),
-            ]
-          : null}
+        <ParallelMarker count={2} point={givenLineMarkCenter} />
+        <ParallelMarker count={2} point={givenParallelMarkCenter} />
+
+        {showDerivedParallel ? (
+          <>
+            <ParallelMarker count={2} point={derivedLineMarkCenter} />
+            <ParallelMarker count={2} point={derivedParallelMarkCenter} />
+          </>
+        ) : null}
 
         {showOriginalAngles ? (
           <>
@@ -533,6 +464,7 @@ export function AlternateInteriorAnglesIllustration({
             />
           </>
         ) : null}
+
         {showCopiedAngles ? (
           <>
             <path
@@ -544,196 +476,116 @@ export function AlternateInteriorAnglesIllustration({
               d={firstAngleOuterArc.path}
             />
             <path
-              className="alternate-interior-angles__angle alternate-interior-angles__angle--copied alternate-interior-angles__angle--second-copy"
+              className="alternate-interior-angles__angle alternate-interior-angles__angle--second"
               d={secondAngleArc.path}
             />
             <path
-              className="alternate-interior-angles__angle alternate-interior-angles__angle--copied alternate-interior-angles__angle--double alternate-interior-angles__angle--second-copy"
+              className="alternate-interior-angles__angle alternate-interior-angles__angle--second alternate-interior-angles__angle--double"
               d={secondAngleOuterArc.path}
             />
           </>
         ) : null}
 
-        <circle className="alternate-interior-angles__point" cx={pointP.x} cy={pointP.y} r="4.5" />
-        <circle
-          className={classNames(
-            "alternate-interior-angles__point",
-            isExploring && "alternate-interior-angles__point--draggable",
-          )}
-          cx={pointQ.x}
-          cy={pointQ.y}
-          r="4.5"
+        <StaticPoint label="P" labelOffset={{ x: -10, y: -10 }} point={pointP} />
+        <DraggablePoint
+          ariaLabel="Transversal point Q"
+          disabled={!isExploring}
+          label="Q"
+          labelOffset={{ x: 10, y: -10 }}
+          onDrag={(pointer) => {
+            const fromBase = {
+              x: pointer.x - basePointQ.x,
+              y: pointer.y - basePointQ.y,
+            };
+            const projectedOffset = dot(fromBase, lineDirection);
+            setQOffset(Math.round(clamp(projectedOffset, minimumQOffset, maximumQOffset)));
+          }}
+          point={pointQ}
+          tone="accent"
         />
-        {currentPairIndex === 0 ? (
-          <>
-            <circle className="alternate-interior-angles__point alternate-interior-angles__point--named" cx={pointA.x} cy={pointA.y} r="3.6" />
-            <circle className="alternate-interior-angles__point alternate-interior-angles__point--named" cx={pointB.x} cy={pointB.y} r="3.6" />
-          </>
-        ) : (
-          <>
-            <circle className="alternate-interior-angles__point alternate-interior-angles__point--named" cx={pointE.x} cy={pointE.y} r="3.6" />
-            <circle className="alternate-interior-angles__point alternate-interior-angles__point--named" cx={pointC.x} cy={pointC.y} r="3.6" />
-          </>
-        )}
-        {showAuxiliaryLine && !showConclusion ? (
-          <circle
-            className="alternate-interior-angles__point alternate-interior-angles__point--auxiliary"
-            cx={pointX.x}
-            cy={pointX.y}
-            r="3.6"
-          />
-        ) : null}
-        {showPlayfair ? (
-          <circle className="alternate-interior-angles__point-focus" cx={pointP.x} cy={pointP.y} r="11" />
-        ) : null}
 
-        <text className="alternate-interior-angles__point-label" x={pointP.x - 12} y={pointP.y - 8}>P</text>
-        <text className="alternate-interior-angles__point-label" x={pointQ.x + 12} y={pointQ.y + 15}>Q</text>
-        {currentPairIndex === 0 ? (
-          <>
-            <text className="alternate-interior-angles__point-label" x={pointA.x - 12} y={pointA.y - 8}>A</text>
-            <text className="alternate-interior-angles__point-label" x={pointB.x + 10} y={pointB.y + 13}>B</text>
-          </>
-        ) : (
-          <>
-            <text className="alternate-interior-angles__point-label" x={pointE.x + 10} y={pointE.y - 8}>E</text>
-            <text className="alternate-interior-angles__point-label" x={pointC.x + 10} y={pointC.y + 17}>C</text>
-          </>
-        )}
-        {showAuxiliaryLine && !showConclusion ? (
-          <text className="alternate-interior-angles__point-label alternate-interior-angles__point-label--auxiliary" x={pointX.x - 12} y={pointX.y + 17}>X</text>
-        ) : null}
+        <text className="alternate-interior-angles__line-label" x={lineLLabelPoint.x} y={lineLLabelPoint.y}>
+          ℓ
+        </text>
+        <text className="alternate-interior-angles__line-label" x={lineMLabelPoint.x} y={lineMLabelPoint.y}>
+          m
+        </text>
+        <text className="alternate-interior-angles__line-label" x={transversalLabelPoint.x} y={transversalLabelPoint.y}>
+          t
+        </text>
 
-        <text className="alternate-interior-angles__line-label" x={lineLLabelPoint.x - 8} y={lineLLabelPoint.y + 12}>ℓ</text>
-        <text className="alternate-interior-angles__line-label" x={lineMLabelPoint.x + 8} y={lineMLabelPoint.y - 10}>m</text>
-        <text className="alternate-interior-angles__line-label" x={transversalLabelPoint.x} y={transversalLabelPoint.y}>t</text>
         {showAuxiliaryLine ? (
           <text
             className={classNames(
-              "alternate-interior-angles__line-label",
-              "alternate-interior-angles__line-label--auxiliary",
-              showConclusion && "alternate-interior-angles__line-label--auxiliary-faded",
+              "alternate-interior-angles__line-label alternate-interior-angles__line-label--auxiliary",
+              showConclusion && "alternate-interior-angles__line-label--faded",
             )}
             x={auxiliaryLabelPoint.x}
             y={auxiliaryLabelPoint.y}
           >
-            {showPlayfair ? "n = ℓ" : "n ?= ℓ"}
-          </text>
-        ) : null}
-        {showPlayfair && !showConclusion ? (
-          <text className="alternate-interior-angles__line-note" x={uniquenessLabelPoint.x} y={uniquenessLabelPoint.y}>
-            P lies on both ℓ and n
+            n
           </text>
         ) : null}
 
-        {showOriginalAngles ? (
-          <>
-            <text
-              className="alternate-interior-angles__angle-label alternate-interior-angles__angle-label--first"
-              x={firstAngleArc.label.x}
-              y={firstAngleArc.label.y}
-            >
-              {firstName}
-            </text>
-            <text
-              className="alternate-interior-angles__angle-label alternate-interior-angles__angle-label--second"
-              x={secondAngleArc.label.x}
-              y={secondAngleArc.label.y}
-            >
-              {secondName}
-            </text>
-          </>
-        ) : null}
-        {showCopiedAngles ? (
-          <>
-            <text
-              className="alternate-interior-angles__angle-label alternate-interior-angles__angle-label--copied"
-              x={firstAngleArc.label.x}
-              y={firstAngleArc.label.y}
-            >
-              XPQ
-            </text>
-            <text
-              className="alternate-interior-angles__angle-label alternate-interior-angles__angle-label--copied"
-              x={secondAngleArc.label.x}
-              y={secondAngleArc.label.y}
-            >
-              PQB
-            </text>
-          </>
-        ) : null}
-
-        {showConclusion ? (
-          <text className="alternate-interior-angles__chain" x={160} y={204}>
-            ray PX = ray PA; ∠XPQ = ∠APQ; therefore ∠APQ ≅ ∠PQB
+        {showPlayfair ? (
+          <text className="alternate-interior-angles__uniqueness-label" x={uniquenessLabelPoint.x} y={uniquenessLabelPoint.y}>
+            n = ℓ by Playfair
           </text>
         ) : null}
+      </SvgCanvas>
 
-        {isExploring ? (
-          <>
-            <circle
-              aria-hidden="true"
-              className={classNames(
-                "alternate-interior-angles__handle",
-                isDragging && "alternate-interior-angles__handle--active",
-              )}
-              cx={pointQ.x}
-              cy={pointQ.y}
-              r="8"
-            />
-            <circle
-              className="alternate-interior-angles__handle-target"
-              cx={pointQ.x}
-              cy={pointQ.y}
-              onPointerDown={beginDrag}
-              r={handleRadius}
-            />
-          </>
-        ) : null}
-      </svg>
-
-      <div className="alternate-interior-angles__summary">{renderSummary()}</div>
+      <div className="alternate-interior-angles__summary theorem-figure__summary">
+        {renderSummary()}
+      </div>
 
       {isExploring ? (
-        <div className="alternate-interior-angles__controls">
-          <button
-            aria-label="Show the other alternate interior angle pair"
-            className="alternate-interior-angles__pair-action"
-            onClick={() =>
-              setPairIndex((current) => (current === 0 ? 1 : 0))
-            }
-            type="button"
-          >
-            Show another pair
-          </button>
-          <div className="alternate-interior-angles__control">
-            <span>
-              <label htmlFor={moveQControlId}>
-                <strong>Move Q along line m</strong>
-              </label>
-            </span>
-            <input
-              aria-valuetext={`Q is ${currentQOffset} units along line m. Angle ${firstName} is ${formatAngle(firstAngle)} and angle ${secondName} is ${formatAngle(secondAngle)}.`}
-              id={moveQControlId}
-              max={maximumQOffset}
-              min={minimumQOffset}
-              onChange={(event) => setQOffset(Number(event.target.value))}
-              type="range"
-              value={currentQOffset}
-            />
+        <div className="alternate-interior-angles__pair-selector">
+          <strong>Select alternate interior pair:</strong>
+          <div className="alternate-interior-angles__pair-buttons">
+            <button
+              className={classNames(
+                "alternate-interior-angles__pair-button",
+                pairIndex === 0 && "alternate-interior-angles__pair-button--active",
+              )}
+              onClick={() => setPairIndex(0)}
+              type="button"
+            >
+              Pair 1: ∠APQ and ∠PQB
+            </button>
+            <button
+              className={classNames(
+                "alternate-interior-angles__pair-button",
+                pairIndex === 1 && "alternate-interior-angles__pair-button--active",
+              )}
+              onClick={() => setPairIndex(1)}
+              type="button"
+            >
+              Pair 2: ∠QPE and ∠CQP
+            </button>
           </div>
         </div>
       ) : null}
 
-      <p
-        className={classNames(
-          "alternate-interior-angles__status",
-          (isExploring || showConclusion) && "alternate-interior-angles__status--result",
-        )}
-        role="status"
-      >
-        {currentStep.status}
-      </p>
+      <div className="alternate-interior-angles__controls">
+        <strong>Move transversal intersection Q along line m</strong>
+        <label htmlFor={moveQControlId}>
+          <span>
+            <span>Shift Q along line m</span>
+            <span>Offset: {currentQOffset}px</span>
+          </span>
+          <input
+            disabled={!isExploring}
+            id={moveQControlId}
+            max={maximumQOffset}
+            min={minimumQOffset}
+            onChange={(event) => setQOffset(Number(event.target.value))}
+            type="range"
+            value={currentQOffset}
+          />
+        </label>
+      </div>
+
+      <p className="theorem-figure__status">{currentStep.status}</p>
     </div>
   );
 }

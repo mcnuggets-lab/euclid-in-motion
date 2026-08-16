@@ -1,14 +1,18 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/triangle-angle-sum.css";
 
 import {
+  DraggablePoint,
+  ParallelMarker,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
+import {
   angleFrom,
-  classNames,
   clamp,
+  classNames,
   formatDisplayNumber,
-  getSvgCoordinates,
   polarPointRadians as polarPoint,
-  svgHeight,
   svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
@@ -38,7 +42,6 @@ const initialApexX = 148;
 const minimumApexHeight = 65;
 const maximumApexHeight = 135;
 const initialApexHeight = 112;
-const handleRadius = 22;
 const lineStartX = 14;
 const lineEndX = 306;
 
@@ -119,12 +122,16 @@ function minorArc(
 ): ArcData {
   const firstAngle = normalizeRadians(angleFrom(vertex, first));
   const secondAngle = normalizeRadians(angleFrom(vertex, second));
-  let startAngle = firstAngle;
-  let sweep = normalizeRadians(secondAngle - firstAngle);
+  let sweep = secondAngle - firstAngle;
 
+  if (sweep < 0) {
+    sweep += Math.PI * 2;
+  }
+
+  let startAngle = firstAngle;
   if (sweep > Math.PI) {
-    startAngle = secondAngle;
     sweep = Math.PI * 2 - sweep;
+    startAngle = secondAngle;
   }
 
   const start = polarPoint(vertex, radius, startAngle);
@@ -183,15 +190,6 @@ function heightLabel(value: number) {
   return "middle height";
 }
 
-function ParallelMark({ x, y }: Point) {
-  return (
-    <path
-      className="triangle-angle-sum__parallel-mark"
-      d={`M ${x - 7} ${y - 5} L ${x} ${y} L ${x - 7} ${y + 5}`}
-    />
-  );
-}
-
 export function TriangleAngleSumIllustration({
   activeStep,
   onDiscoveryChange,
@@ -202,7 +200,6 @@ export function TriangleAngleSumIllustration({
   const heightControlId = useId();
   const [apexX, setApexX] = useState(initialApexX);
   const [apexHeight, setApexHeight] = useState(initialApexHeight);
-  const [isDragging, setIsDragging] = useState(false);
 
   const isExploring = activeStep === null;
   const proofStep = activeStep ?? 0;
@@ -250,19 +247,6 @@ export function TriangleAngleSumIllustration({
       title: discovery.title,
     });
   }, [discovery.insight, discovery.prompt, discovery.title, onDiscoveryChange]);
-
-  const updateApex = (point: Point) => {
-    setApexX(Math.round(clamp(point.x, minimumApexX, maximumApexX)));
-    setApexHeight(
-      Math.round(clamp(baseY - point.y, minimumApexHeight, maximumApexHeight)),
-    );
-  };
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateApex(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
 
   const figureDescription = isExploring
     ? `Triangle ABC has angle sizes ${formatAngle(angleA)}, ${formatAngle(angleB)}, and ${formatAngle(angleC)}, displayed with a total of 180.0 degrees. Vertex A can be moved.`
@@ -365,28 +349,13 @@ export function TriangleAngleSumIllustration({
 
   return (
     <div className="theorem-figure triangle-angle-sum">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg triangle-angle-sum__svg"
-        onPointerCancel={() => setIsDragging(false)}
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setIsDragging(false);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (isDragging) {
-            updateApex(getSvgCoordinates(event.currentTarget, event));
-          }
-        }}
-        onPointerUp={() => setIsDragging(false)}
-        role="img"
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      <SvgCanvas
+        className="triangle-angle-sum__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
+        title="Triangle angle sum interactive figure"
+        titleId={titleId}
       >
-        <title id={titleId}>Triangle angle sum interactive figure</title>
-        <desc id={descriptionId}>{figureDescription}</desc>
-
         {showParallel ? (
           <>
             <line
@@ -396,12 +365,15 @@ export function TriangleAngleSumIllustration({
               y1={pointD.y}
               y2={pointE.y}
             />
-            <ParallelMark x={parallelMarkX} y={pointA.y} />
-            <ParallelMark x={parallelMarkX} y={baseY} />
+            <ParallelMarker count={1} point={{ x: parallelMarkX, y: pointA.y }} />
+            <ParallelMarker count={1} point={{ x: parallelMarkX, y: baseY }} />
           </>
         ) : null}
 
-        <path className="triangle-angle-sum__side" d={`M ${pointA.x} ${pointA.y} L ${pointB.x} ${pointB.y} L ${pointC.x} ${pointC.y} Z`} />
+        <path
+          className="triangle-angle-sum__side"
+          d={`M ${pointA.x} ${pointA.y} L ${pointB.x} ${pointB.y} L ${pointC.x} ${pointC.y} Z`}
+        />
 
         <path
           className={classNames(
@@ -449,49 +421,74 @@ export function TriangleAngleSumIllustration({
 
         {isExploring ? (
           <>
-            <text className="triangle-angle-sum__angle-label triangle-angle-sum__angle-label--b" x={angleBArc.label.x} y={angleBArc.label.y}>{formatAngle(angleB)}</text>
-            <text className="triangle-angle-sum__angle-label triangle-angle-sum__angle-label--a" x={angleAArc.label.x} y={angleAArc.label.y}>{formatAngle(angleA)}</text>
-            <text className="triangle-angle-sum__angle-label triangle-angle-sum__angle-label--c" x={angleCArc.label.x} y={angleCArc.label.y}>{formatAngle(angleC)}</text>
+            <text
+              className="triangle-angle-sum__angle-label triangle-angle-sum__angle-label--b"
+              x={angleBArc.label.x}
+              y={angleBArc.label.y}
+            >
+              {formatAngle(angleB)}
+            </text>
+            <text
+              className="triangle-angle-sum__angle-label triangle-angle-sum__angle-label--a"
+              x={angleAArc.label.x}
+              y={angleAArc.label.y}
+            >
+              {formatAngle(angleA)}
+            </text>
+            <text
+              className="triangle-angle-sum__angle-label triangle-angle-sum__angle-label--c"
+              x={angleCArc.label.x}
+              y={angleCArc.label.y}
+            >
+              {formatAngle(angleC)}
+            </text>
           </>
         ) : null}
 
-        <circle className="triangle-angle-sum__point" cx={pointA.x} cy={pointA.y} r="4.5" />
-        <circle className="triangle-angle-sum__point" cx={pointB.x} cy={pointB.y} r="4.5" />
-        <circle className="triangle-angle-sum__point" cx={pointC.x} cy={pointC.y} r="4.5" />
+        <StaticPoint label="B" labelOffset={{ x: -10, y: 17 }} point={pointB} />
+        <StaticPoint label="C" labelOffset={{ x: 10, y: 17 }} point={pointC} />
         {showParallel ? (
           <>
-            <circle className="triangle-angle-sum__point triangle-angle-sum__point--constructed" cx={pointD.x} cy={pointD.y} r="3.5" />
-            <circle className="triangle-angle-sum__point triangle-angle-sum__point--constructed" cx={pointE.x} cy={pointE.y} r="3.5" />
+            <StaticPoint
+              label="D"
+              labelOffset={{ x: 7, y: -8 }}
+              point={pointD}
+              radius={3.5}
+              tone="constructed"
+            />
+            <StaticPoint
+              label="E"
+              labelOffset={{ x: -7, y: -8 }}
+              point={pointE}
+              radius={3.5}
+              tone="constructed"
+            />
           </>
         ) : null}
 
-        <text className="triangle-angle-sum__point-label" x={pointA.x} y={pointA.y - 11}>A</text>
-        <text className="triangle-angle-sum__point-label" x={pointB.x - 10} y={pointB.y + 17}>B</text>
-        <text className="triangle-angle-sum__point-label" x={pointC.x + 10} y={pointC.y + 17}>C</text>
-        {showParallel ? (
-          <>
-            <text className="triangle-angle-sum__point-label triangle-angle-sum__point-label--constructed" x={pointD.x + 7} y={pointD.y - 8}>D</text>
-            <text className="triangle-angle-sum__point-label triangle-angle-sum__point-label--constructed" x={pointE.x - 7} y={pointE.y - 8}>E</text>
-          </>
-        ) : null}
-
-        <circle
-          className="triangle-angle-sum__handle-target"
-          cx={pointA.x}
-          cy={pointA.y}
-          onPointerDown={beginDrag}
-          r={handleRadius}
+        <DraggablePoint
+          ariaLabel="Triangle vertex A"
+          ariaValueText={`Apex horizontal ${horizontalPositionLabel(apexX)}, ${heightLabel(apexHeight)}`}
+          bounds={{
+            maxX: maximumApexX,
+            maxY: baseY - minimumApexHeight,
+            minX: minimumApexX,
+            minY: baseY - maximumApexHeight,
+          }}
+          label="A"
+          labelOffset={{ x: 0, y: -11 }}
+          onDrag={(point) => {
+            setApexX(Math.round(clamp(point.x, minimumApexX, maximumApexX)));
+            setApexHeight(
+              Math.round(
+                clamp(baseY - point.y, minimumApexHeight, maximumApexHeight),
+              ),
+            );
+          }}
+          point={pointA}
+          tone="accent"
         />
-        <circle
-          className={classNames(
-            "triangle-angle-sum__handle",
-            isDragging && "triangle-angle-sum__handle--active",
-          )}
-          cx={pointA.x}
-          cy={pointA.y}
-          r="7"
-        />
-      </svg>
+      </SvgCanvas>
 
       <div
         className={classNames(

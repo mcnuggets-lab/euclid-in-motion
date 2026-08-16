@@ -1,16 +1,19 @@
-import { useEffect, useId, useState, type PointerEvent } from "react";
+import { useEffect, useId, useState } from "react";
 import "./styles/corresponding-angles.css";
 
+import {
+  DraggablePoint,
+  ParallelMarker,
+  RayLine,
+  StaticPoint,
+  SvgCanvas,
+} from "@/features/geometry/components";
 import {
   angleFrom,
   classNames,
   clamp,
   formatDisplayNumber,
-  getSvgCoordinates,
-  lineEndpointsFromPoints,
   polarPointRadians as polarPoint,
-  svgHeight,
-  svgWidth,
   type Point,
 } from "@/features/geometry/illustrationUtils";
 import type { TheoremDiscovery } from "@/features/theorems/discovery";
@@ -38,7 +41,6 @@ const lineOffsetDistance = 88;
 const minimumQOffset = -72;
 const maximumQOffset = 72;
 const initialQOffset = 8;
-const handleRadius = 24;
 const measurementTolerance = 0.000001;
 const transversalExtensionDistance = 34;
 
@@ -123,23 +125,6 @@ function formatDifference(value: number) {
   return value < 0.05
     ? "0° / Equal"
     : `${formatDisplayNumber(value, 2)}° / Check`;
-}
-
-function parallelMark(center: Point, angle: number, className: string, key: string) {
-  const vector = direction(angle);
-  const normal = { x: -vector.y, y: vector.x };
-  const firstStart = move(move(center, vector, -7), normal, 5);
-  const firstEnd = move(move(center, vector, -7), normal, -5);
-  const secondCenter = move(center, vector, 6);
-  const secondStart = move(secondCenter, normal, 5);
-  const secondEnd = move(secondCenter, normal, -5);
-
-  return (
-    <g className={className} key={key}>
-      <path d={`M ${firstStart.x} ${firstStart.y} L ${center.x} ${center.y} L ${firstEnd.x} ${firstEnd.y}`} />
-      <path d={`M ${secondStart.x} ${secondStart.y} L ${secondCenter.x} ${secondCenter.y} L ${secondEnd.x} ${secondEnd.y}`} />
-    </g>
-  );
 }
 
 const lineDirection = direction(lineAngle);
@@ -233,7 +218,6 @@ export function CorrespondingAnglesIllustration({
   const moveQControlId = useId();
   const [qOffset, setQOffset] = useState(initialQOffset);
   const [pairIndex, setPairIndex] = useState<CorrespondingPairIndex>(0);
-  const [isDragging, setIsDragging] = useState(false);
 
   const isExploring = activeStep === null;
   const proofStep = activeStep ?? 0;
@@ -259,15 +243,13 @@ export function CorrespondingAnglesIllustration({
     x: -transversalDirection.y,
     y: transversalDirection.x,
   };
-  const lineLEndpoints = lineEndpointsFromPoints(pointP, pointA);
-  const lineMEndpoints = lineEndpointsFromPoints(pointQ, pointB);
-  const transversalEndpoints = lineEndpointsFromPoints(pointP, pointQ);
   const firstAngleArc = minorArc(pointP, ...firstPoints, 18, 32);
   const firstAngleOuterArc = minorArc(pointP, ...firstPoints, 23, 38);
   const bridgeAngleArc = minorArc(pointQ, pointP, pointB, 18, 32);
   const bridgeAngleOuterArc = minorArc(pointQ, pointP, pointB, 23, 38);
   const correspondingAngleArc = minorArc(pointQ, ...secondPoints, 18, 32);
   const correspondingAngleOuterArc = minorArc(pointQ, ...secondPoints, 23, 38);
+
   const lineLLabelPoint = move(pointA, lineDirection, -14);
   const lineMLabelPoint = move(pointB, lineDirection, 14);
   const transversalLabelPoint = move(
@@ -368,21 +350,6 @@ export function CorrespondingAnglesIllustration({
     });
   }, [currentStep.insight, currentStep.prompt, currentStep.title, onDiscoveryChange]);
 
-  const updateQOffset = (pointer: Point) => {
-    const fromBase = {
-      x: pointer.x - basePointQ.x,
-      y: pointer.y - basePointQ.y,
-    };
-    const projectedOffset = dot(fromBase, lineDirection);
-    setQOffset(Math.round(clamp(projectedOffset, minimumQOffset, maximumQOffset)));
-  };
-
-  const beginDrag = (event: PointerEvent<SVGCircleElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-    updateQOffset(getSvgCoordinates(event.currentTarget.ownerSVGElement!, event));
-  };
-
   const renderSummary = () => {
     if (isExploring) {
       return (
@@ -480,51 +447,23 @@ export function CorrespondingAnglesIllustration({
 
   return (
     <div className="theorem-figure corresponding-angles">
-      <svg
-        aria-describedby={descriptionId}
-        aria-labelledby={titleId}
-        className="theorem-figure__svg corresponding-angles__svg"
-        onPointerCancel={() => setIsDragging(false)}
-        onPointerLeave={(event) => {
-          if (event.buttons === 0) {
-            setIsDragging(false);
-          }
-        }}
-        onPointerMove={(event) => {
-          if (isExploring && isDragging) {
-            updateQOffset(getSvgCoordinates(event.currentTarget, event));
-          }
-        }}
-        onPointerUp={() => setIsDragging(false)}
-        role="img"
-        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-      >
-        <title id={titleId}>
-          {isExploring
+      <SvgCanvas
+        className="corresponding-angles__svg"
+        description={figureDescription}
+        descriptionId={descriptionId}
+        title={
+          isExploring
             ? "Corresponding Angles Theorem interactive figure"
-            : `Corresponding Angles Theorem — ${currentStep.title}`}
-        </title>
-        <desc id={descriptionId}>{figureDescription}</desc>
+            : `Corresponding Angles Theorem — ${currentStep.title}`
+        }
+        titleId={titleId}
+      >
+        <RayLine origin={pointP} through={pointA} type="line" />
+        <RayLine origin={pointQ} through={pointB} type="line" />
+        <RayLine origin={pointP} through={pointQ} strokeWidth={2} type="line" />
 
-        <line className="corresponding-angles__line" {...lineLEndpoints} />
-        <line className="corresponding-angles__line" {...lineMEndpoints} />
-        <line
-          className="corresponding-angles__line corresponding-angles__line--transversal"
-          {...transversalEndpoints}
-        />
-
-        {parallelMark(
-          givenLineMarkCenter,
-          lineAngle,
-          "corresponding-angles__parallel-mark corresponding-angles__parallel-mark--given",
-          "given-line-l",
-        )}
-        {parallelMark(
-          givenParallelMarkCenter,
-          lineAngle,
-          "corresponding-angles__parallel-mark corresponding-angles__parallel-mark--given",
-          "given-line-m",
-        )}
+        <ParallelMarker count={2} point={givenLineMarkCenter} />
+        <ParallelMarker count={2} point={givenParallelMarkCenter} />
 
         <path
           className={classNames(
@@ -587,54 +526,33 @@ export function CorrespondingAnglesIllustration({
           />
         ) : null}
 
-        <circle className="corresponding-angles__point" cx={pointP.x} cy={pointP.y} r="4.5" />
-        <circle
-          className={classNames(
-            "corresponding-angles__point",
-            isExploring && "corresponding-angles__point--draggable",
-          )}
-          cx={pointQ.x}
-          cy={pointQ.y}
-          r="4.5"
+        <StaticPoint label="P" labelOffset={{ x: -12, y: -8 }} point={pointP} />
+        <DraggablePoint
+          ariaLabel="Intersection point Q"
+          disabled={!isExploring}
+          label="Q"
+          labelOffset={{ x: 12, y: 15 }}
+          onDrag={(pointer) => {
+            const fromBase = {
+              x: pointer.x - basePointQ.x,
+              y: pointer.y - basePointQ.y,
+            };
+            const projectedOffset = dot(fromBase, lineDirection);
+            setQOffset(Math.round(clamp(projectedOffset, minimumQOffset, maximumQOffset)));
+          }}
+          point={pointQ}
+          tone="accent"
         />
-        {showPointA ? <circle className="corresponding-angles__point corresponding-angles__point--named" cx={pointA.x} cy={pointA.y} r="3.6" /> : null}
-        {showPointC ? <circle className="corresponding-angles__point corresponding-angles__point--named" cx={pointC.x} cy={pointC.y} r="3.6" /> : null}
-        {showPointD ? <circle className="corresponding-angles__point corresponding-angles__point--named" cx={pointD.x} cy={pointD.y} r="3.6" /> : null}
-        {showPointE ? <circle className="corresponding-angles__point corresponding-angles__point--named" cx={pointE.x} cy={pointE.y} r="3.6" /> : null}
-        {showPointR ? <circle className="corresponding-angles__point corresponding-angles__point--named" cx={pointR.x} cy={pointR.y} r="3.6" /> : null}
-        {showPointB ? (
-          <circle
-            className={classNames(
-              "corresponding-angles__point corresponding-angles__point--named",
-              !isExploring && "corresponding-angles__point--bridge",
-            )}
-            cx={pointB.x}
-            cy={pointB.y}
-            r="3.6"
-          />
-        ) : null}
+
+        {showPointA ? <StaticPoint label="A" labelOffset={{ x: -12, y: -8 }} point={pointA} radius={3.6} /> : null}
+        {showPointC ? <StaticPoint label="C" labelOffset={{ x: 10, y: 17 }} point={pointC} radius={3.6} /> : null}
+        {showPointD ? <StaticPoint label="D" labelOffset={{ x: 12, y: -8 }} point={pointD} radius={3.6} /> : null}
+        {showPointE ? <StaticPoint label="E" labelOffset={{ x: 10, y: -8 }} point={pointE} radius={3.6} /> : null}
+        {showPointR ? <StaticPoint label="R" labelOffset={{ x: 12, y: -8 }} point={pointR} radius={3.6} /> : null}
+        {showPointB ? <StaticPoint label="B" labelOffset={{ x: 10, y: 13 }} point={pointB} radius={3.6} /> : null}
+
         {showOppositeRayNotes ? (
           <circle className="corresponding-angles__point-focus" cx={pointQ.x} cy={pointQ.y} r="11" />
-        ) : null}
-
-        <text className="corresponding-angles__point-label" x={pointP.x - 12} y={pointP.y - 8}>P</text>
-        <text className="corresponding-angles__point-label" x={pointQ.x + 12} y={pointQ.y + 15}>Q</text>
-        {showPointA ? <text className="corresponding-angles__point-label" x={pointA.x - 12} y={pointA.y - 8}>A</text> : null}
-        {showPointC ? <text className="corresponding-angles__point-label" x={pointC.x + 10} y={pointC.y + 17}>C</text> : null}
-        {showPointD ? <text className="corresponding-angles__point-label" x={pointD.x + 12} y={pointD.y - 8}>D</text> : null}
-        {showPointE ? <text className="corresponding-angles__point-label" x={pointE.x + 10} y={pointE.y - 8}>E</text> : null}
-        {showPointR ? <text className="corresponding-angles__point-label" x={pointR.x + 12} y={pointR.y - 8}>R</text> : null}
-        {showPointB ? (
-          <text
-            className={classNames(
-              "corresponding-angles__point-label",
-              !isExploring && "corresponding-angles__point-label--bridge",
-            )}
-            x={pointB.x + 10}
-            y={pointB.y + 13}
-          >
-            B
-          </text>
         ) : null}
 
         <text className="corresponding-angles__line-label" x={lineLLabelPoint.x - 8} y={lineLLabelPoint.y + 12}>ℓ</text>
@@ -690,30 +608,7 @@ export function CorrespondingAnglesIllustration({
             ∠APQ ≅ ∠PQB ≅ ∠DQC
           </text>
         ) : null}
-
-        {isExploring ? (
-          <>
-            <circle
-              aria-hidden="true"
-              className={classNames(
-                "corresponding-angles__handle",
-                isDragging && "corresponding-angles__handle--active",
-              )}
-              cx={pointQ.x}
-              cy={pointQ.y}
-              r="8"
-            />
-            <circle
-              aria-hidden="true"
-              className="corresponding-angles__handle-target"
-              cx={pointQ.x}
-              cy={pointQ.y}
-              onPointerDown={beginDrag}
-              r={handleRadius}
-            />
-          </>
-        ) : null}
-      </svg>
+      </SvgCanvas>
 
       <div className="corresponding-angles__summary">{renderSummary()}</div>
 
