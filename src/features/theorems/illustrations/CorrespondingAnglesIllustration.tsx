@@ -567,7 +567,7 @@ export function CorrespondingAnglesIllustration({
           x={firstAngleArc.label.x}
           y={firstAngleArc.label.y}
         >
-          {firstName}
+          ∠{firstName}
         </text>
         {showBridgeAngle ? (
           <text
@@ -578,7 +578,7 @@ export function CorrespondingAnglesIllustration({
             x={bridgeAngleArc.label.x}
             y={bridgeAngleArc.label.y}
           >
-            PQB
+            ∠PQB
           </text>
         ) : null}
         <text
@@ -589,7 +589,7 @@ export function CorrespondingAnglesIllustration({
           x={correspondingAngleArc.label.x}
           y={correspondingAngleArc.label.y}
         >
-          {secondName}
+          ∠{secondName}
         </text>
 
         {showOppositeRayNotes ? (
