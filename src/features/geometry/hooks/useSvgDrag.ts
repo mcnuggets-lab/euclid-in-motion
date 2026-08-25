@@ -1,5 +1,11 @@
 import { useCallback, useState, type KeyboardEvent, type PointerEvent } from "react";
 
+/**
+ * Pointer capture strategy: On pointer down, capture the pointer on the current target.
+ * On pointer up, release it. This prevents pointer loss during fast drags or when
+ * the pointer moves quickly out of the element bounds. See DraggablePoint.tsx for usage.
+ */
+
 import { clamp, getSvgCoordinates, type Point } from "@/features/geometry/illustrationUtils";
 
 export type DragBounds = {

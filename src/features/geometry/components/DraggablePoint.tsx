@@ -92,10 +92,10 @@ export function DraggablePoint({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       role="slider"
-      style={{ cursor: isDragging ? "grabbing" : "grab", outline: "none" }}
+      style={{ cursor: isDragging ? "grabbing" : "grab", outline: "none", touchAction: "none" }}
       tabIndex={disabled ? -1 : 0}
     >
-      {/* 44x44px minimum touch target hit area */}
+      {/* 44x44px minimum touch target hit area (radius 22) */}
       <circle
         cx={point.x}
         cy={point.y}
