@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-const siteName = "Euclid in Motion";
-
 export function useRouteAccessibility(path: string) {
   const previousPath = useRef(path);
   const [announcement, setAnnouncement] = useState("");
@@ -12,8 +10,7 @@ export function useRouteAccessibility(path: string) {
       return;
     }
 
-    const pageTitle = heading.textContent?.trim() || siteName;
-    document.title = `${pageTitle} | ${siteName}`;
+    const pageTitle = heading.textContent?.trim() || "the page";
 
     if (previousPath.current !== path) {
       heading.focus({ preventScroll: true });

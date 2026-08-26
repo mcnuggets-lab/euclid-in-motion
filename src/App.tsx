@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useCurrentPath } from "@/hooks/useCurrentPath";
+import { usePageMeta } from "@/hooks/usePageMeta";
 import { useRouteAccessibility } from "@/hooks/useRouteAccessibility";
 import { ContentView } from "@/features/content/ContentView";
 import { BrowseToggle, SidebarNav } from "@/features/navigation/SidebarNav";
@@ -12,6 +13,7 @@ export function App() {
   const [isBrowseOpen, setIsBrowseOpen] = useState(() =>
     window.matchMedia(desktopBrowseQuery).matches,
   );
+  usePageMeta(path);
   const routeAnnouncement = useRouteAccessibility(path);
 
   useEffect(() => {
