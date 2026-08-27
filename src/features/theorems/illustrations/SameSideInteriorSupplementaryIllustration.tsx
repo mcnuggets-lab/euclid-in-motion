@@ -511,7 +511,7 @@ export function SameSideInteriorSupplementaryIllustration({
           x={firstAngleArc.label.x}
           y={firstAngleArc.label.y}
         >
-          {firstName}
+          ∠{firstName}
         </text>
         <text
           className={classNames(
@@ -521,7 +521,7 @@ export function SameSideInteriorSupplementaryIllustration({
           x={secondAngleArc.label.x}
           y={secondAngleArc.label.y}
         >
-          {secondName}
+          ∠{secondName}
         </text>
         {showBridge ? (
           <text
@@ -532,7 +532,7 @@ export function SameSideInteriorSupplementaryIllustration({
             x={bridgeAngleArc.label.x}
             y={bridgeAngleArc.label.y}
           >
-            DQC
+            ∠DQC
           </text>
         ) : null}
 
